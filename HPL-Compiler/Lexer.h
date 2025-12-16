@@ -1,3 +1,7 @@
+#ifndef LEXER_H
+#define LEXER_H
+#include "FileReader.h"
+
 typedef enum {
 	TOKEN_EOF = -1,
 	TOKEN_NEWLINE,
@@ -37,15 +41,14 @@ typedef struct {
 } Token;
 
 typedef struct {
-	char** inputBuffer;
-	int numRows;
+	FileDetails fileDetails;
 	char currentChar;
 	int currentRow;
 	int currentCol;
 } Lexer;
 
 // Initialize the lexer
-void initLexer(Lexer* lexer, char **sourceFile, int numRows);
+void initLexer(Lexer* lexer, FileDetails fileDetails);
 // Read the next non-WhiteSpace character
 void nextChar(Lexer* lexer);
 // Skip the WhiteSpace characters
@@ -59,3 +62,5 @@ Token tokenize(Lexer *lexer);
 
 int numberCondition(int c);
 int wordCondition(int c);
+
+#endif

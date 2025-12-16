@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileReader.c" />
     <ClCompile Include="Lexer.c" />
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileReader.h" />
     <ClInclude Include="Lexer.h" />
   </ItemGroup>
   <ItemGroup>

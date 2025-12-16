@@ -3,22 +3,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-void initLexer(Lexer* lexer, char** sourceFile, int numRows) {
-    lexer->inputBuffer = sourceFile;
-    lexer->numRows = numRows;
+
+void initLexer(Lexer* lexer, FileDetails fileDetails) {
+    lexer->fileDetails = fileDetails;
     lexer->currentRow = 0;
     lexer->currentCol = 1;
-    lexer->currentChar = sourceFile[0][0];
+    lexer->currentChar = fileDetails.inputBuffer[0][0];
 }
 
 
 void nextChar(Lexer* lexer) {
-    if (lexer->currentRow >= lexer->numRows) {
+    if (lexer->currentRow >= lexer->fileDetails.rowsNum) {
         lexer->currentChar = '\0';
         return;
     }
 
-    lexer->currentChar = lexer->inputBuffer[lexer->currentRow][lexer->currentCol];
+    lexer->currentChar = lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol];
 
     if (lexer->currentChar == '\0') {
         lexer->currentRow++;
@@ -29,24 +29,26 @@ void nextChar(Lexer* lexer) {
     }
 }
 
+
 void skipWhiteSpaces(Lexer* lexer) {
-    while (isspace(lexer->inputBuffer[lexer->currentRow][lexer->currentCol]))
+    while (isspace(lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol]))
         lexer->currentCol++;
 }
 
 
 void skipComments(Lexer *lexer) {
-    char* lexeme = &lexer->inputBuffer[lexer->currentRow][lexer->currentCol - 1];
+    char* lexeme = &lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol - 1];
     if (!strncmp(lexeme, "NOTE:", 5)) {
         int currRow = lexer->currentRow;
         do {
             nextChar(lexer);
-        } while (lexer ->currentRow == currRow);
+        } while (lexer->currentRow == currRow);
     }
 }
 
+
 int isKeyword(Lexer *lexer) {
-    char* lexeme = &lexer->inputBuffer[lexer->currentRow][lexer->currentCol - 1];
+    char* lexeme = &lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol - 1];
     if (!strncmp(lexeme, "Let", 3))
         return TOKEN_LET;
     if (!strncmp(lexeme, "be", 2))
@@ -98,18 +100,20 @@ char* getFullLexeme(Lexer* lexer, int (*condition)(int c)) {
     return lexeme;
 }
 
+
 Token tokenize(Lexer *lexer) {
     skipWhiteSpaces(lexer); skipComments(lexer);
     Token token;
 
     if (isdigit(lexer->currentChar) || 
             (lexer->currentChar == '-' && 
-            isdigit(lexer->inputBuffer[lexer->currentRow][lexer->currentCol + 1])))
+            isdigit(lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol + 1])))
         token.type = TOKEN_NUMBER;
     else if (isKeyword(lexer))
         token.type = isKeyword(lexer);
     else
         token.type = TOKEN_IDENT;
+
 
     if (token.type == TOKEN_NUMBER)
         token.lexeme = getFullLexeme(lexer, numberCondition);
@@ -120,9 +124,11 @@ Token tokenize(Lexer *lexer) {
     return token;
 }
 
+
 int numberCondition(int c) {
     return isdigit(c);
 }
+
 
 int wordCondition(int c) {
     return !isspace(c) && c != '.';
