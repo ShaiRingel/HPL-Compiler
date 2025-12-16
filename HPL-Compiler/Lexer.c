@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Lexer.h"
 #include <ctype.h>
 #include <stdlib.h>
@@ -48,27 +49,27 @@ void skipComments(Lexer *lexer) {
 
 
 int isKeyword(Lexer *lexer) {
-    char* lexeme = &lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol - 1];
-    if (!strncmp(lexeme, "Let", 3))
-        return TOKEN_LET;
-    if (!strncmp(lexeme, "be", 2))
-        return TOKEN_BE;
-    if (!strncmp(lexeme, "Set", 3))
-        return TOKEN_SET;
-    if (!strncmp(lexeme, "to", 2))
-        return TOKEN_TO;
-    if (!strncmp(lexeme, "integer", 7))
-        return TOKEN_INTEGER;
-    if (!strncmp(lexeme, "Show", 4))
-        return TOKEN_SHOW;
-    if (!strncmp(lexeme, "Increase", 8))
-        return TOKEN_INCREASE;
-    if (!strncmp(lexeme, "Decrease", 8))
-        return TOKEN_DECREASE;
-    if (!strncmp(lexeme, "by", 2))
-        return TOKEN_BY;
+    int i, c;
+    char *lexeme = &lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol - 1];
+    
+    for (c = 0; lexeme[c] != '\0' && !isspace(lexeme[c]); c++);
+    char* word = (char*) malloc(c + 1);
+    if (!word) {
+        perror("");
+        exit(EXIT_FAILURE);
+    }
+    strncpy(word, lexeme, c);
+    word[c] = '\0';
 
-    return 0;
+    for (i = 0; i < sizeof(keywordTable) / sizeof(keywordTable[0]); i++) {
+        if (strcmp(word, keywordTable[i].keyword) == 0) {
+            free(word);
+            return keywordTable[i].type;
+        }
+    }
+
+    free(word);
+    return TOKEN_IDENT;
 }
 
 
@@ -109,11 +110,9 @@ Token tokenize(Lexer *lexer) {
             (lexer->currentChar == '-' && 
             isdigit(lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol + 1])))
         token.type = TOKEN_NUMBER;
-    else if (isKeyword(lexer))
-        token.type = isKeyword(lexer);
     else
-        token.type = TOKEN_IDENT;
-
+        token.type = isKeyword(lexer);
+        
 
     if (token.type == TOKEN_NUMBER)
         token.lexeme = getFullLexeme(lexer, numberCondition);
