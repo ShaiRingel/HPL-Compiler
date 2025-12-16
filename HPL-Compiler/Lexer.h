@@ -52,5 +52,10 @@ void nextChar(Lexer* lexer);
 void skipWhiteSpaces(Lexer *lexer);
 // Skip the Comments in the code
 void skipComments(Lexer* lexer);
+// Collects a full lexeme from the lexer until the condition returns false
+char* getFullLexeme(Lexer* lexer, int (*condition)(int c));
 // Turn character / string into corresponding token
 Token tokenize(Lexer *lexer);
+
+int numberCondition(int c);
+int wordCondition(int c);

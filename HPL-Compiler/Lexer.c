@@ -69,10 +69,10 @@ int isKeyword(Lexer *lexer) {
     return 0;
 }
 
-Token tokenize(Lexer *lexer) {
-    skipWhiteSpaces(lexer); skipComments(lexer);
-    char* lexeme; int size = 0;
-    Token token;
+
+char* getFullLexeme(Lexer* lexer, int (*condition)(int c)) {
+    char *lexeme, *tmp;
+    int size = 0;
 
     lexeme = (char*)malloc(2 * sizeof(char));
     if (!lexeme) {
@@ -80,64 +80,50 @@ Token tokenize(Lexer *lexer) {
         perror("Memory overflow");
         exit(EXIT_FAILURE);
     }
+
+    do {
+        tmp = realloc(lexeme, (++size + 1) * sizeof(char));
+        if (!tmp) {
+            free(lexeme);
+            perror("Memory overflow");
+            exit(EXIT_FAILURE);
+        }
+        lexeme = tmp;
+
+        lexeme[size - 1] = lexer->currentChar;
+        nextChar(lexer);
+    } while (condition(lexer->currentChar));
+
+    lexeme[size] = '\0';
+    return lexeme;
+}
+
+Token tokenize(Lexer *lexer) {
+    skipWhiteSpaces(lexer); skipComments(lexer);
+    Token token;
+
     if (isdigit(lexer->currentChar) || 
-        (lexer->currentChar == '-' && 
-        isdigit(lexer->inputBuffer[lexer->currentRow][lexer->currentCol + 1]))) {
+            (lexer->currentChar == '-' && 
+            isdigit(lexer->inputBuffer[lexer->currentRow][lexer->currentCol + 1])))
         token.type = TOKEN_NUMBER;
-
-        do {
-            char* tmp = (char*) realloc(lexeme, (++size + 1) * sizeof(char));
-            if (!tmp) {
-                free(lexeme);
-                perror("Memory overflow");
-                exit(EXIT_FAILURE);
-            }
-            lexeme = tmp;
-
-            lexeme[size - 1] = lexer->currentChar;
-            nextChar(lexer);
-        } while (isdigit(lexer->currentChar));
-
-        lexeme[size] = 0;
-    }
-    else if (isKeyword(lexer)) {
+    else if (isKeyword(lexer))
         token.type = isKeyword(lexer);
-
-        do {
-            char* tmp = (char*)realloc(lexeme, (++size + 1) * sizeof(char));
-            if (!tmp) {
-                free(lexeme);
-                perror("Memory overflow");
-                exit(EXIT_FAILURE);
-            }
-            lexeme = tmp;
-
-            lexeme[size - 1] = lexer->currentChar;
-            nextChar(lexer);
-        } while (!isspace(lexer->currentChar) && lexer->currentChar != '.');
-
-        lexeme[size] = 0;
-    }
-    else {
+    else
         token.type = TOKEN_IDENT;
 
-        do {
-            char* tmp = (char*)realloc(lexeme, (++size + 1) * sizeof(char));
-            if (!tmp) {
-                free(lexeme);
-                perror("Memory overflow");
-                exit(EXIT_FAILURE);
-            }
-            lexeme = tmp;
-
-            lexeme[size - 1] = lexer->currentChar;
-            nextChar(lexer);
-        } while (!isspace(lexer->currentChar) && lexer->currentChar != '.');
-        lexeme[size] = 0;
-    }
-
-    token.lexeme = lexeme;
+    if (token.type == TOKEN_NUMBER)
+        token.lexeme = getFullLexeme(lexer, numberCondition);
+    else
+        token.lexeme = getFullLexeme(lexer, wordCondition);
 
     nextChar(lexer);
     return token;
+}
+
+int numberCondition(int c) {
+    return isdigit(c);
+}
+
+int wordCondition(int c) {
+    return !isspace(c) && c != '.';
 }
