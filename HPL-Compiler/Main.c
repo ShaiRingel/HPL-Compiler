@@ -3,8 +3,8 @@
 #include <stdio.h>
 
 int main() {
-	Lexer lexer;
 	FileDetails fileDetails = readFile("Test.HPL");
+	Lexer lexer;
 
     initLexer(&lexer, fileDetails);
 

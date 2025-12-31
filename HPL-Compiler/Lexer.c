@@ -21,10 +21,9 @@ void nextChar(Lexer* lexer) {
 
     lexer->currentChar = lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol];
 
-    if (lexer->currentChar == '\0') {
+    if (lexer->currentChar == END_OF_LINE) {
         lexer->currentRow++;
         lexer->currentCol = 0;
-        nextChar(lexer);
     } else {
         lexer->currentCol++;
     }
@@ -32,14 +31,15 @@ void nextChar(Lexer* lexer) {
 
 
 void skipWhiteSpaces(Lexer* lexer) {
-    while (isspace(lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol]))
-        lexer->currentCol++;
+    while (isspace(lexer->currentChar)) {
+        nextChar(lexer);
+    }
 }
 
 
 void skipComments(Lexer *lexer) {
     char* lexeme = &lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol - 1];
-    if (!strncmp(lexeme, "NOTE:", 5)) {
+    if (!strncmp(lexeme, COMMENT, 5)) {
         int currRow = lexer->currentRow;
         do {
             nextChar(lexer);
@@ -52,7 +52,7 @@ int isKeyword(Lexer *lexer) {
     int i, c;
     char *lexeme = &lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol - 1];
     
-    for (c = 0; lexeme[c] != '\0' && !isspace(lexeme[c]); c++);
+    for (c = 0; lexeme[c] != '.' && !isspace(lexeme[c]); c++);
     char* word = (char*) malloc(c + 1);
     if (!word) {
         perror("");
@@ -75,17 +75,12 @@ int isKeyword(Lexer *lexer) {
 
 char* getFullLexeme(Lexer* lexer, int (*condition)(int c)) {
     char *lexeme, *tmp;
-    int size = 0;
+    int size = 1;
 
-    lexeme = (char*)malloc(2 * sizeof(char));
-    if (!lexeme) {
-        free(lexeme);
-        perror("Memory overflow");
-        exit(EXIT_FAILURE);
-    }
+    lexeme = NULL;
 
     do {
-        tmp = realloc(lexeme, (++size + 1) * sizeof(char));
+        tmp = realloc(lexeme, (++size) * sizeof(char));
         if (!tmp) {
             free(lexeme);
             perror("Memory overflow");
@@ -93,11 +88,11 @@ char* getFullLexeme(Lexer* lexer, int (*condition)(int c)) {
         }
         lexeme = tmp;
 
-        lexeme[size - 1] = lexer->currentChar;
+        lexeme[size - 2] = lexer->currentChar;
         nextChar(lexer);
     } while (condition(lexer->currentChar));
 
-    lexeme[size] = '\0';
+    lexeme[size - 1] = '\0';
     return lexeme;
 }
 
@@ -106,18 +101,16 @@ Token tokenize(Lexer *lexer) {
     skipWhiteSpaces(lexer); skipComments(lexer);
     Token token;
 
-    if (isdigit(lexer->currentChar) || 
-            (lexer->currentChar == '-' && 
-            isdigit(lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol + 1])))
+    if (isdigit(lexer->currentChar) ||
+        (lexer->currentChar == '-' &&
+            isdigit(lexer->fileDetails.inputBuffer[lexer->currentRow][lexer->currentCol + 1]))) {
         token.type = TOKEN_NUMBER;
-    else
-        token.type = isKeyword(lexer);
-        
-
-    if (token.type == TOKEN_NUMBER)
         token.lexeme = getFullLexeme(lexer, numberCondition);
-    else
+    }
+    else {
+        token.type = isKeyword(lexer);
         token.lexeme = getFullLexeme(lexer, wordCondition);
+    }
 
     nextChar(lexer);
     return token;

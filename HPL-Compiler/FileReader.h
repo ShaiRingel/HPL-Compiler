@@ -1,4 +1,4 @@
-#ifndef FILEREADER_H
+#pragma once
 #define FILEREADER_H
 
 typedef struct {
@@ -7,5 +7,3 @@ typedef struct {
 } FileDetails;
 
 FileDetails readFile(char *path);
-
-#endif

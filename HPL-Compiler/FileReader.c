@@ -22,7 +22,7 @@ FileDetails readFile(char* path) {
         buffer[strcspn(buffer, "\n")] = '\0';
 
         if (!tmp) {
-            perror("reallocation failed");
+            perror("Memory overflow");
             for (i = 0; i < size; i++) free(fileDetails.inputBuffer[i]);
             free(fileDetails.inputBuffer);
             fclose(fileptr);
@@ -32,7 +32,7 @@ FileDetails readFile(char* path) {
 
         fileDetails.inputBuffer[size] = malloc(strlen(buffer) + 1);
         if (!fileDetails.inputBuffer[size]) {
-            perror("malloc failed");
+            perror("Memory overflow");
             for (i = 0; i < size; i++) free(fileDetails.inputBuffer[i]);
             free(fileDetails.inputBuffer);
             fclose(fileptr);

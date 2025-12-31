@@ -1,5 +1,6 @@
-﻿#ifndef LEXER_H
-#define LEXER_H
+﻿#pragma once
+#define END_OF_LINE '.'
+#define COMMENT "NOTE:"
 #include "FileReader.h"
 
 typedef enum {
@@ -166,5 +167,3 @@ Token tokenize(Lexer *lexer);
 
 int numberCondition(int c);
 int wordCondition(int c);
-
-#endif
