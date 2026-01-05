@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Tests">
+      <UniqueIdentifier>{ef738aaa-8a6e-40a6-89a2-b3abb68ef622}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.c">
@@ -24,6 +27,9 @@
     <ClCompile Include="FileReader.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Parser.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lexer.h">
@@ -32,10 +38,19 @@
     <ClInclude Include="FileReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Test.hpl">
-      <Filter>Source Files</Filter>
+    <None Include="HPL grammar.bnf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="LexerTest.hpl">
+      <Filter>Resource Files\Tests</Filter>
+    </None>
+    <None Include="Main.hpl">
+      <Filter>Resource Files\Tests</Filter>
     </None>
   </ItemGroup>
 </Project>

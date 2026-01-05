@@ -8,7 +8,7 @@ typedef enum {
     TOKEN_NEWLINE,         // Newline character
     TOKEN_NUMBER,          // Numeric literal (integer/decimal)
     TOKEN_IDENT,           // Identifier (variable/function name)
-    TOKEN_STRING,          // String literal
+    TOKEN_TEXT,            // String literal
 
     // Keywords (start at 101)
     TOKEN_LET = 101,       // "Let" → variable declaration
@@ -161,9 +161,10 @@ void skipWhiteSpaces(Lexer *lexer);
 // Skip the Comments in the code
 void skipComments(Lexer* lexer);
 // Collects a full lexeme from the lexer until the condition returns false
-char* getFullLexeme(Lexer* lexer, int (*condition)(int c));
+char* getFullLexeme(Lexer* lexer, int (*condition)(int));
 // Turn character / string into corresponding token
 Token tokenize(Lexer *lexer);
 
+// End of token condition methods
 int numberCondition(int c);
 int wordCondition(int c);

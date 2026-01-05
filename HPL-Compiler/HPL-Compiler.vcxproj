@@ -138,7 +138,12 @@
     <ClInclude Include="Parser.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Test.hpl" />
+    <None Include="HPL grammar.bnf">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="LexerTest.hpl" />
+    <None Include="Main.hpl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
