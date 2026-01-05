@@ -12,7 +12,8 @@ void ParserTest();
 int main() {
 	puts("Lexer test:");
 	LexerTest();
-	puts("\n\nParser test:");
+	puts("\n-------------------------------------------------------");
+	puts("\nParser test:");
 	ParserTest();
 
 	return 0;

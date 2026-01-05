@@ -28,7 +28,7 @@ typedef enum {
     TOKEN_IF,              // "If" → conditional
     TOKEN_THEN,            // "then" → conditional body
     TOKEN_REPEAT,          // "Repeat" → for loop
-    TOKEN_TIMES,           // "times" → repeat count
+    TOKEN_ITERATIONS,           // "times" → repeat count
     TOKEN_FOREACH,         // "Foreach" → foreach loop
     TOKEN_IN,              // "in" → foreach collection
     TOKEN_WHILE,           // "While" → while loop
@@ -101,7 +101,7 @@ static KeywordEntry keywordTable[] = {
 
     // Loops
     {"Repeat", TOKEN_REPEAT},
-    {"times", TOKEN_TIMES},
+    {"iterations", TOKEN_ITERATIONS},
     {"Foreach", TOKEN_FOREACH},
     {"in", TOKEN_IN},
     {"While", TOKEN_WHILE},

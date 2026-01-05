@@ -131,11 +131,13 @@
     <ClCompile Include="Lexer.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Parser.c" />
+    <ClCompile Include="SymbolTable.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="SymbolTable.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HPL grammar.bnf">

@@ -35,6 +35,9 @@ Token nextToken(Parser *parser) {
 // production rules
 
 void statement(Parser *parser);
+void expression(Parser *parser);
+void term(Parser *parser);
+void factor(Parser *parser);
 
 void program(Parser *parser, FileDetails filedetails) {
 	puts("Initializing FileReader, Lexer and parser!\n");
@@ -50,21 +53,136 @@ void program(Parser *parser, FileDetails filedetails) {
 }
 
 void statement(Parser *parser) {
+    switch (parser->currentToken.type) {
+        case TOKEN_SHOW:
+            puts("SHOW-STATEMENT");
+            nextToken(parser);
+            nextToken(parser);
+            break;
 
-	if (checkToken(parser, TOKEN_SHOW)) {
-		puts("SHOW-STATEMENT");
-		nextToken(parser);
-	}
-	else if (checkToken(parser, TOKEN_LET)) {
-		puts("LET-STATEMENT");
-		nextToken(parser);
-		Token tokenIdent = { TOKEN_IDENT, "Identifier" };
-		Token tokenBe = { TOKEN_BE, "Be" };
-		match(parser, tokenIdent);
-		match(parser, tokenBe);
-		puts("NICE!");
-		nextToken(parser);
-	}
+        case TOKEN_LET:
+            puts("LET-STATEMENT");
+            nextToken(parser);
 
-	nextToken(parser);
+            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
+            match(parser, (Token) { TOKEN_BE, "be" });
+
+            puts("BE-STATEMENT");
+
+            nextToken(parser);
+            break;
+
+        case TOKEN_SET:
+            puts("SET-STATEMENT");
+            nextToken(parser);
+
+            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
+            match(parser, (Token) { TOKEN_TO, "to" });
+
+            puts("TO-STATEMENT");
+
+            expression(parser);
+            break;
+
+        case TOKEN_INCREASE:
+            puts("INCREASE-STATEMENT");
+            nextToken(parser);
+
+            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
+            match(parser, (Token) { TOKEN_BY, "by" });
+
+            puts("BY-STATEMENT");
+
+            expression(parser);
+            break;
+
+        case TOKEN_DECREASE:
+            puts("DECREASE-STATEMENT");
+            nextToken(parser);
+
+            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
+            match(parser, (Token) { TOKEN_BY, "by" });
+
+            puts("BY-STATEMENT");
+
+            expression(parser);
+            break;
+
+        case TOKEN_MULTIPLY:
+            puts("MULTIPLY-STATEMENT");
+            nextToken(parser);
+
+            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
+            match(parser, (Token) { TOKEN_BY, "by" });
+
+            puts("BY-STATEMENT");
+
+            expression(parser);
+            break;
+
+        case TOKEN_DIVIDE:
+            puts("DIVIDE-STATEMENT");
+            nextToken(parser);
+
+            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
+            match(parser, (Token) { TOKEN_BY, "by" });
+
+            puts("BY-STATEMENT");
+
+            expression(parser);
+            break;
+
+        case TOKEN_EOF:
+            return;
+
+        default:
+            fprintf(stderr, "Unexpected token: %s\n",
+                parser->currentToken.lexeme);
+            exit(EXIT_FAILURE);
+    }
+
+    puts("");
+}
+
+void expression(Parser *parser) {
+    printf("EXPRESSION\n");
+
+    term(parser);
+    while (checkToken(parser, TOKEN_ADD) ||
+        checkToken(parser, TOKEN_SUB)){
+        nextToken(parser);
+        term(parser);
+    }
+}
+
+void term(Parser* parser) {
+    printf("TERM\n");
+    
+    factor(parser);
+    while (checkToken(parser, TOKEN_MUL) ||
+        checkToken(parser, TOKEN_DIV)) {
+        nextToken(parser);
+        factor(parser);
+    }
+}
+
+
+void factor(Parser* parser) {
+    printf("PRIMARY (%s)\n", parser->currentToken.lexeme);
+
+    switch (parser->currentToken.type) {
+        case TOKEN_NUMBER:
+            // atoi(parser->currentToken.lexeme);
+            break;
+        case TOKEN_IDENT:
+            // TODO: Check if symbol exists already once symbol table is available
+            break;
+
+        default:
+            fprintf(stderr, "Unexpected token: %s\n",
+                parser->currentToken.lexeme);
+            exit(EXIT_FAILURE);
+    }
+
+    nextToken(parser);
 }
