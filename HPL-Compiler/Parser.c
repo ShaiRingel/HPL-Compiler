@@ -1,7 +1,16 @@
 #include "Parser.h"
 
+Bool checkToken(Parser* parser, TokenType type);
+
+Bool checkPeek(Parser* parser, TokenType type);
+
+void match(Parser* parser, TokenType type, const char* expectedName);
+
+void nextToken(Parser* parser);
+
 void initParser(Parser *parser, FileDetails fileDetails) {
 	initLexer(&parser->lexer, fileDetails);
+	initHashMap(&parser->symbolTable);
 	nextToken(parser);
 	nextToken(parser);
 }
@@ -17,17 +26,16 @@ Bool checkPeek(Parser* parser, TokenType type) {
 }
 
 
-void match(Parser* parser, Token token) {
-	if (!checkToken(parser, token.type)) {
-		fprintf(stderr, "Expected %s, got %s\n", token.lexeme, parser->currentToken.lexeme);
-		exit(EXIT_FAILURE);
-	}
-	
-	nextToken(parser);
+void match(Parser* parser, TokenType type, const char* expectedName) {
+    if (parser->currentToken.type != type) {
+        fprintf(stderr, "Expected %s, got %s\n", expectedName, parser->currentToken.lexeme);
+        exit(EXIT_FAILURE);
+    }
+    nextToken(parser);
 }
 
 
-Token nextToken(Parser *parser) {
+void nextToken(Parser *parser) {
 	parser->currentToken = parser->peekToken;
 	parser->peekToken = tokenize(&parser->lexer);
 }
@@ -64,10 +72,17 @@ void statement(Parser *parser) {
             puts("LET-STATEMENT");
             nextToken(parser);
 
-            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
-            match(parser, (Token) { TOKEN_BE, "be" });
+            Token ident = parser->currentToken;
+            match(parser, TOKEN_IDENT, "identifier");
+            match(parser, TOKEN_BE, "be");
 
             puts("BE-STATEMENT");
+
+            listItemType item;
+            item.dataType = parser->currentToken.lexeme;
+            item.scope = "global";
+
+            insert(&parser->symbolTable, ident.lexeme, item);
 
             nextToken(parser);
             break;
@@ -76,8 +91,8 @@ void statement(Parser *parser) {
             puts("SET-STATEMENT");
             nextToken(parser);
 
-            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
-            match(parser, (Token) { TOKEN_TO, "to" });
+            match(parser, TOKEN_IDENT, "Identifier");
+            match(parser, TOKEN_TO, "to");
 
             puts("TO-STATEMENT");
 
@@ -88,8 +103,8 @@ void statement(Parser *parser) {
             puts("INCREASE-STATEMENT");
             nextToken(parser);
 
-            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
-            match(parser, (Token) { TOKEN_BY, "by" });
+            match(parser, TOKEN_IDENT, "Identifier");
+            match(parser, TOKEN_BY, "by");
 
             puts("BY-STATEMENT");
 
@@ -100,8 +115,8 @@ void statement(Parser *parser) {
             puts("DECREASE-STATEMENT");
             nextToken(parser);
 
-            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
-            match(parser, (Token) { TOKEN_BY, "by" });
+            match(parser, TOKEN_IDENT, "Identifier");
+            match(parser, TOKEN_BY, "by");
 
             puts("BY-STATEMENT");
 
@@ -112,8 +127,8 @@ void statement(Parser *parser) {
             puts("MULTIPLY-STATEMENT");
             nextToken(parser);
 
-            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
-            match(parser, (Token) { TOKEN_BY, "by" });
+            match(parser, TOKEN_IDENT, "Identifier");
+            match(parser, TOKEN_BY, "by");
 
             puts("BY-STATEMENT");
 
@@ -124,8 +139,8 @@ void statement(Parser *parser) {
             puts("DIVIDE-STATEMENT");
             nextToken(parser);
 
-            match(parser, (Token) { TOKEN_IDENT, "Identifier" });
-            match(parser, (Token) { TOKEN_BY, "by" });
+            match(parser, TOKEN_IDENT, "Identifier");
+            match(parser, TOKEN_BY, "by");
 
             puts("BY-STATEMENT");
 
@@ -168,14 +183,25 @@ void term(Parser* parser) {
 
 
 void factor(Parser* parser) {
+    listItemType currIdent;
     printf("PRIMARY (%s)\n", parser->currentToken.lexeme);
 
     switch (parser->currentToken.type) {
         case TOKEN_NUMBER:
-            // atoi(parser->currentToken.lexeme);
+            atoi(parser->currentToken.lexeme);
             break;
+
         case TOKEN_IDENT:
-            // TODO: Check if symbol exists already once symbol table is available
+            currIdent = get(&parser->symbolTable, parser->currentToken.lexeme);
+
+            if (currIdent.dataType) {
+                printf("IDENTIFIER-FOUND (");
+                printf("{ DataType: %s, Scope: %s })\n", currIdent.dataType, currIdent.scope);
+            } else {
+                fprintf(stderr, "Identifier not found: %s\n",
+                    parser->currentToken.lexeme);
+                exit(EXIT_FAILURE);
+            }
             break;
 
         default:
@@ -183,6 +209,6 @@ void factor(Parser* parser) {
                 parser->currentToken.lexeme);
             exit(EXIT_FAILURE);
     }
-
+    
     nextToken(parser);
 }

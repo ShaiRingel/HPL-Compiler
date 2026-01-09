@@ -1,4 +1,6 @@
 Let number be integer.
+Let bar be integer.
+Set bar to 2.
 Set number to bar times 3 add 2.
 Increase number by 1024.
 Decrease number by 256.

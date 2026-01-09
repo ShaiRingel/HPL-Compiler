@@ -127,15 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AST.c" />
     <ClCompile Include="FileReader.c" />
+    <ClCompile Include="HashMap.c" />
     <ClCompile Include="Lexer.c" />
+    <ClCompile Include="LinkedList.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Parser.c" />
     <ClCompile Include="SymbolTable.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AST.h" />
     <ClInclude Include="FileReader.h" />
+    <ClInclude Include="HashMap.h" />
     <ClInclude Include="Lexer.h" />
+    <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="SymbolTable.h" />
   </ItemGroup>

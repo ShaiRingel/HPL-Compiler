@@ -18,7 +18,7 @@ typedef enum {
     TOKEN_BY,              // "by" → used in Increase/Decrease
     TOKEN_SHOW,            // "Show" → output/print
     TOKEN_INTEGER,         // "integer" → integer type
-    TOKEN_DECIMAL,         // "decimal" → decimal type
+    TOKEN_REAL,            // "real" → real type
     TOKEN_INCREASE,        // "Increase" → += operator
     TOKEN_DECREASE,        // "Decrease" → -= operator
     TOKEN_MULTIPLY,        // "Multiply" → *= operator
@@ -80,7 +80,7 @@ static KeywordEntry keywordTable[] = {
     {"Let", TOKEN_LET},
     {"be", TOKEN_BE},
     {"integer", TOKEN_INTEGER},
-    {"decimal", TOKEN_DECIMAL},
+    {"decimal", TOKEN_REAL},
 
     // Assignments
     {"Set", TOKEN_SET},
