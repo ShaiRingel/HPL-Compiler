@@ -1,214 +1,231 @@
 #include "Parser.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+
 
 Bool checkToken(Parser* parser, TokenType type);
-
 Bool checkPeek(Parser* parser, TokenType type);
-
 void match(Parser* parser, TokenType type, const char* expectedName);
-
 void nextToken(Parser* parser);
 
-void initParser(Parser *parser, FileDetails fileDetails) {
-	initLexer(&parser->lexer, fileDetails);
-	initHashMap(&parser->symbolTable);
-	nextToken(parser);
-	nextToken(parser);
-}
+Parser* initParser(FileDetails fileDetails) {
+	Parser* parser = (Parser*)malloc(sizeof(Parser));
 
+	if (!parser) {
+		perror("Malloc failed!");
+		exit(EXIT_FAILURE);
+	}
+
+	parser->lexer = initLexer(fileDetails);
+	nextToken(parser);
+	nextToken(parser);
+
+	return parser;
+}
 
 Bool checkToken(Parser* parser, TokenType type) {
 	return parser->currentToken.type == type;
 }
 
-
 Bool checkPeek(Parser* parser, TokenType type) {
 	return parser->peekToken.type == type;
 }
 
-
 void match(Parser* parser, TokenType type, const char* expectedName) {
-    if (parser->currentToken.type != type) {
-        fprintf(stderr, "Expected %s, got %s\n", expectedName, parser->currentToken.lexeme);
-        exit(EXIT_FAILURE);
-    }
-    nextToken(parser);
+	if (parser->currentToken.type != type) {
+		fprintf(stderr, "Expected %s, got %s\n", expectedName, parser->currentToken.lexeme);
+		exit(EXIT_FAILURE);
+	}
+	nextToken(parser);
 }
 
-
-void nextToken(Parser *parser) {
+void nextToken(Parser* parser) {
 	parser->currentToken = parser->peekToken;
-	parser->peekToken = tokenize(&parser->lexer);
+	parser->peekToken = tokenize(parser->lexer);
 }
 
 // production rules
 
-void statement(Parser *parser);
-void expression(Parser *parser);
-void term(Parser *parser);
-void factor(Parser *parser);
+ASTNode* statement(Parser* parser);
+ASTNode* expression(Parser* parser);
+ASTNode* term(Parser* parser);
+ASTNode* factor(Parser* parser);
 
-void program(Parser *parser, FileDetails filedetails) {
+ASTNode* program(FileDetails filedetails) {
 	puts("Initializing FileReader, Lexer and parser!\n");
-
-	initParser(parser, filedetails);
+	
+	Parser* parser = initParser(filedetails);
 
 	puts("Filereader, lexer and parser initialized succefully!\n");
-
 	puts("Starting program!\n");
 
-	while (!checkToken(parser, TOKEN_EOF))
-		statement(parser);
+	ASTNode* root = createNode(NODE_PROGRAM);
+	ASTNode* tail = root;
+
+	while (!checkToken(parser, EOF)) {
+		tail->next = statement(parser);
+		tail = tail->next;
+	}
+
+	return root;
 }
 
-void statement(Parser *parser) {
-    switch (parser->currentToken.type) {
-        case TOKEN_SHOW:
-            puts("SHOW-STATEMENT");
-            nextToken(parser);
-            nextToken(parser);
-            break;
+ASTNode* statement(Parser* parser) {
+	TokenType type = parser->currentToken.type;
+	ASTNode* node = NULL;
+	char* ident;
 
-        case TOKEN_LET:
-            puts("LET-STATEMENT");
-            nextToken(parser);
+	switch (type) {
+		case TOKEN_SHOW:
+			node = createNode(NODE_SHOW);
+			nextToken(parser);
+			
+			node->right = expression(parser);
+			break;
+		case TOKEN_ASK:
 
-            Token ident = parser->currentToken;
-            match(parser, TOKEN_IDENT, "identifier");
-            match(parser, TOKEN_BE, "be");
+			break;
+		case TOKEN_LET:
+			nextToken(parser);
 
-            puts("BE-STATEMENT");
+			if (!checkToken(parser, TOKEN_IDENT)) {
+				fprintf(stderr, "Expected identifier after 'Let', got %s\n",
+					parser->currentToken.lexeme);
+				exit(EXIT_FAILURE);
+			}
 
-            listItemType item;
-            item.dataType = parser->currentToken.lexeme;
-            item.scope = "global";
+			node = createVariableDeclarationNode(parser->currentToken.lexeme);
+			nextToken(parser);
 
-            insert(&parser->symbolTable, ident.lexeme, item);
+			match(parser, TOKEN_BE, "be");
 
-            nextToken(parser);
-            break;
+			if (checkToken(parser, TOKEN_INTEGER)) {
+				node->right = createNode(NODE_TYPE_INT);
+				nextToken(parser);
+			}
+			else if (checkToken(parser, TOKEN_REAL)) {
+				node->right = createNode(NODE_TYPE_REAL);
+				nextToken(parser);
+			}
+			else {
+				fprintf(stderr, "Expected 'integer' or 'real' after 'be', got %s\n",
+					parser->currentToken.lexeme);
+				exit(EXIT_FAILURE);
+			}
 
-        case TOKEN_SET:
-            puts("SET-STATEMENT");
-            nextToken(parser);
+			break;
+		case TOKEN_SET:
+			nextToken(parser);
 
-            match(parser, TOKEN_IDENT, "Identifier");
-            match(parser, TOKEN_TO, "to");
+			if (!checkToken(parser, TOKEN_IDENT)) {
+				fprintf(stderr, "Expected identifier after 'Let', got %s\n",
+					parser->currentToken.lexeme);
+				exit(EXIT_FAILURE);
+			}
+			ident = parser->currentToken.lexeme;
+			nextToken(parser);
 
-            puts("TO-STATEMENT");
+			match(parser, TOKEN_TO, "to");
+			
+			node = createAssignmentNode(ident, expression(parser));
 
-            expression(parser);
-            break;
+			break;
+		case TOKEN_INCREASE:
+		case TOKEN_DECREASE:
+		case TOKEN_MULTIPLY:
+		case TOKEN_DIVIDE:
+			nextToken(parser);
 
-        case TOKEN_INCREASE:
-            puts("INCREASE-STATEMENT");
-            nextToken(parser);
+			if (!checkToken(parser, TOKEN_IDENT)) {
+				fprintf(stderr, "Expected identifier after 'Let', got %s\n",
+					parser->currentToken.lexeme);
+				exit(EXIT_FAILURE);
+			}
+			ident = parser->currentToken.lexeme;
+			nextToken(parser);
 
-            match(parser, TOKEN_IDENT, "Identifier");
-            match(parser, TOKEN_BY, "by");
+			match(parser, TOKEN_BY, "by");
 
-            puts("BY-STATEMENT");
+			OpType opType = type - TOKEN_INCREASE + OP_ADD;
+			node = createAssignmentNode(ident, 
+				createBinOpNode(opType, createIdNode(ident), expression(parser)));
+			
+			break;
+		case TOKEN_IF:
 
-            expression(parser);
-            break;
+			break;
+		case TOKEN_WHILE:
 
-        case TOKEN_DECREASE:
-            puts("DECREASE-STATEMENT");
-            nextToken(parser);
+			break;
+		case TOKEN_REPEAT:
 
-            match(parser, TOKEN_IDENT, "Identifier");
-            match(parser, TOKEN_BY, "by");
+			break;
+		case TOKEN_FOREACH:
 
-            puts("BY-STATEMENT");
+			break;
+		case TOKEN_TOFUNC:
 
-            expression(parser);
-            break;
+			break;
+		default:
+			fprintf(stderr, "Unexpected token: %s\n",
+				parser->currentToken.lexeme);
+			exit(EXIT_FAILURE);
 
-        case TOKEN_MULTIPLY:
-            puts("MULTIPLY-STATEMENT");
-            nextToken(parser);
-
-            match(parser, TOKEN_IDENT, "Identifier");
-            match(parser, TOKEN_BY, "by");
-
-            puts("BY-STATEMENT");
-
-            expression(parser);
-            break;
-
-        case TOKEN_DIVIDE:
-            puts("DIVIDE-STATEMENT");
-            nextToken(parser);
-
-            match(parser, TOKEN_IDENT, "Identifier");
-            match(parser, TOKEN_BY, "by");
-
-            puts("BY-STATEMENT");
-
-            expression(parser);
-            break;
-
-        case TOKEN_EOF:
-            return;
-
-        default:
-            fprintf(stderr, "Unexpected token: %s\n",
-                parser->currentToken.lexeme);
-            exit(EXIT_FAILURE);
-    }
-
-    puts("");
+	}
+	
+	return node;
 }
 
-void expression(Parser *parser) {
-    printf("EXPRESSION\n");
+ASTNode* expression(Parser* parser) {
+	ASTNode* root = term(parser);
+	TokenType tokenType = parser->currentToken.type;
 
-    term(parser);
-    while (checkToken(parser, TOKEN_ADD) ||
-        checkToken(parser, TOKEN_SUB)){
-        nextToken(parser);
-        term(parser);
-    }
+	while (tokenType == TOKEN_ADD
+		|| tokenType == TOKEN_SUB) {
+		nextToken(parser);
+
+		OpType opType = tokenType - TOKEN_ADD + OP_ADD;
+		root = createBinOpNode(opType, root, term(parser));
+		tokenType = parser->currentToken.type;
+	}
+
+	return root;
 }
 
-void term(Parser* parser) {
-    printf("TERM\n");
-    
-    factor(parser);
-    while (checkToken(parser, TOKEN_MUL) ||
-        checkToken(parser, TOKEN_DIV)) {
-        nextToken(parser);
-        factor(parser);
-    }
+ASTNode* term(Parser* parser) {
+	ASTNode* root = factor(parser);
+	TokenType tokenType = parser->currentToken.type;
+
+	while (tokenType == TOKEN_MUL
+		|| tokenType == TOKEN_DIV) {
+		nextToken(parser);
+
+		OpType opType = tokenType - TOKEN_MUL + OP_MUL;
+		root = createBinOpNode(opType, root, factor(parser));
+		tokenType = parser->currentToken.type;
+	}
+
+	return root;
 }
 
+ASTNode* factor(Parser* parser) {
+	ASTNode* node = NULL;
 
-void factor(Parser* parser) {
-    listItemType currIdent;
-    printf("PRIMARY (%s)\n", parser->currentToken.lexeme);
+	switch (parser->currentToken.type) {
+		case TOKEN_NUMBER:
+			node = createLiteralNode(atoi(parser->currentToken.lexeme));
+			break;
+		case TOKEN_IDENT:
+			node = createIdNode(parser->currentToken.lexeme);
+			break;
+		default:
+			fprintf(stderr, "Unexpected token: %s\n",
+				parser->currentToken.lexeme);
+			exit(EXIT_FAILURE);
+	}
 
-    switch (parser->currentToken.type) {
-        case TOKEN_NUMBER:
-            atoi(parser->currentToken.lexeme);
-            break;
-
-        case TOKEN_IDENT:
-            currIdent = get(&parser->symbolTable, parser->currentToken.lexeme);
-
-            if (currIdent.dataType) {
-                printf("IDENTIFIER-FOUND (");
-                printf("{ DataType: %s, Scope: %s })\n", currIdent.dataType, currIdent.scope);
-            } else {
-                fprintf(stderr, "Identifier not found: %s\n",
-                    parser->currentToken.lexeme);
-                exit(EXIT_FAILURE);
-            }
-            break;
-
-        default:
-            fprintf(stderr, "Unexpected token: %s\n",
-                parser->currentToken.lexeme);
-            exit(EXIT_FAILURE);
-    }
-    
-    nextToken(parser);
+	nextToken(parser);
+	return node;
 }

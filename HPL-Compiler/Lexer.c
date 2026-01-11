@@ -5,12 +5,21 @@
 #include <string.h>
 
 
-void initLexer(Lexer* lexer, FileDetails fileDetails) {
+Lexer* initLexer(FileDetails fileDetails) {
+    Lexer* lexer = (Lexer*)malloc(sizeof(Lexer));
+
+    if (!lexer) {
+        perror("Malloc failed");
+        exit(EXIT_FAILURE);
+    }
+
     lexer->fileDetails = fileDetails;
     lexer->currentRow = 0;
     lexer->currentCol = 1;
     lexer->currentChar = (fileDetails.rowsNum == 0 ? '\0' :
                             fileDetails.inputBuffer[0][0]);
+
+    return lexer;
 }
 
 
@@ -124,4 +133,9 @@ int numberCondition(int c) {
 
 int wordCondition(int c) {
     return !isspace(c) && c != '.';
+}
+
+void freeLexer(Lexer* lexer) {
+    free(lexer->fileDetails.inputBuffer);
+    free(lexer);
 }

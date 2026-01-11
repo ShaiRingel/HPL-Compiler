@@ -1,8 +1,8 @@
 #include "FileReader.h"
 #include "Lexer.h"
 #include "Parser.h"
+#include "AST.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 #define MAIN_FILE_NAME "Main.HPL"
 
@@ -21,14 +21,14 @@ int main() {
 
 void LexerTest() {
 	FileDetails fileDetails = readFile(MAIN_FILE_NAME);
-	Lexer lexer;
-
-	initLexer(&lexer, fileDetails);
+	Lexer *lexer = initLexer(fileDetails);
 
 	do {
-		Token token = tokenize(&lexer);
+		Token token = tokenize(lexer);
 		printf("%s - %d\n", token.lexeme, token.type);
-	} while (lexer.currentRow < lexer.fileDetails.rowsNum);
+	} while (lexer->currentRow < lexer->fileDetails.rowsNum);
+
+	freeLexer(lexer);
 }
 
 
@@ -37,5 +37,7 @@ void ParserTest() {
 	Lexer lexer;
 	Parser parser;
 
-	program(&parser, fileDetails);
+	ASTNode *root = program(fileDetails);
+
+	printAST(root->next, 0);
 }

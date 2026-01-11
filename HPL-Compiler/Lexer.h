@@ -153,7 +153,7 @@ typedef struct {
 
 
 // Initialize the lexer
-void initLexer(Lexer* lexer, FileDetails fileDetails);
+Lexer* initLexer(FileDetails fileDetails);
 // Read the next non-WhiteSpace character
 void nextChar(Lexer* lexer);
 // Skip the WhiteSpace characters
@@ -168,3 +168,5 @@ Token tokenize(Lexer *lexer);
 // End of token condition methods
 int numberCondition(int c);
 int wordCondition(int c);
+
+void freeLexer(Lexer *lexer);
