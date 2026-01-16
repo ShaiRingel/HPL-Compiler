@@ -154,18 +154,23 @@ ASTNode* statement(Parser* parser) {
 			
 			break;
 		case TOKEN_IF:
+			
 
 			break;
 		case TOKEN_WHILE:
 
+
 			break;
 		case TOKEN_REPEAT:
+
 
 			break;
 		case TOKEN_FOREACH:
 
+
 			break;
 		case TOKEN_TOFUNC:
+
 
 			break;
 		default:
@@ -228,4 +233,27 @@ ASTNode* factor(Parser* parser) {
 
 	nextToken(parser);
 	return node;
+}
+
+ASTNode* comparison(Parser* parser) {
+	ASTNode* root = singleComparison(parser);
+	TokenType tokenType = parser->currentToken.type;
+
+	while (tokenType == TOKEN_ADD
+		|| tokenType == TOKEN_SUB) {
+		nextToken(parser);
+
+		OpType opType = tokenType - TOKEN_ADD + OP_ADD;
+		root = createBinOpNode(opType, root, singleComparison(parser));
+		tokenType = parser->currentToken.type;
+	}
+
+	return root;
+}
+
+
+ASTNode* singleComparison(Parser* parser) {
+	ASTNode* root = expression(parser);
+
+	return root;
 }

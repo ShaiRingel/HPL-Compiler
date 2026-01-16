@@ -20,7 +20,7 @@ ASTNode* createNode(NodeType type) {
 
 ASTNode* createBinOpNode(OpType op, ASTNode* left, ASTNode* right) {
 	ASTNode* node = createNode(NODE_BIN_OP);
-	node->op = op;
+	node->val.op = op;
 	node->left = left;
 	node->right = right;
 
@@ -43,15 +43,15 @@ ASTNode* createIdNode(char* name) {
 
 ASTNode* createAssignmentNode(char* varName, ASTNode* expression) {
 	ASTNode* node = createNode(NODE_ASSIGN_STMT);
-	node->val.stringValue = _strdup(varName);
-	node->left = expression;
+	node->left = createIdNode(varName);
+	node->right = expression;
 
 	return node;
 }
 
 ASTNode* createVariableDeclarationNode(char* varName) {
 	ASTNode* node = createNode(NODE_VAR_DECL);
-	node->val.stringValue = _strdup(varName);
+	node->left = createIdNode(varName);
 
 	return node;
 }
@@ -72,9 +72,10 @@ void freeAST(ASTNode* root) {
 
 	freeAST(root->left);
 	freeAST(root->right);
-	freeAST(root->next);
-	freeAST(root->body);
 	freeAST(root->condition);
+	freeAST(root->body);
+	freeAST(root->elseBody);
+	freeAST(root->next);
 	
 	free(root);
 }
@@ -86,7 +87,7 @@ void printAST(ASTNode* node, int level) {
 
 	switch (node->type) {
 		case NODE_BIN_OP:
-			printf("OP: %d\n", node->op);
+			printf("OP: %d\n", node->val.op);
 			printAST(node->left, level + 1);
 			printAST(node->right, level + 1);
 			break;
@@ -97,8 +98,8 @@ void printAST(ASTNode* node, int level) {
 			printf("ID: %s\n", node->val.stringValue);
 			break;
 		case NODE_ASSIGN_STMT:
-			printf("ASSIGN to %s\n", node->val.stringValue);
-			printAST(node->left, level + 1);
+			printf("ASSIGN to %s\n", node->left->val.stringValue);
+			printAST(node->right, level + 1);
 			break;
 		case NODE_IF_STMT:
 			printf("IF\n");

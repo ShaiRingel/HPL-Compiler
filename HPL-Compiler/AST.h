@@ -27,11 +27,9 @@ typedef enum {
 typedef struct ASTNode {
     NodeType type;
 
-    // For Operators
-    OpType op;
-
     // For Literals (Values)
     union {
+        OpType op; // For Operators
         int intValue;
         double realValue;
         char* stringValue; // For Identifiers
