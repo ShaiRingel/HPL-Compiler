@@ -127,31 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AST.c" />
-    <ClCompile Include="FileReader.c" />
-    <ClCompile Include="HashMap.c" />
-    <ClCompile Include="Lexer.c" />
-    <ClCompile Include="LinkedList.c" />
-    <ClCompile Include="Main.c" />
-    <ClCompile Include="Parser.c" />
-    <ClCompile Include="SymbolTable.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AST.h" />
-    <ClInclude Include="FileReader.h" />
-    <ClInclude Include="HashMap.h" />
-    <ClInclude Include="Lexer.h" />
-    <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="Parser.h" />
-    <ClInclude Include="SymbolTable.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="HPL grammar.bnf">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </None>
-    <None Include="LexerTest.hpl" />
     <None Include="Main.hpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Compiler.h" />
+    <ClInclude Include="Lexer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Compiler.c" />
+    <ClCompile Include="Main.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

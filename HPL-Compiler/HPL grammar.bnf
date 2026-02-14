@@ -1,39 +1,105 @@
-<program> :: = <statement-list>
+<program> ::= <statement_list>
 
-<statement-list> ::= <statement> <statement-list>
-                    | <statement>
+<statement_list> ::= <statement> 
+                   | <statement> <statement_list>
 
-<statement> ::= "Show" (<expression> | <text> )
-              | "Let" <identifier> "be" <type>
-              | "Set" <identifier> "to" <expression>
-              | "Increase" <identifier> "by" <expression>
-              | "Decrease" <identifier> "by" <expression>
-              | "Multiply" <identifier> "by" <expression>
-              | "Divide" <identifier> "by" <expression>
-              | "If" <comparison> "then:" <nl> <program>
-              | "Repeat" <factor> "times:" <nl> <program>
+<statement> ::= <variable_declaration>
+              | <assignment_statement>
+              | <io_statement>
+              | <control_flow_statement>
+              | <function_declaration>
+              | <function_return>
+              | <function_call_statement>
 
-<comparison> ::= [ "not" ] <simple-comparison> { ("and" | "or") <comparison> }
+<variable_declaration> ::= "Let" <identifier> "be" <type> "."
 
-<simple-comparison> ::= <expression> <comparison-operator> <expression>
-
-<expression> ::= <term> { ( "add" | "subtract" ) <term> }
-
-<term> ::= <factor> { ( "times" | "divide" ) <factor> }
-
-<factor> ::= [ "+" | "-" ] ( <number> | <identifier> )
-
-<type> ::= "integer"
-         | "decimal"
+<type> ::= "integer" 
+         | "decimal" 
+         | "string" 
          | "boolean"
 
-<comparison-operator> ::= "equalsTo"
-                        | "notEqualsTo"
-                        | "greaterThan"
-                        | "lessThan"
-                        | "atLeast"
-                        | "atMost"
+<assignment_statement> ::= "Set" <lvalue> "to" <expression> "."
+                         | "Increase" <lvalue> "by" <expression> "."
+                         | "Decrease" <lvalue> "by" <expression> "."
+                         | "Multiply" <lvalue> "by" <expression> "."
+                         | "Divide" <lvalue> "by" <expression> "."
 
-<text> ::= '"' { any-character-except-quote } '"'
+<lvalue> ::= <identifier> 
+           | <identifier> "atPosition" <expression>
 
-<nl> ::= '\n'+
+<io_statement> ::= "Show" <expression> "."
+                 | "Get" <type> "ask" <string_literal> "storeInto" <lvalue> "."
+
+<control_flow_statement> ::= <if_statement> 
+                           | <loop_statement>
+
+<if_statement> ::= "If" <condition> "then:" <block> <else_if_list> <else_part>
+
+<else_if_list> ::= <empty>
+                 | "Otherwise" "if" <condition> "then:" <block> <else_if_list>
+
+<else_part> ::= <empty>
+              | "Otherwise:" <block>
+
+<loop_statement> ::= "Repeat" <expression> "times:" <block>
+                   | "Foreach" <identifier> "in" <identifier> ":" <block>
+                   | "While" <condition> ":" <block>
+
+<block> ::= <statement_list>
+
+<function_declaration> ::= "To" <identifier> "with" <identifier> ":" <block>
+                         | "To" <identifier> ":" <block>
+
+<function_return> ::= "Return" <expression> "."
+
+<function_call_statement> ::= <function_call> "."
+
+<function_call> ::= <identifier> "with" <expression>
+                  | <identifier>
+
+<expression> ::= <term> 
+               | <expression> <additive_op> <term>
+
+<term> ::= <factor> 
+         | <term> <multiplicative_op> <factor>
+
+<factor> ::= <identifier>
+           | <number_literal>
+           | <string_literal>
+           | <boolean_literal>
+           | <function_call>
+           | <identifier> "atPosition" <expression>
+           | "(" <expression> ")"
+
+<additive_op> ::= "add" | "subtract"
+
+<multiplicative_op> ::= "times" | "divide" | "remainderOf" ... "dividedBy" 
+
+<condition> ::= <bool_term> 
+              | <condition> "or" <bool_term>
+
+<bool_term> ::= <bool_factor> 
+              | <bool_term> "and" <bool_factor>
+
+<bool_factor> ::= <expression> <relational_op> <expression>
+                | "not" <condition>
+                | "(" <condition> ")"
+                | <boolean_literal>
+
+<relational_op> ::= "equalsTo"
+                  | "notEqualsTo"
+                  | "greaterThan"
+                  | "lessThan"
+                  | "atLeast"
+                  | "atMost"
+
+<identifier> ::= [a-zA-Z][a-zA-Z0-9_]*
+
+<number_literal> ::= [0-9]+ 
+                   | [0-9]+ "." [0-9]+
+
+<string_literal> ::= '"' [^"]* '"'
+
+<boolean_literal> ::= "true" | "false"
+
+<empty> ::=
