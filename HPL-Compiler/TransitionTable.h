@@ -1,12 +1,13 @@
 #pragma once
 #include "Global.h"
 
-#define CAPACITY 100
+#define STATE_CAPACITY 100
+#define CHAR_CAPACITY 10
 
-typedef struct {
+typedef struct CharBucket {
     char key;          // input symbol
     short value;       // next state
-    Bool used;
+    struct CharBucket* next;
 } CharBucket;
 
 typedef struct {
@@ -14,10 +15,10 @@ typedef struct {
     int capacity;          // total bucket count
 } CharMap;
 
-typedef struct {
+typedef struct StateBucket {
     int key;           // state ID
     CharMap value;     // inner map
-    Bool used;
+    struct StateBucket* next;
 } StateBucket;
 
 typedef struct {

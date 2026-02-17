@@ -3,6 +3,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+const char* languageKeyWords[] = {
+    "add",
+    "and",
+    "ask",
+    "atLeast",
+    "atMost",
+    "atPosition",
+    "be",
+    "by",
+    "decimal",
+    "divide",
+    "dividedBy",
+    "equalsTo",
+    "greaterThan",
+    "in",
+    "integer",
+    "lessThan",
+    "not",
+    "notEqualsTo",
+    "or",
+    "remainderOf",
+    "storeInto",
+    "subtract",
+    "times",
+    "then",
+    "text",
+    "to",
+    "with",
+    "Decrease",
+    "Divide",
+    "Foreach",
+    "Get",
+    "If",
+    "Increase",
+    "Let",
+    "Multiply",
+    "Otherwise",
+    "Repeat",
+    "Return",
+    "Set",
+    "Show",
+    "To",
+    "While"
+};
+
 void buildTransitionTable(TransitionTable* table) {
 	const char *p;
 	int state, i;
@@ -28,5 +73,5 @@ LexerFSM* initLexerFSM() {
 }
 
 void advance(LexerFSM* lexerFSM, char input) {
-	
+    
 }
