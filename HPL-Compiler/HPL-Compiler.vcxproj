@@ -135,11 +135,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Compiler.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="Lexer.h" />
+    <ClInclude Include="TransitionTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.c" />
+    <ClCompile Include="Lexer.c" />
+    <ClCompile Include="LexerFSM.c" />
+    <ClCompile Include="LexerFSM.h" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="TransitionTable.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

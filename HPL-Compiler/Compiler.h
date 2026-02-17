@@ -1,8 +1,8 @@
 #pragma once
-#include "FileReader.h"
+#include "Lexer.h"
 
 typedef struct {
-	// Lexer lexer;
+	Lexer lexer;
 	// Parser parser;
 	// SemanticAnalyzer sa;
 	// CodeGenerator cg;

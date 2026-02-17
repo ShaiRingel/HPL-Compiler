@@ -29,12 +29,30 @@
     <ClInclude Include="Lexer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lexer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LexerFSM.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LexerFSM.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionTable.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
