@@ -1,4 +1,4 @@
-Let number be integer.
+		Let carry be integer.
 Let bar be integer.
 Set bar to 2.
 Set number to bar add 2 times 3.

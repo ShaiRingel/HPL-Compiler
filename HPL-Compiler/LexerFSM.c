@@ -1,77 +1,106 @@
-#include "Global.h"
 #include "LexerFSM.h"
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 
-const char* languageKeyWords[] = {
-    "add",
-    "and",
-    "ask",
-    "atLeast",
-    "atMost",
-    "atPosition",
-    "be",
-    "by",
-    "decimal",
-    "divide",
-    "dividedBy",
-    "equalsTo",
-    "greaterThan",
-    "in",
-    "integer",
-    "lessThan",
-    "not",
-    "notEqualsTo",
-    "or",
-    "remainderOf",
-    "storeInto",
-    "subtract",
-    "times",
-    "then",
-    "text",
-    "to",
-    "with",
-    "Decrease",
-    "Divide",
-    "Foreach",
-    "Get",
-    "If",
-    "Increase",
-    "Let",
-    "Multiply",
-    "Otherwise",
-    "Repeat",
-    "Return",
-    "Set",
-    "Show",
-    "To",
-    "While"
-};
+void addKeyword(TransitionTable* table, const char* word, TokenType token) {
+    int i, nextId, current;
+
+    current = 0;
+    for (i = 0; word[i] != '\0'; i++) {
+        nextId = getState(table, (unsigned short)current, word[i]);
+        if (!nextId) {
+            nextId = ++table->stateCounter;
+            insertTransition(table, (unsigned short)current, word[i], (unsigned short)nextId);
+        }
+        current = nextId;
+    }
+    setToken(table, (unsigned short)current, token);
+}
 
 void buildTransitionTable(TransitionTable* table) {
-	const char *p;
-	int state, i;
+    int i;
 
-	for (i = 0; i < sizeof(languageKeyWords) / sizeof(languageKeyWords[0]); i++)
-		for (state = 0, p = languageKeyWords[i]; p;
-			p++, state = getState(table, state, *p))
-			insertTransition(table, state, *p);
+    // WHITESPACES
+    insertTransition(table, 0, ' ', ++table->stateCounter);
+    insertTransition(table, 0, '\n', table->stateCounter);
+    insertTransition(table, 0, '\t', table->stateCounter);
+    insertTransition(table, 0, '\r', table->stateCounter);
+    insertTransition(table, 0, '\v', table->stateCounter); 
+    insertTransition(table, 0, '\f', table->stateCounter);
+    insertTransition(table, table->stateCounter, ' ', table->stateCounter);
+    insertTransition(table, table->stateCounter, '\n', table->stateCounter);
+    insertTransition(table, table->stateCounter, '\t', table->stateCounter);
+    insertTransition(table, table->stateCounter, '\r', table->stateCounter);
+    insertTransition(table, table->stateCounter, '\v', table->stateCounter);
+    insertTransition(table, table->stateCounter, '\f', table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_IDLE);
+
+    // KEYWORDS
+    for (i = 0; i < sizeof(keywordTable) / sizeof(keywordTable[0]); i++)
+        addKeyword(table, keywordTable[i].keyword, keywordTable[i].type);
+
+    // NUMBERS
+    ++table->stateCounter;
+    for (i = '0'; i <= '9'; i++) {
+        insertTransition(table, 0, i, table->stateCounter);
+        insertTransition(table, table->stateCounter, i, table->stateCounter);
+    }
+    setToken(table, table->stateCounter, TOKEN_NUMBER);
+
+    // SPECIAL CHARACTERS
+    insertTransition(table, 0, '(', ++table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_LPAREN);
+    insertTransition(table, 0, ')', ++table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_RPAREN);
+    insertTransition(table, 0, ':', ++table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_COLON);
+    insertTransition(table, 0, '+', ++table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_PLUS);
+    insertTransition(table, 0, '.', ++table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_EOS);
+    insertTransition(table, 0, EOF, ++table->stateCounter);
+    setToken(table, table->stateCounter++, TOKEN_EOF);
 }
 
 LexerFSM* initLexerFSM() {
-	LexerFSM* lexerFSM = (LexerFSM*) malloc(sizeof(LexerFSM));
-	if (!lexerFSM) {
-		printf(RED "Error: Failed to allocate memory for lexerFSM\n" RESET);
-		exit(EXIT_FAILURE);
-	}
+    LexerFSM* fsm;
 
-	lexerFSM->currentState = 0;
-	lexerFSM->transitionTable = initTransitionTable();
-	buildTransitionTable(lexerFSM->transitionTable);
+    fsm = (LexerFSM*)malloc(sizeof(LexerFSM));
+    if (!fsm) exit(EXIT_FAILURE);
 
-	return lexerFSM;
+    fsm->currentState = 0;
+    fsm->transitionTable = initTransitionTable();
+    buildTransitionTable(fsm->transitionTable);
+
+    return fsm;
 }
 
-void advance(LexerFSM* lexerFSM, char input) {
-    
+TokenType advance(LexerFSM* lexerFSM, char input) {
+    TokenType token;
+    int nextS;
+
+    nextS = getState(lexerFSM->transitionTable, lexerFSM->currentState, input);
+
+    if (nextS != 0) {
+        lexerFSM->currentState = (unsigned short)nextS;
+        return 0;
+    }
+    else {
+        token = getTokenType(lexerFSM->transitionTable, lexerFSM->currentState);
+        lexerFSM->currentState = 0;
+
+        if (token != 0 && (isspace(input) || input == '.' || input == EOF)) {
+            /* Logic to handle found token would go here */
+            return token;
+        }
+        else {
+            /* Logic for Identifier/Error would go here */
+            if (!isspace(input) && input != '.') {
+                lexerFSM->currentState = lexerFSM->transitionTable->stateCounter;
+                return TOKEN_IDLE;
+            }
+            return TOKEN_IDENT;
+        }
+    }
 }

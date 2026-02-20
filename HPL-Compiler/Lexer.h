@@ -3,6 +3,8 @@
 #include "LexerFSM.h"
 #include <stdio.h>
 
+#define LONGEST_WORD_LENGTH 11
+
 typedef struct {
 	char* lexeme;
 	TokenType type;
@@ -14,6 +16,6 @@ typedef struct {
 } Lexer;
 
 // Initialize lexer
-Lexer* lexerInit(char* path);
+Lexer* initLexer(char* path);
 // Gets the next token
-void nextToken(Lexer* lexer);
+Token nextToken(Lexer* lexer);

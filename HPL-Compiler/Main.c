@@ -1,7 +1,9 @@
-#include <stdio.h>
+#include "Compiler.h"
 
-int main() {
-	printf("Hello, World!\n");
+int main(int argc, char* argv[]) {
+	Compiler* compiler = initCompiler(argv[1]);
+
+	startCompiler(compiler);
 
 	return 0;
 }
