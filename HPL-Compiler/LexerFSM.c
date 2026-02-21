@@ -3,6 +3,45 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#define isDelmiter(c) isspace((c)) || (c) == '.' || (c) == EOF
+
+size_t calculateTransitionTableMemory(const TransitionTable* table) {
+    size_t total = 0;
+
+    // --- TransitionTable struct + bucket array ---
+    total += sizeof(TransitionTable);
+    total += table->capacity * sizeof(StateBucket*);
+
+    // --- Iterate through all state buckets ---
+    for (int i = 0; i < table->capacity; i++) {
+        StateBucket* sb = table->buckets[i];
+
+        while (sb) {
+            // StateBucket struct
+            total += sizeof(StateBucket);
+
+            // CharMap struct + bucket array
+            if (sb->value) {
+                total += sizeof(CharMap);
+                total += sb->value->capacity * sizeof(CharBucket*);
+
+                // Count CharBuckets (transitions)
+                for (int j = 0; j < sb->value->capacity; j++) {
+                    CharBucket* cb = sb->value->buckets[j];
+                    while (cb) {
+                        total += sizeof(CharBucket);
+                        cb = cb->next;
+                    }
+                }
+            }
+
+            sb = sb->next;
+        }
+    }
+
+    return total;
+}
+
 void addKeyword(TransitionTable* table, const char* word, TokenType token) {
     int i, nextId, current;
 
@@ -35,6 +74,8 @@ void buildTransitionTable(TransitionTable* table) {
     insertTransition(table, table->stateCounter, '\v', table->stateCounter);
     insertTransition(table, table->stateCounter, '\f', table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_IDLE);
+
+    setToken(table, table->stateCounter, TOKEN_IDENT);
 
     // KEYWORDS
     for (i = 0; i < sizeof(keywordTable) / sizeof(keywordTable[0]); i++)
@@ -80,6 +121,9 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
     TokenType token;
     int nextS;
 
+    if (lexerFSM->currentState == 1 && !isspace(input))
+        lexerFSM->currentState = 0;
+
     nextS = getState(lexerFSM->transitionTable, lexerFSM->currentState, input);
 
     if (nextS != 0) {
@@ -90,12 +134,10 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
         token = getTokenType(lexerFSM->transitionTable, lexerFSM->currentState);
         lexerFSM->currentState = 0;
 
-        if (token != 0 && (isspace(input) || input == '.' || input == EOF)) {
-            /* Logic to handle found token would go here */
+        if (token != 0 && isDelmiter(input)) {
             return token;
         }
         else {
-            /* Logic for Identifier/Error would go here */
             if (!isspace(input) && input != '.') {
                 lexerFSM->currentState = lexerFSM->transitionTable->stateCounter;
                 return TOKEN_IDLE;

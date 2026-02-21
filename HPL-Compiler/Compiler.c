@@ -10,12 +10,16 @@ Compiler* initCompiler(char* filePath){
 	}
 
 	compiler->lexer = initLexer(filePath);
-
+	compiler->parser = initParser();
+	
 	return compiler;
 }
 
 Compiler* startCompiler(Compiler* compiler) {
 	Token token;
-	while ((token = nextToken(compiler->lexer)).type != TOKEN_EOF)
+	while ((token = nextToken(compiler->lexer)).type != TOKEN_EOF) {
 		printf("Token: %s -- %d\n", token.lexeme, token.type);
+		free(token.lexeme); // Add this line to prevent memory leaks
+	}
+	return compiler;
 }

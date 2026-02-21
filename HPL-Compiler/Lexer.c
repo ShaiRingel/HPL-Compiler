@@ -46,9 +46,10 @@ Token nextToken(Lexer* lexer) {
 		token.lexeme[counter++] = c;
 		token.type = advance(lexer->lexerFSM, c);
 
-		if (isspace(c) || c == '.') counter--;
+		if (isspace(c)) counter--;
 
-		if (counter >= capacity) lexemeSizeExpander(&token, &capacity);
+		if (counter >= capacity)
+			lexemeSizeExpander(&token, &capacity);
 
 		c = fgetc(lexer->fp);
 	}

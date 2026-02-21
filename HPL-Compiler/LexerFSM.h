@@ -1,6 +1,7 @@
 #pragma once
 #include "TransitionTable.h"
 #include "Global.h"
+#include <stdlib.h>
 
 typedef struct {
     const char* keyword;
@@ -78,3 +79,4 @@ typedef struct {
 LexerFSM* initLexerFSM();
 // Advances one character in the FSM
 TokenType advance(LexerFSM* lexerFSM, char input);
+size_t calculateTransitionTableMemory(const TransitionTable* table);

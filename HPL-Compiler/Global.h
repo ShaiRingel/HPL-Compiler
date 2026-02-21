@@ -9,6 +9,7 @@ typedef enum {
 } Bool;
 
 typedef enum {
+    TOKEN_ERROR = -2,        // End of file/input
     TOKEN_EOF = -1,         // End of file/input
     TOKEN_IDLE,
     TOKEN_EOS,              // '.' → end of statement
@@ -69,3 +70,8 @@ typedef enum {
     TOKEN_PLUS,             // '+' → string concatenation
     TOKEN_COLON,            // ':' → block start (loops, if)
 } TokenType;
+
+typedef struct {
+    char* lexeme;
+    TokenType type;
+} Token;

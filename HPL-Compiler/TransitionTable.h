@@ -1,7 +1,7 @@
 #pragma once
 #include "Global.h"
 
-#define STATE_CAPACITY 350 
+#define STATE_CAPACITY 350
 #define CHAR_CAPACITY 10
 
 typedef struct CharBucket {
