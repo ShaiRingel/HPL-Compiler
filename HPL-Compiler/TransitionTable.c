@@ -2,11 +2,11 @@
 #include "Global.h"
 #include <stdlib.h>
 
-unsigned hashState(unsigned short state) {
+static unsigned hashState(unsigned short state) {
     return (unsigned)state % STATE_CAPACITY;
 }
 
-unsigned hashChar(char c) {
+static unsigned hashChar(char c) {
     return (unsigned)c % CHAR_CAPACITY;
 }
 
@@ -31,11 +31,10 @@ CharBucket* findCharBucket(const CharMap* map, char symbol) {
     idx = hashChar(symbol);
     current = map->buckets[idx];
 
-    while (current) {
-        if (current->key == symbol) return current;
+    while (current && current->key != symbol)
         current = current->next;
-    }
-    return NULL;
+    
+    return current;
 }
 
 CharMap* createCharMap() {

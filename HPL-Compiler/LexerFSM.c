@@ -130,19 +130,18 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
         lexerFSM->currentState = (unsigned short)nextS;
         return 0;
     }
-    else {
-        token = getTokenType(lexerFSM->transitionTable, lexerFSM->currentState);
-        lexerFSM->currentState = 0;
+    
+    token = getTokenType(lexerFSM->transitionTable, lexerFSM->currentState);
+    lexerFSM->currentState = 0;
 
-        if (token != 0 && isDelmiter(input)) {
-            return token;
+    if (!token) {
+        if (!isspace(input) && input != '.') {
+            lexerFSM->currentState = lexerFSM->transitionTable->stateCounter;
+            token = TOKEN_IDLE;
         }
-        else {
-            if (!isspace(input) && input != '.') {
-                lexerFSM->currentState = lexerFSM->transitionTable->stateCounter;
-                return TOKEN_IDLE;
-            }
-            return TOKEN_IDENT;
-        }
+
+        token = TOKEN_IDENT;
     }
+
+    return isDelmiter(input) ? token : TOKEN_IDLE;
 }

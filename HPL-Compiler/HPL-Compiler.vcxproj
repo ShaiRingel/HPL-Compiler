@@ -134,9 +134,11 @@
     <None Include="Main.hpl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionTable.h" />
     <ClInclude Include="AST.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="GotoTable.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParsingTable.h" />
@@ -144,8 +146,10 @@
     <ClInclude Include="TransitionTable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ActionTable.c" />
     <ClCompile Include="AST.c" />
     <ClCompile Include="Compiler.c" />
+    <ClCompile Include="GotoTable.c" />
     <ClCompile Include="Lexer.c" />
     <ClCompile Include="LexerFSM.c" />
     <ClCompile Include="LexerFSM.h" />

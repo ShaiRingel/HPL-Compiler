@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Parser">
       <UniqueIdentifier>{5bc43fa0-4f89-44f4-939c-4fc318448f94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Parser\ParsingTable">
+      <UniqueIdentifier>{44fe9f1c-166e-47ad-be15-5f5cb844ca88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parser\ParsingTable">
+      <UniqueIdentifier>{cdfbaf1e-f4f8-4565-85b5-41af810904c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="HPL grammar.bnf">
@@ -47,9 +53,6 @@
     <ClInclude Include="Parser.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="ParsingTable.h">
-      <Filter>Header Files\Parser</Filter>
-    </ClInclude>
     <ClInclude Include="ParsingStack.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
@@ -58,6 +61,15 @@
     </ClInclude>
     <ClInclude Include="AST.h">
       <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="ParsingTable.h">
+      <Filter>Header Files\Parser\ParsingTable</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionTable.h">
+      <Filter>Header Files\Parser\ParsingTable</Filter>
+    </ClInclude>
+    <ClInclude Include="GotoTable.h">
+      <Filter>Header Files\Parser\ParsingTable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -85,11 +97,17 @@
     <ClCompile Include="ParsingStack.c">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
-    <ClCompile Include="ParsingTable.c">
-      <Filter>Source Files\Parser</Filter>
-    </ClCompile>
     <ClCompile Include="AST.c">
       <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="ParsingTable.c">
+      <Filter>Source Files\Parser\ParsingTable</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionTable.c">
+      <Filter>Source Files\Parser\ParsingTable</Filter>
+    </ClCompile>
+    <ClCompile Include="GotoTable.c">
+      <Filter>Source Files\Parser\ParsingTable</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
