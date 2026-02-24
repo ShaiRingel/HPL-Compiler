@@ -12,4 +12,4 @@ typedef struct {
 // Initialize Components
 Compiler* initCompiler(char* filePath);
 // Starts the compilation process
-Compiler* startCompiler(Compiler* compiler);
+void startCompiler(Compiler* compiler);

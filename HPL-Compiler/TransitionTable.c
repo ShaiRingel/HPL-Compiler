@@ -117,10 +117,10 @@ unsigned short getState(const TransitionTable* table, unsigned short state, char
     CharBucket* cBucket;
 
     sBucket = findStateBucket(table, state);
-    if (!sBucket) return 0;
+    if (!sBucket) return STATE_ERROR;
 
     cBucket = findCharBucket(sBucket->value, symbol);
-    return (cBucket) ? (int)cBucket->value : 0;
+    return (cBucket) ? (int)cBucket->value : STATE_ERROR;
 }
 
 void setToken(TransitionTable* table, unsigned short state, TokenType token) {
@@ -134,7 +134,7 @@ TokenType getTokenType(const TransitionTable* table, unsigned short state) {
     StateBucket* sBucket;
 
     sBucket = findStateBucket(table, state);
-    return (sBucket) ? sBucket->token : 0;
+    return (sBucket) ? sBucket->token : TOKEN_IDENT;
 }
 
 void destroyCharMap(CharMap* map) {

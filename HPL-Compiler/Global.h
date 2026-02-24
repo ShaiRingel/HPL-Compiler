@@ -9,7 +9,6 @@ typedef enum {
 } Bool;
 
 typedef enum {
-    TOKEN_ERROR = -2,        // End of file/input
     TOKEN_EOF = -1,         // End of file/input
     TOKEN_IDLE,
     TOKEN_EOS,              // '.' → end of statement
@@ -48,7 +47,7 @@ typedef enum {
     TOKEN_ATPOSITION,       // "atPosition" → array indexing
 
     // Operators (start at 201)
-    TOKEN_ADD,              // '+' → addition
+    TOKEN_ADD = 201,        // '+' → addition
     TOKEN_SUB,              // '-' → subtraction
     TOKEN_MUL,              // '*' → multiplication
     TOKEN_DIV,              // '/' → division

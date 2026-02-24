@@ -46,16 +46,22 @@ Token nextToken(Lexer* lexer) {
 		token.lexeme[counter++] = c;
 		token.type = advance(lexer->lexerFSM, c);
 
-		if (isspace(c)) counter--;
+		if (token.type == TOKEN_IDLE && lexer->lexerFSM->currentState == 0) {
+			counter = 0;
+		}
+		else if (token.type != TOKEN_IDLE)
+			counter--;
+		
 
 		if (counter >= capacity)
 			lexemeSizeExpander(&token, &capacity);
-
-		c = fgetc(lexer->fp);
+		
+		if (token.type == TOKEN_IDLE) {
+			c = fgetc(lexer->fp);
+		}
 	}
 
-	if (c != EOF)
-		fseek(lexer->fp, -1, SEEK_CUR);
+	ungetc(c, lexer->fp);
 
 	token.lexeme[counter] = 0;
 	token.lexeme = (char*) realloc(token.lexeme, (counter + 1) * sizeof(char));

@@ -1,8 +1,9 @@
 #pragma once
 #include "Global.h"
 
-#define STATE_CAPACITY 350
-#define CHAR_CAPACITY 10
+#define STATE_CAPACITY 349
+#define CHAR_CAPACITY 11
+#define STATE_ERROR (unsigned short) -1
 
 typedef struct CharBucket {
     char key;

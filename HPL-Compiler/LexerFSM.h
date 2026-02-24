@@ -1,7 +1,10 @@
 #pragma once
 #include "TransitionTable.h"
 #include "Global.h"
-#include <stdlib.h>
+#include <ctype.h>
+#include <stdio.h>
+
+#define isDelimiter(c) ( ((c) == EOF) || isspace((unsigned char)(c)) || (c) == '.' )
 
 typedef struct {
     const char* keyword;
