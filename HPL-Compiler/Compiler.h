@@ -1,12 +1,14 @@
 #pragma once
 #include "Lexer.h"
 #include "Parser.h"
+#include "SemanticAnalyzer.h"
 
 typedef struct {
-	Lexer *lexer;
-	Parser *parser;
-	// SemanticAnalyzer *sa;
-	// CodeGenerator *cg;
+	Lexer* lexer;
+	Parser* parser;
+	SemanticAnalyzer* analyzer;
+	// CodeGenerator* generator;
+	// ErrorHandler* handler;
 } Compiler;
 
 // Initialize Components

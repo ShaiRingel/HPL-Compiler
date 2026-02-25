@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void pop(ParsingStack** stack) {
-    if (*stack == NULL) {
+static void pop(ParsingStack** stack) {
+    if (stack == NULL || *stack == NULL) {
         printf(RED "Error: Can't pop from empty stack\n" RESET);
         exit(EXIT_FAILURE);
     }
@@ -14,11 +14,20 @@ void pop(ParsingStack** stack) {
     free(node);
 }
 
-ParsingStack* initStack() {
-    return NULL;
+ParsingStack* initParsingStack() {
+    ParsingStack* stack = (ParsingStack*)malloc(sizeof(ParsingStack));
+    if (!stack) {
+        printf(RED "Error: Failed to allocate memory for Parsing Stack\n" RESET);
+        exit(EXIT_FAILURE);
+    }
+
+    ParsingStackItem item = { 0 };
+    shift(&stack, item);
+
+    return stack;
 }
 
-void shift(ParsingStack** stack, StackItem item) {
+void shift(ParsingStack** stack, ParsingStackItem item) {
     ParsingStack* node = (ParsingStack*)malloc(sizeof(ParsingStack));
     if (!node) {
         printf(RED "Error: Failed to allocate memory for lexer\n" RESET);
@@ -37,7 +46,7 @@ void reduce(ParsingStack** stack, int ammount) {
         pop(stack);
 }
 
-StackItem peek(ParsingStack* stack) {
+ParsingStackItem lookahed(ParsingStack* stack) {
     if (stack == NULL) {
         printf(RED "Error: Can't peek from empty stack\n" RESET);
         exit(EXIT_FAILURE);

@@ -12,7 +12,7 @@ typedef enum {
 } ActionType;
 
 typedef union {
-    StackItem shift_item;
+    ParsingStackItem shift_item;
     int reduce_count;
 } ActionData;
 
@@ -43,16 +43,11 @@ typedef struct {
 ActionTable* initActionTable();
 
 // Inserts or updates a SHIFT/REDUCE action for a given token and state
-void createAction(ActionTable* table,
-    Token token,
-    unsigned short state,
-    ActionType type,
-    ActionData data);
+void createAction(ActionTable* table, Token token, unsigned short state,
+    ActionType type, ActionData data);
 
 // Retrieves the parser action for a given token and state (NULL if not found)
-ParserAction* getAction(ActionTable* table,
-    Token token,
-    unsigned short state);
+ParserAction* getAction(ActionTable* table, Token token, unsigned short state);
 
 // Frees the entire ActionTable and all associated memory
 void freeActionTable(ActionTable* table);

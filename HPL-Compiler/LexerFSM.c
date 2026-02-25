@@ -63,12 +63,12 @@ void buildTransitionTable(TransitionTable* table) {
     setToken(table, 0, TOKEN_IDLE);
 
     // COMMENTS
-    insertTransition(table, 0, 'N', ++table->stateCounter);
-    insertTransition(table, table->stateCounter, 'O', ++table->stateCounter);
-    insertTransition(table, table->stateCounter, 'T', ++table->stateCounter);
-    insertTransition(table, table->stateCounter, 'E', ++table->stateCounter);
-    insertTransition(table, table->stateCounter, ':', ++table->stateCounter);
-    setToken(table, 0, TOKEN_IDLE);
+    insertTransition(table, 0, 'N', table->stateCounter + 1);
+    insertTransition(table, ++table->stateCounter, 'O', table->stateCounter + 1);
+    insertTransition(table, ++table->stateCounter, 'T', table->stateCounter + 1);
+    insertTransition(table, ++table->stateCounter, 'E', table->stateCounter + 1);
+    insertTransition(table, ++table->stateCounter, ':', STATE_COMMENT);
+    insertTransition(table, STATE_COMMENT, '\n', 0);
 
     // KEYWORDS
     for (i = 0; i < sizeof(keywordTable) / sizeof(keywordTable[0]); i++)
@@ -121,6 +121,10 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
         lexerFSM->currentState = nextState;
         return TOKEN_IDLE;
     }
+    
+    if (lexerFSM->currentState == STATE_COMMENT) {
+        return TOKEN_IDLE;
+    }
 
     if (!isDelimiter(input)) {
         lexerFSM->currentState = lexerFSM->transitionTable->stateCounter;
@@ -132,41 +136,3 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
 
     return type;
 }
-
-
-
-
-
-
-
-
-
-/*
-TokenType advance(LexerFSM* lexerFSM, char input) {
-    TokenType token;
-    int nextS;
-
-    if (lexerFSM->currentState == 1 && !isspace(input))
-        lexerFSM->currentState = 0;
-
-    nextS = getState(lexerFSM->transitionTable, lexerFSM->currentState, input);
-
-    if (nextS != 0) {
-        lexerFSM->currentState = (unsigned short)nextS;
-        return 0;
-    }
-    
-    token = getTokenType(lexerFSM->transitionTable, lexerFSM->currentState);
-    lexerFSM->currentState = 0;
-
-    if (!token) {
-        if (!isspace(input) && input != '.') {
-            lexerFSM->currentState = lexerFSM->transitionTable->stateCounter;
-            token = TOKEN_IDLE;
-        }
-
-        token = TOKEN_IDENT;
-    }
-
-    return isDelmiter(input) ? token : TOKEN_IDLE;
-}*/

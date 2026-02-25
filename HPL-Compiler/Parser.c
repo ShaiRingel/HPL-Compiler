@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void createTable(Parser* parser) {
+	// Create all actions
+	
+
+	// Create all gotos
+
+
+}
+
 Parser* initParser() {
 	Parser* parser = (Parser*)malloc(sizeof(Parser));
 	if (!parser) {
@@ -10,7 +19,9 @@ Parser* initParser() {
 	}
 
 	parser->table = initParsingTable();
-	parser->stack = initStack();
+	parser->stack = initParsingStack();
+
+	createTable(parser);
 
 	return parser;
 }

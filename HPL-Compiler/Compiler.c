@@ -5,7 +5,6 @@
 void testLexer(Compiler* compiler) {
 	Token token;
 	while ((token = nextToken(compiler->lexer)).type != TOKEN_EOF) {
-		if ()
 		printf("Token: %s -- %d\n", token.lexeme, token.type);
 		free(token.lexeme);
 	}
@@ -21,27 +20,28 @@ void testLexer(Compiler* compiler) {
 		matrixBytes, matrixBytes / 1024.0);
 	printf("Current (Linked-List):\t%zu bytes (%.2f KB)\n",
 		currentBytes, currentBytes / 1024.0);
-	printf("Difference:\t\t%zu bytes (%.2f KB)\n",
-		matrixBytes - currentBytes, (matrixBytes - currentBytes) / 1024.0);
+	printf("Memory Saved:\t\t%zu bytes (%.2f KB) -- %.2f%%\n",
+		matrixBytes - currentBytes, (matrixBytes - currentBytes) / 1024.0,
+		100.0 - 100.0 * currentBytes / matrixBytes);
 }
 
 void testParser(Compiler* compiler) {
-	
-}
-
-
-void runLexer(Compiler* compiler) {
+	Parser* parser = compiler->parser;
+	ParserAction* action;
 	Token token;
+
 	while ((token = nextToken(compiler->lexer)).type != TOKEN_EOF) {
-		printf("Token: %s -- %d\n", token.lexeme, token.type);
-		free(token.lexeme);
+		action = getAction(parser->table, token, lookahed(parser->stack).state);
+
+		if (action->type == SHIFT) {
+			action->data.shift_item.token = token;
+			shift(&parser->stack, action->data.shift_item);
+		} else {
+			reduce(&parser->stack, action->data.reduce_count);
+		}
+
+		printf("Parsed Token: %s Succesfuly!\n", token.lexeme);
 	}
-
-}
-
-
-void runParser(Compiler* compiler) {
-
 }
 
 Compiler* initCompiler(char* filePath){
@@ -54,11 +54,11 @@ Compiler* initCompiler(char* filePath){
 
 	compiler->lexer = initLexer(filePath);
 	compiler->parser = initParser();
+	compiler->analyzer = initSemanticAnalyzer();
 	
 	return compiler;
 }
 
 void startCompiler(Compiler* compiler) {
 	testLexer(compiler);
-	testParser(compiler);
 }

@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Parser\ParsingTable">
       <UniqueIdentifier>{cdfbaf1e-f4f8-4565-85b5-41af810904c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Semantic">
+      <UniqueIdentifier>{293d3fce-22f9-4c1c-84e6-934bfd1b2c77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Semantic">
+      <UniqueIdentifier>{5054076f-cf9f-4207-ae5a-5cf269f7fc2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="HPL grammar.bnf">
@@ -71,6 +77,12 @@
     <ClInclude Include="GotoTable.h">
       <Filter>Header Files\Parser\ParsingTable</Filter>
     </ClInclude>
+    <ClInclude Include="SymbolTable.h">
+      <Filter>Header Files\Semantic</Filter>
+    </ClInclude>
+    <ClInclude Include="SemanticAnalyzer.h">
+      <Filter>Header Files\Semantic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.c">
@@ -108,6 +120,18 @@
     </ClCompile>
     <ClCompile Include="GotoTable.c">
       <Filter>Source Files\Parser\ParsingTable</Filter>
+    </ClCompile>
+    <ClCompile Include="SymbolTable.c">
+      <Filter>Source Files\Semantic</Filter>
+    </ClCompile>
+    <ClCompile Include="SemanticAnalyzer.c">
+      <Filter>Source Files\Semantic</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopeStack.h">
+      <Filter>Header Files\Semantic</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopeStack.c">
+      <Filter>Source Files\Semantic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

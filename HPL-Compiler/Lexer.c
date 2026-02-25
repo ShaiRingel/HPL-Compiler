@@ -49,7 +49,7 @@ Token nextToken(Lexer* lexer) {
 		if (token.type == TOKEN_IDLE && lexer->lexerFSM->currentState == 0) {
 			counter = 0;
 		}
-		else if (token.type != TOKEN_IDLE)
+		else if (token.type != TOKEN_IDLE || lexer->lexerFSM->currentState == STATE_COMMENT)
 			counter--;
 		
 

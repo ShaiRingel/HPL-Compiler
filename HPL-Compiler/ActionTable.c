@@ -11,8 +11,7 @@ static unsigned hashToken(Token token) {
     return (unsigned)token.type % GRAMMAR_CAPACITY;
 }
 
-ActionHashMap* createActionHashMap(void)
-{
+ActionHashMap* createActionHashMap() {
     ActionHashMap* map;
 
     map = (ActionHashMap*)malloc(sizeof(ActionHashMap));
@@ -32,8 +31,7 @@ ActionHashMap* createActionHashMap(void)
     return map;
 }
 
-ActionTableEntry* createActionEntry(Token token)
-{
+ActionTableEntry* createActionEntry(Token token) {
     ActionTableEntry* entry;
 
     entry = (ActionTableEntry*)malloc(sizeof(ActionTableEntry));
@@ -49,30 +47,26 @@ ActionTableEntry* createActionEntry(Token token)
     return entry;
 }
 
-ParserAction* findActionInMap(ActionHashMap* map,
-    unsigned short state)
-{
-    ParserAction* pa;
+ParserAction* findActionInMap(ActionHashMap* map, unsigned short state) {
+    ParserAction* action;
     unsigned idx;
 
     if (!map)
         return NULL;
 
     idx = hashState(state);
-    pa = map->buckets[idx];
+    action = map->buckets[idx];
 
-    while (pa) {
-        if (pa->state == state)
-            return pa;
-        pa = pa->next;
+    while (action) {
+        if (action->state == state)
+            return action;
+        action = action->next;
     }
 
     return NULL;
 }
 
-ActionTableEntry* findActionEntry(ActionTable* table,
-    Token token)
-{
+ActionTableEntry* findActionEntry(ActionTable* table, Token token) {
     ActionTableEntry* entry;
     unsigned idx;
 
@@ -91,8 +85,7 @@ ActionTableEntry* findActionEntry(ActionTable* table,
     return NULL;
 }
 
-ActionTable* initActionTable(void)
-{
+ActionTable* initActionTable() {
     ActionTable* table;
 
     table = (ActionTable*)malloc(sizeof(ActionTable));
@@ -112,9 +105,7 @@ ActionTable* initActionTable(void)
     return table;
 }
 
-ActionTableEntry* getOrCreateActionEntry(ActionTable* table,
-    Token token)
-{
+ActionTableEntry* getOrCreateActionEntry(ActionTable* table, Token token) {
     ActionTableEntry* entry;
     unsigned idx;
 
@@ -131,15 +122,10 @@ ActionTableEntry* getOrCreateActionEntry(ActionTable* table,
     return entry;
 }
 
-void createAction(ActionTable* table,
-    Token token,
-    unsigned short state,
-    ActionType type,
-    ActionData data)
-{
+void createAction(ActionTable* table, Token token, unsigned short state,
+    ActionType type, ActionData data) {
+    ParserAction* current, *action;
     ActionTableEntry* entry;
-    ParserAction* current;
-    ParserAction* pa;
     unsigned idx;
 
     if (!table)
@@ -158,24 +144,21 @@ void createAction(ActionTable* table,
         current = current->next;
     }
 
-    pa = (ParserAction*)malloc(sizeof(ParserAction));
-    if (!pa) {
+    action = (ParserAction*)malloc(sizeof(ParserAction));
+    if (!action) {
         fprintf(stderr, RED "Error: Failed to allocate ParserAction\n" RESET);
         exit(EXIT_FAILURE);
     }
 
-    pa->state = state;
-    pa->type = type;
-    pa->data = data;
+    action->state = state;
+    action->type = type;
+    action->data = data;
 
-    pa->next = entry->actions->buckets[idx];
-    entry->actions->buckets[idx] = pa;
+    action->next = entry->actions->buckets[idx];
+    entry->actions->buckets[idx] = action;
 }
 
-ParserAction* getAction(ActionTable* table,
-    Token token,
-    unsigned short state)
-{
+ParserAction* getAction(ActionTable* table, Token token, unsigned short state) {
     ActionTableEntry* entry;
 
     if (!table)
@@ -188,20 +171,18 @@ ParserAction* getAction(ActionTable* table,
     return findActionInMap(entry->actions, state);
 }
 
-void freeActionHashMap(ActionHashMap* map)
-{
+void freeActionHashMap(ActionHashMap* map) {
+    ParserAction* action, *temp;
     int i;
-    ParserAction* pa;
-    ParserAction* temp;
 
     if (!map)
         return;
 
     for (i = 0; i < map->capacity; i++) {
-        pa = map->buckets[i];
-        while (pa) {
-            temp = pa;
-            pa = pa->next;
+        action = map->buckets[i];
+        while (action) {
+            temp = action;
+            action = action->next;
             free(temp);
         }
     }
@@ -210,11 +191,9 @@ void freeActionHashMap(ActionHashMap* map)
     free(map);
 }
 
-void freeActionTable(ActionTable* table)
-{
+void freeActionTable(ActionTable* table) {
+    ActionTableEntry* entry, *temp;
     int i;
-    ActionTableEntry* entry;
-    ActionTableEntry* temp;
 
     if (!table)
         return;

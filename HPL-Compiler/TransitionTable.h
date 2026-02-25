@@ -4,6 +4,7 @@
 #define STATE_CAPACITY 349
 #define CHAR_CAPACITY 11
 #define STATE_ERROR (unsigned short) -1
+#define STATE_COMMENT (unsigned short) -2
 
 typedef struct CharBucket {
     char key;

@@ -1,7 +1,9 @@
+NOTE: Shows number in the console!
+
 		Let number be integer.
-Let bar be integer.
-	Set bar to 2.
-Set number to bar add 2 times 3.
+Let Setter be integer.
+	Set Setter to 2.
+Set number to Setter add 2 times 3.
 Increase   number by 1024.
 Decrease number by 256.
 Multiply number by 4.

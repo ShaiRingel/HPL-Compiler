@@ -143,6 +143,8 @@
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParsingTable.h" />
     <ClInclude Include="ParsingStack.h" />
+    <ClInclude Include="SemanticAnalyzer.h" />
+    <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="TransitionTable.h" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +159,10 @@
     <ClCompile Include="Parser.c" />
     <ClCompile Include="ParsingTable.c" />
     <ClCompile Include="ParsingStack.c" />
+    <ClCompile Include="ScopeStack.c" />
+    <ClCompile Include="ScopeStack.h" />
+    <ClCompile Include="SemanticAnalyzer.c" />
+    <ClCompile Include="SymbolTable.c" />
     <ClCompile Include="TransitionTable.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
