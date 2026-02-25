@@ -45,6 +45,9 @@
     <None Include="Main.hpl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="LexerTest.hpl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Compiler.h">

@@ -16,7 +16,7 @@ static KeywordEntry keywordTable[] = {
     {"Let", TOKEN_LET},
     {"be", TOKEN_BE},
     {"integer", TOKEN_INTEGER},
-    {"decimal", TOKEN_REAL},
+    {"text", TOKEN_TEXT},
 
     // Assignments
     {"Set", TOKEN_SET},
@@ -61,8 +61,8 @@ static KeywordEntry keywordTable[] = {
     {"atMost", TOKEN_ATMOST},
     {"remainderOf", TOKEN_REMAINDEROF},
     {"dividedBy", TOKEN_DIVIDEDBY},
-    {"add", TOKEN_ADD},
-    {"subtract", TOKEN_SUB},
+    {"plus", TOKEN_ADD},
+    {"minus", TOKEN_SUB},
     {"times", TOKEN_MUL},
     {"divide", TOKEN_DIV},
     {"and", TOKEN_AND},
@@ -82,4 +82,7 @@ typedef struct {
 LexerFSM* initLexerFSM();
 // Advances one character in the FSM
 TokenType advance(LexerFSM* lexerFSM, char input);
-size_t calculateTransitionTableMemory(const TransitionTable* table);
+
+int calculateTransitionTableMemory(const TransitionTable* table);
+
+void freeLexerFSM(LexerFSM* lexerFSM);

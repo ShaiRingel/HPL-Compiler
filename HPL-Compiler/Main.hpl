@@ -1,12 +1,12 @@
-NOTE: Shows number in the console!
+"Hello"
 
 		Let number be integer.
 Let Setter be integer.
 	Set Setter to 2.
-Set number to Setter add 2 times 3.
-Increase   number by 1024.
+Set number to Setter plus 2 times 3.
+Increase   number by 1024.	NOTE: Does number + 1024!
 Decrease number by 256.
-Multiply number by 4.
+Multiply number by -4.
 Divide number by 8.
 
 NOTE: Shows number in the console!

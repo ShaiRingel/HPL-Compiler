@@ -7,7 +7,7 @@ unsigned hashSymbol(const char* key) {
 	unsigned int hash = 5381;
 	int c;
 	
-while ((c = *key++))
+	while ((c = *key++))
 		hash = ((hash << 5) + hash) + c; // hash * 33 + c
 
 	return hash % CAPACITY;

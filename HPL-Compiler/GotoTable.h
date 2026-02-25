@@ -2,7 +2,7 @@
 
 #include "Global.h"
 
-#define STATES_CAPACITY 23
+#define STATE_CAPACITY 23
 #define GRAMMAR_CAPACITY 53
 
 typedef struct ParserGoto {

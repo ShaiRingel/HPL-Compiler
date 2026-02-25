@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static unsigned hashState(unsigned short state)
-{
-    return (unsigned)state % STATES_CAPACITY;
+static unsigned hashState(unsigned short state) {
+    return (state * 2654435761u) % STATE_CAPACITY;
 }
 
 static unsigned hashToken(Token token) {
-    return (unsigned)token.type % GRAMMAR_CAPACITY;
+    return (unsigned)(token.type * 2654435761u) % GRAMMAR_CAPACITY;
 }
 
 ActionHashMap* createActionHashMap() {
@@ -20,8 +19,8 @@ ActionHashMap* createActionHashMap() {
         exit(EXIT_FAILURE);
     }
 
-    map->capacity = STATES_CAPACITY;
-    map->buckets = (ParserAction**)calloc(STATES_CAPACITY,
+    map->capacity = STATE_CAPACITY;
+    map->buckets = (ParserAction**)calloc(STATE_CAPACITY,
         sizeof(ParserAction*));
     if (!map->buckets) {
         fprintf(stderr, RED "Error: Failed to allocate ActionHashMap buckets\n" RESET);

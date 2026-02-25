@@ -9,18 +9,18 @@ void testLexer(Compiler* compiler) {
 		free(token.lexeme);
 	}
 
-	size_t currentBytes = calculateTransitionTableMemory(compiler->lexer->lexerFSM->transitionTable);
+	int currentBytes = calculateTransitionTableMemory(compiler->lexer->lexerFSM->transitionTable);
 
 	int numStates = compiler->lexer->lexerFSM->transitionTable->stateCounter + 1;
-	int numChars = 256;
-	size_t matrixBytes = (size_t)numStates * numChars * sizeof(unsigned short);
+	int numChars = 72; // Letter + Digits + Symbols = 53 + 10 + 9 = 72
+	int matrixBytes = numStates * numChars * sizeof(unsigned short);
 
 	printf("\n--- Memory Comparison ---\n");
-	printf("Adjacency Matrix:\t%zu bytes (%.2f KB)\n",
+	printf("Usual (Adjacency Matrix):\t%d bytes (%.2f KB)\n",
 		matrixBytes, matrixBytes / 1024.0);
-	printf("Current (Linked-List):\t%zu bytes (%.2f KB)\n",
+	printf("Current (Nested HashMaps):\t%d bytes (%.2f KB)\n",
 		currentBytes, currentBytes / 1024.0);
-	printf("Memory Saved:\t\t%zu bytes (%.2f KB) -- %.2f%%\n",
+	printf("Memory Saved:\t\t\t%d bytes (%.2f KB) -- %.2f%%\n",
 		matrixBytes - currentBytes, (matrixBytes - currentBytes) / 1024.0,
 		100.0 - 100.0 * currentBytes / matrixBytes);
 }
@@ -61,4 +61,12 @@ Compiler* initCompiler(char* filePath){
 
 void startCompiler(Compiler* compiler) {
 	testLexer(compiler);
+
+	
+}
+
+void freeCompiler(Compiler* compiler) {
+	freeLexer(compiler->lexer);
+
+	free(compiler);
 }

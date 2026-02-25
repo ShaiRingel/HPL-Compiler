@@ -68,3 +68,8 @@ Token nextToken(Lexer* lexer) {
 
 	return token;
 }
+
+void freeLexer(Lexer* lexer) {
+	freeLexerFSM(lexer->lexerFSM);
+	free(lexer);
+}

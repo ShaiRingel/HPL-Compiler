@@ -2,14 +2,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-size_t calculateTransitionTableMemory(const TransitionTable* table) {
-    size_t total = 0;
+int calculateTransitionTableMemory(const TransitionTable* table) {
+    int i, j, total = 0;
+    StateBucket* sb;
+    CharBucket* cb;
 
     total += sizeof(TransitionTable);
     total += table->capacity * sizeof(StateBucket*);
 
-    for (int i = 0; i < table->capacity; i++) {
-        StateBucket* sb = table->buckets[i];
+    for (i = 0; i < table->capacity; i++) {
+        sb = table->buckets[i];
 
         while (sb) {
             total += sizeof(StateBucket);
@@ -18,8 +20,8 @@ size_t calculateTransitionTableMemory(const TransitionTable* table) {
                 total += sizeof(CharMap);
                 total += sb->value->capacity * sizeof(CharBucket*);
 
-                for (int j = 0; j < sb->value->capacity; j++) {
-                    CharBucket* cb = sb->value->buckets[j];
+                for (j = 0; j < sb->value->capacity; j++) {
+                    cb = sb->value->buckets[j];
                     while (cb) {
                         total += sizeof(CharBucket);
                         cb = cb->next;
@@ -32,6 +34,29 @@ size_t calculateTransitionTableMemory(const TransitionTable* table) {
     }
 
     return total;
+}
+
+static inline int isValidCharacter(char c) {
+    // Letters and digits
+    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')) {
+        return 1;
+    }
+
+    // Special characters and whitespace
+    switch (c) {
+    case '+':
+    case '-':
+    case '_':
+    case ':':
+    case '(':
+    case ')':
+    case '"':
+    case ' ':
+    case '.':
+        return 1;
+    default:
+        return 0;
+    }
 }
 
 void addKeyword(TransitionTable* table, const char* word, TokenType token) {
@@ -77,9 +102,10 @@ void buildTransitionTable(TransitionTable* table) {
     // NUMBERS
     ++table->stateCounter;
     for (i = '0'; i <= '9'; i++) {
-        if (i != '0') insertTransition(table, 0, i, table->stateCounter);
+        insertTransition(table, 0, i, table->stateCounter);
         insertTransition(table, table->stateCounter, i, table->stateCounter);
     }
+    insertTransition(table, 0, '-', table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_NUMBER);
 
     // SPECIAL CHARACTERS
@@ -87,6 +113,9 @@ void buildTransitionTable(TransitionTable* table) {
     setToken(table, table->stateCounter, TOKEN_LPAREN);
     insertTransition(table, 0, ')', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_RPAREN);
+    insertTransition(table, 0, '"', STATE_TEXT);
+    insertTransition(table, STATE_TEXT, '"', ++table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_STRING);
     insertTransition(table, 0, ':', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_COLON);
     insertTransition(table, 0, '+', ++table->stateCounter);
@@ -122,11 +151,16 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
         return TOKEN_IDLE;
     }
     
-    if (lexerFSM->currentState == STATE_COMMENT) {
+    if (lexerFSM->currentState == STATE_COMMENT || lexerFSM->currentState == STATE_TEXT)
         return TOKEN_IDLE;
-    }
+
 
     if (!isDelimiter(input)) {
+        if (!isValidCharacter(input)) {
+            printf("Error: INVALID CHARACTER");
+            exit(EXIT_FAILURE);
+        }
+
         lexerFSM->currentState = lexerFSM->transitionTable->stateCounter;
         return TOKEN_IDLE;
     }
@@ -135,4 +169,9 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
     lexerFSM->currentState = 0;
 
     return type;
+}
+
+void freeLexerFSM(LexerFSM* lexerFSM) {
+    freeTransitionTable(lexerFSM->transitionTable);
+    free(lexerFSM);
 }

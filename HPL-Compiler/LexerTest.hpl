@@ -1,0 +1,72 @@
+NOTE: End of statement
+.
+
+NOTE: Numbers
+0
+13
+-42
+
+NOTE: Identifiers
+x
+myVar
+some_identifier
+arr
+funcName
+
+NOTE: Text literals
+"hello"
+"test string"
+"123"
+"symbols !@NOTE:$"
+
+NOTE: KeyWords
+Let
+be
+Set
+to
+by
+Show
+integer
+text
+Increase
+Decrease
+Multiply
+Divide
+Return
+Otherwise
+If
+then
+Repeat
+iterations
+Foreach
+in
+While
+Get
+ask
+storeInto
+To
+with
+atPosition
+
+NOTE: Operators (symbolic)
+plus
+minus
+times
+divide
+equalsTo
+notEqualsTo
+lessThan
+atMost
+greaterThan
+atLeast
+remainderOf
+dividedBy
+and
+or
+not
+
+NOTE: Special Symbols
+(
+)
++
+:

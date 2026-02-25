@@ -3,11 +3,11 @@
 #include <stdlib.h>
 
 static unsigned hashState(unsigned short state) {
-    return (unsigned)state % STATE_CAPACITY;
+    return (state * 2654435761u) % STATE_CAPACITY;
 }
 
-static unsigned hashChar(char c) {
-    return (unsigned)c % CHAR_CAPACITY;
+static unsigned hashChar(char c, int capacity) {
+    return ((unsigned char)c * 31u) % capacity;
 }
 
 StateBucket* findStateBucket(const TransitionTable* table, unsigned short state) {
@@ -17,18 +17,17 @@ StateBucket* findStateBucket(const TransitionTable* table, unsigned short state)
     idx = hashState(state);
     current = table->buckets[idx];
 
-    while (current) {
-        if (current->key == state) return current;
+    while (current && current->key != state) {
         current = current->next;
     }
-    return NULL;
+    return current;
 }
 
 CharBucket* findCharBucket(const CharMap* map, char symbol) {
     CharBucket* current;
     unsigned int idx;
 
-    idx = hashChar(symbol);
+    idx = hashChar(symbol, map->capacity);
     current = map->buckets[idx];
 
     while (current && current->key != symbol)
@@ -43,11 +42,35 @@ CharMap* createCharMap() {
     map = (CharMap*)malloc(sizeof(CharMap));
     if (!map) exit(EXIT_FAILURE);
 
-    map->capacity = CHAR_CAPACITY;
-    map->buckets = (CharBucket**)calloc(CHAR_CAPACITY, sizeof(CharBucket*));
+    map->capacity = INITIAL_CHAR_CAPACITY;
+    map->buckets = (CharBucket**)calloc(INITIAL_CHAR_CAPACITY, sizeof(CharBucket*));
     if (!map->buckets) exit(EXIT_FAILURE);
 
     return map;
+}
+
+void expandCharMap(CharMap* map) {
+    unsigned i, newIdx;
+    CharBucket** oldBuckets = map->buckets;
+    CharBucket* current, *next;
+
+    map->capacity = EXPANDED_CHAR_CAPACITY;
+    map->buckets = (CharBucket**)calloc(EXPANDED_CHAR_CAPACITY, sizeof(CharBucket*));
+    if (!map->buckets) exit(EXIT_FAILURE);
+
+    for (i = 0; i < INITIAL_CHAR_CAPACITY; i++) {
+        current = oldBuckets[i];
+        while (current) {
+            CharBucket* next = current->next;
+
+            newIdx = hashChar(current->key, map->capacity);
+            current->next = map->buckets[newIdx];
+            map->buckets[newIdx] = current;
+
+            current = next;
+        }
+    }
+    free(oldBuckets);
 }
 
 StateBucket* createStateBucket(int state) {
@@ -102,16 +125,19 @@ void insertTransition(TransitionTable* table, unsigned short state, char symbol,
     sBucket = getOrCreateStateBucket(table, state);
     map = sBucket->value;
 
+    if (*map->buckets && map->capacity == INITIAL_CHAR_CAPACITY) {
+        expandCharMap(map);
+    }
+
     cBucket = (CharBucket*)malloc(sizeof(CharBucket));
     if (!cBucket) exit(EXIT_FAILURE);
 
-    cIdx = hashChar(symbol);
+    cIdx = hashChar(symbol, map->capacity);
     cBucket->key = symbol;
     cBucket->value = newState;
     cBucket->next = map->buckets[cIdx];
     map->buckets[cIdx] = cBucket;
 }
-
 unsigned short getState(const TransitionTable* table, unsigned short state, char symbol) {
     StateBucket* sBucket;
     CharBucket* cBucket;
@@ -137,9 +163,9 @@ TokenType getTokenType(const TransitionTable* table, unsigned short state) {
     return (sBucket) ? sBucket->token : TOKEN_IDENT;
 }
 
-void destroyCharMap(CharMap* map) {
-    int i;
+void freeCharMap(CharMap* map) {
     CharBucket *current, *temp;
+    int i;
 
     if (!map) return;
 
@@ -156,9 +182,9 @@ void destroyCharMap(CharMap* map) {
     free(map);
 }
 
-void destroyTransitionTable(TransitionTable* table) {
-    int i;
+void freeTransitionTable(TransitionTable* table) {
     StateBucket *current, *temp;
+    int i;
 
     if (!table) return;
 
@@ -167,7 +193,7 @@ void destroyTransitionTable(TransitionTable* table) {
         while (current) {
             temp = current;
             current = current->next;
-            destroyCharMap(temp->value);
+            freeCharMap(temp->value);
             free(temp);
         }
     }

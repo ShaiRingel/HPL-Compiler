@@ -1,10 +1,12 @@
 #pragma once
 #include "Global.h"
 
-#define STATE_CAPACITY 349
-#define CHAR_CAPACITY 11
+#define STATE_CAPACITY 251
+#define INITIAL_CHAR_CAPACITY 1
+#define EXPANDED_CHAR_CAPACITY 11
 #define STATE_ERROR (unsigned short) -1
 #define STATE_COMMENT (unsigned short) -2
+#define STATE_TEXT (unsigned short) -3
 
 typedef struct CharBucket {
     char key;
@@ -35,3 +37,4 @@ void insertTransition(TransitionTable* table, unsigned short state, char symbol,
 unsigned short getState(const TransitionTable* table, unsigned short state, char symbol);
 void setToken(TransitionTable* table, unsigned short state, TokenType token);
 TokenType getTokenType(const TransitionTable* table, unsigned short state);
+void freeTransitionTable(TransitionTable* table);

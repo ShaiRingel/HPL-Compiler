@@ -14,3 +14,5 @@ typedef struct {
 Lexer* initLexer(char* path);
 // Gets the next token
 Token nextToken(Lexer* lexer);
+
+void freeLexer(Lexer* lexer);

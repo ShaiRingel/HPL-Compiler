@@ -3,11 +3,11 @@
 #include <stdio.h>
 
 static unsigned hashState(unsigned short state) {
-    return (unsigned)state % STATES_CAPACITY;
+    return (state * 2654435761u) % STATE_CAPACITY;
 }
 
 static unsigned hashToken(Token token) {
-    return (unsigned)token.type % GRAMMAR_CAPACITY;
+    return (unsigned)(token.type * 2654435761u) % GRAMMAR_CAPACITY;
 }
 
 GotoHashMap* createGotoHashMap() {
@@ -17,8 +17,8 @@ GotoHashMap* createGotoHashMap() {
         exit(EXIT_FAILURE);
     }
 
-    map->capacity = STATES_CAPACITY;
-    map->buckets = (ParserGoto**)calloc(STATES_CAPACITY, sizeof(ParserGoto*));
+    map->capacity = STATE_CAPACITY;
+    map->buckets = (ParserGoto**)calloc(STATE_CAPACITY, sizeof(ParserGoto*));
     if (!map->buckets) {
         fprintf(stderr, RED "Error: Failed to allocate Goto buckets\n" RESET);
         exit(EXIT_FAILURE);
