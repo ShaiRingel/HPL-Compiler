@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 static void pop(ParsingStack** stack) {
-    if (stack == NULL || *stack == NULL) {
+    if (!stack || !*stack) {
         printf(RED "Error: Can't pop from empty stack\n" RESET);
         exit(EXIT_FAILURE);
     }
@@ -15,22 +15,18 @@ static void pop(ParsingStack** stack) {
 }
 
 ParsingStack* initParsingStack() {
-    ParsingStack* stack = (ParsingStack*)malloc(sizeof(ParsingStack));
-    if (!stack) {
-        printf(RED "Error: Failed to allocate memory for Parsing Stack\n" RESET);
-        exit(EXIT_FAILURE);
-    }
-
-    ParsingStackItem item = { 0 };
-    shift(&stack, item);
-
-    return stack;
+    return NULL;
 }
 
 void shift(ParsingStack** stack, ParsingStackItem item) {
-    ParsingStack* node = (ParsingStack*)malloc(sizeof(ParsingStack));
+    if (!stack) {
+        printf(RED "Error: Invalid stack pointer\n" RESET);
+        exit(EXIT_FAILURE);
+    }
+    ParsingStack* node = malloc(sizeof(ParsingStack));
+
     if (!node) {
-        printf(RED "Error: Failed to allocate memory for lexer\n" RESET);
+        printf(RED "Error: Failed to allocate memory for Parsing Stack\n" RESET);
         exit(EXIT_FAILURE);
     }
 
@@ -39,17 +35,31 @@ void shift(ParsingStack** stack, ParsingStackItem item) {
     *stack = node;
 }
 
-void reduce(ParsingStack** stack, int ammount) {
+
+void reduce(ParsingStack** stack, int amount) {
     int i;
 
-    for (i = 0; i < ammount; i++)
+    for (i = 0; i < amount; i++) {
+        if (!stack || !*stack) {
+            printf(RED "Error: reduce beyond stack size\n" RESET);
+            exit(EXIT_FAILURE);
+        }
         pop(stack);
+    }
 }
 
 ParsingStackItem lookahed(ParsingStack* stack) {
-    if (stack == NULL) {
+    if (!stack) {
         printf(RED "Error: Can't peek from empty stack\n" RESET);
         exit(EXIT_FAILURE);
     }
     return stack->value;
+}
+
+void freeParsingStack(ParsingStack* stack) {
+    while (stack) {
+        ParsingStack* next = stack->next;
+        free(stack);
+        stack = next;
+    }
 }

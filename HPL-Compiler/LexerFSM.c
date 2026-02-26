@@ -124,7 +124,7 @@ void buildTransitionTable(TransitionTable* table) {
     setToken(table, table->stateCounter, TOKEN_EOS);
     insertTransition(table, 0, EOF, ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_EOF);
-    setToken(table, ++table->stateCounter, TOKEN_IDENT);
+    setToken(table, STATE_IDENT, TOKEN_IDENT);
 }
 
 LexerFSM* initLexerFSM() {
@@ -154,19 +154,18 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
     if (lexerFSM->currentState == STATE_COMMENT || lexerFSM->currentState == STATE_TEXT)
         return TOKEN_IDLE;
 
-
     if (!isDelimiter(input)) {
         if (!isValidCharacter(input)) {
             printf("Error: INVALID CHARACTER");
             exit(EXIT_FAILURE);
         }
 
-        lexerFSM->currentState = lexerFSM->transitionTable->stateCounter;
+        lexerFSM->currentState = STATE_IDENT;
         return TOKEN_IDLE;
     }
 
     type = getTokenType(lexerFSM->transitionTable, lexerFSM->currentState);
-    lexerFSM->currentState = 0;
+    lexerFSM->currentState = STATE_ACCEPT;
 
     return type;
 }

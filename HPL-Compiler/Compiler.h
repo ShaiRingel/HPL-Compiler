@@ -13,7 +13,9 @@ typedef struct {
 
 // Initialize Components
 Compiler* initCompiler(char* filePath);
+
 // Starts the compilation process
 void startCompiler(Compiler* compiler);
+
 // Frees all the compiler
 void freeCompiler(Compiler* compiler);

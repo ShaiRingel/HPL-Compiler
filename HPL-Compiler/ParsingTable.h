@@ -10,3 +10,6 @@ typedef struct {
 
 // Initialize parsingTables components
 ParsingTable* initParsingTable();
+
+// Frees the entire ParsingTable and all associated memory
+void freeParsingTable(ParsingTable* table);

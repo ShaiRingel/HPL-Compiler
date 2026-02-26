@@ -9,3 +9,6 @@ typedef struct {
 
 // Initialize parsers components
 Parser* initParser();
+
+// Frees the entire Parser and all associated memory
+void freeParser(Parser* parser);

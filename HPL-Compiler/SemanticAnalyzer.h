@@ -7,6 +7,6 @@ typedef struct {
 	ScopeStack* scopes;
 } SemanticAnalyzer;
 
-// 
+// Initializes and allocates a new SemanticAnalyzer
 SemanticAnalyzer* initSemanticAnalyzer();
 // 

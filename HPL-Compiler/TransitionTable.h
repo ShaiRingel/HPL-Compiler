@@ -4,9 +4,14 @@
 #define STATE_CAPACITY 251
 #define INITIAL_CHAR_CAPACITY 1
 #define EXPANDED_CHAR_CAPACITY 11
-#define STATE_ERROR (unsigned short) -1
-#define STATE_COMMENT (unsigned short) -2
-#define STATE_TEXT (unsigned short) -3
+
+typedef enum {
+    STATE_ACCEPT = (unsigned short) -5,
+    STATE_ERROR,
+    STATE_IDENT,
+    STATE_COMMENT,
+    STATE_TEXT
+} SpecialStates;
 
 typedef struct CharBucket {
     char key;
@@ -32,9 +37,20 @@ typedef struct {
     int capacity;
 } TransitionTable;
 
+// Initializes and allocates a new Transition
 TransitionTable* initTransitionTable();
+
+// Adds a transition from `state` on input `symbol` to `newState`
 void insertTransition(TransitionTable* table, unsigned short state, char symbol, unsigned short newState);
+
+// Retrieves the next state for a given (state, symbol) pair
 unsigned short getState(const TransitionTable* table, unsigned short state, char symbol);
+
+// Associates a token type with a specific state
 void setToken(TransitionTable* table, unsigned short state, TokenType token);
+
+// Returns the token type associated with a state
 TokenType getTokenType(const TransitionTable* table, unsigned short state);
+
+// Frees the entire TransitionTable and all associated memory
 void freeTransitionTable(TransitionTable* table);

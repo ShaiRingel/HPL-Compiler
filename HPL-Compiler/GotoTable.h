@@ -29,9 +29,9 @@ typedef struct {
 
 // Initializes the GotoTables components
 GotoTable* initGotoTable();
+
 // Creates a new goto in the GotoTable
 void createGoto(GotoTable* table, Token token, unsigned short state, unsigned short newState);
-// 
-static void freeGotoHashMap(GotoHashMap* map);
-// 
+
+// Frees the entire GotoTable and all associated memory
 void freeGotoTable(GotoTable* table);

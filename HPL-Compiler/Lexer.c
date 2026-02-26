@@ -35,30 +35,28 @@ Token nextToken(Lexer* lexer) {
 	char c, *temp;
 	Token token;
 
-	counter = 0;
 	capacity = LONGEST_WORD_LENGTH + 1;
+	lexer->lexerFSM->currentState = 0;
 	c = fgetc(lexer->fp);
+	counter = 0;
 
 	token.type = TOKEN_IDLE;
 	token.lexeme = (char*)malloc(capacity * sizeof(char));
 
-	while (token.type == TOKEN_IDLE) {
+	while (lexer->lexerFSM->currentState != STATE_ACCEPT) {
 		token.lexeme[counter++] = c;
 		token.type = advance(lexer->lexerFSM, c);
 
-		if (token.type == TOKEN_IDLE && lexer->lexerFSM->currentState == 0) {
-			counter = 0;
-		}
-		else if (token.type != TOKEN_IDLE || lexer->lexerFSM->currentState == STATE_COMMENT)
-			counter--;
+		counter -= token.type != TOKEN_IDLE || lexer->lexerFSM->currentState == STATE_COMMENT;
 		
+		if (token.type == TOKEN_IDLE && !lexer->lexerFSM->currentState)
+			counter = 0;
 
 		if (counter >= capacity)
 			lexemeSizeExpander(&token, &capacity);
 		
-		if (token.type == TOKEN_IDLE) {
+		if (token.type == TOKEN_IDLE)
 			c = fgetc(lexer->fp);
-		}
 	}
 
 	ungetc(c, lexer->fp);

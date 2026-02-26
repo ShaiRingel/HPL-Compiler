@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+static unsigned hashChar(char c, int capacity) {
+    return ((unsigned char)c * 31u) % capacity;
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         printf("Ammount of arguments passed is incorrect, need 1!");

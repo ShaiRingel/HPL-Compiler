@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void createTable(Parser* parser) {
+void createTable(ParsingTable* table) {
 	// Create all actions
 	
 
 	// Create all gotos
-
-
+	
 }
 
 Parser* initParser() {
@@ -21,7 +20,16 @@ Parser* initParser() {
 	parser->table = initParsingTable();
 	parser->stack = initParsingStack();
 
-	createTable(parser);
+	ParsingStackItem item = { 0 };
+	shift(&parser->stack, item);
+
+	createTable(parser->table);
 
 	return parser;
+}
+
+void freeParser(Parser* parser) {
+	freeParsingTable(parser->table);
+	freeParsingStack(parser->stack);
+	free(parser);
 }

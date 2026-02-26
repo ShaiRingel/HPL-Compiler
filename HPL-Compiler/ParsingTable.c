@@ -14,3 +14,9 @@ ParsingTable* initParsingTable() {
 
 	return table;
 }
+
+void freeParsingTable(ParsingTable* table) {
+	freeActionTable(table->actionTable);
+	freeGotoTable(table->gotoTable);
+	free(table);
+}
