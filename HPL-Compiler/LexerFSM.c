@@ -76,6 +76,7 @@ void addKeyword(TransitionTable* table, const char* word, TokenType token) {
 }
 
 void buildTransitionTable(TransitionTable* table) {
+    char c;
     int i;
 
     // WHITESPACES
@@ -93,7 +94,7 @@ void buildTransitionTable(TransitionTable* table) {
     insertTransition(table, ++table->stateCounter, 'T', table->stateCounter + 1);
     insertTransition(table, ++table->stateCounter, 'E', table->stateCounter + 1);
     insertTransition(table, ++table->stateCounter, ':', STATE_COMMENT);
-    insertTransition(table, STATE_COMMENT, '\n', 0);
+    insertTransition(table, STATE_COMMENT, '\n', STATE_START);
 
     // KEYWORDS
     for (i = 0; i < sizeof(keywordTable) / sizeof(keywordTable[0]); i++)
@@ -101,9 +102,9 @@ void buildTransitionTable(TransitionTable* table) {
 
     // NUMBERS
     ++table->stateCounter;
-    for (i = '0'; i <= '9'; i++) {
-        insertTransition(table, STATE_START, i, table->stateCounter);
-        insertTransition(table, table->stateCounter, i, table->stateCounter);
+    for (c = '0'; c <= '9'; c++) {
+        insertTransition(table, STATE_START, c, table->stateCounter);
+        insertTransition(table, table->stateCounter, c, table->stateCounter);
     }
     insertTransition(table, STATE_START, '-', table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_NUMBER);
@@ -142,7 +143,7 @@ LexerFSM* initLexerFSM() {
     fsm = (LexerFSM*)malloc(sizeof(LexerFSM));
     if (!fsm) exit(EXIT_FAILURE);
 
-    fsm->currentState = 0;
+    fsm->currentState = STATE_START;
     fsm->transitionTable = initTransitionTable();
     buildTransitionTable(fsm->transitionTable);
 
@@ -159,7 +160,7 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
         lexerFSM->currentState = nextState;
         return TOKEN_IDLE;
     }
-    
+
     if (lexerFSM->currentState == STATE_COMMENT || lexerFSM->currentState == STATE_TEXT)
         return TOKEN_IDLE;
 

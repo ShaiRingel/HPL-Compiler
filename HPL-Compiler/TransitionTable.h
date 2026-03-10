@@ -7,7 +7,7 @@
 
 typedef enum {
     STATE_START = 0,
-    STATE_ACCEPT = (unsigned short)-6,
+    STATE_ACCEPT = (unsigned short) -5,
     STATE_ERROR,
     STATE_IDENT,
     STATE_NUMBER,

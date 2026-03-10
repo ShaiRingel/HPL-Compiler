@@ -1,7 +1,9 @@
 <program> ::= <statement_list>
 
+<block> ::= <INDENT> <statement_list> <DEDENT>
+
 <statement_list> ::= <statement>
-                   | <statement> <statement_list>
+                   | <statement_list> <statement>
 
 <statement> ::= <variable_declaration>
               | <assignment_statement>
@@ -11,11 +13,12 @@
               | <function_return>
               | <function_call_statement>
 
+
 <variable_declaration> ::= "Let" <identifier> "be" <type> "."
 
-<type> ::= "integer"
-         | "decimal"
-         | "string"
+<type> ::= "number"
+         | "text"
+
 
 <assignment_statement> ::= "Set" <lvalue> "to" <expression> "."
                          | "Increase" <lvalue> "by" <expression> "."
@@ -23,51 +26,59 @@
                          | "Multiply" <lvalue> "by" <expression> "."
                          | "Divide" <lvalue> "by" <expression> "."
 
+
 <lvalue> ::= <identifier>
-           | <identifier> "atPosition" <expression>
+           | <identifier> "atPosition" "(" <expression> ")"
+
 
 <io_statement> ::= "Show" <expression> "."
                  | "Get" <type> "ask" <string_literal> "storeInto" <lvalue> "."
 
 <control_flow_statement> ::= <if_statement>
                            | <loop_statement>
+							   
 
-<if_statement> ::= "If" <condition> "then:" <block> <else_if_list> <else_part>
+<if_statement> ::= "If" <condition> "then:" <block> <elif_list>
 
-<else_if_list> ::= <empty>
-                 | "Otherwise" "if" <condition> "then:" <block> <else_if_list>
+<elif_list> ::= "Otherwise" "if" <condition> "then:" <block> <elif_list>
+              | <else_part>
 
-<else_part> ::= <empty>
-              | "Otherwise:" <block>
+<else_part> ::= "Otherwise:" <block>
+              | <empty>
+				  
 
 <loop_statement> ::= "Repeat" <expression> "iterations:" <block>
                    | "Foreach" <identifier> "in" <identifier> ":" <block>
                    | "While" <condition> ":" <block>
 
-<block> ::= <statement_list>
 
-<function_declaration> ::= "To" <identifier> "with" <identifier> ":" <block>
-                         | "To" <identifier> ":" <block>
+<function_declaration> ::= "To" <identifier> "with" <parameter_list> ":" <block>
+                         | "To" <identifier> "with" "nan" ":" <block>
+
+<parameter_list> ::= <identifier>
+                   | <parameter_list> "," <identifier>
+
 
 <function_return> ::= "Return" <expression> "."
 
-<function_call_statement> ::= <function_call> "."
-
-<block> ::= INDENT <statement_list> DEDENT
-
-<function_declaration> ::= "To" <identifier> "with" <parameter_list> ":" <block>
-                         | "To" <identifier> "with" "Nan" ":" <block>
-
-<parameter_list> ::= <identifier> 
-                   | <identifier> "and" <parameter_list>
 
 <function_call_statement> ::= <function_call> "."
 
-<function_call> ::= <identifier> "with" <argument_list>
-                  | <identifier> "with" "Nan"
 
-<argument_list> ::= <expression> 
-                  | <expression> "and" <argument_list>
+<function_call> ::= <identifier> "with" "(" <argument_list> ")"
+                  | <identifier> "with" "(" "nan" ")"
+
+
+<argument_list> ::= <expression>
+                  | <argument_list> "," <expression>
+
+
+<expression> ::= <expression> <additive_op> <term>
+               | <term>
+
+<term> ::= <term> <multiplicative_op> <factor>
+         | "remainderOf" <factor> "dividedBy" <factor>
+         | <factor>
 
 <factor> ::= <lvalue>
            | <function_call>
@@ -75,19 +86,24 @@
            | <string_literal>
            | "(" <expression> ")"
 
-<additive_op> ::= "add" | "subtract"
 
-<multiplicative_op> ::= "times" | "divide" | "remainderOf" ... "dividedBy" 
+<condition> ::= <condition> "or" <bool_term>
+              | <bool_term>
 
-<condition> ::= <bool_term>
-              | <condition> "or" <bool_term>
-
-<bool_term> ::= <bool_factor>
-              | <bool_term> "and" <bool_factor>
+<bool_term> ::= <bool_term> "and" <bool_factor>
+              | <bool_factor>
 
 <bool_factor> ::= <expression> <relational_op> <expression>
-                | "not" <condition>
+                | "not" <bool_factor>
                 | "(" <condition> ")"
+
+
+<additive_op> ::= "plus"
+                | "minus"
+
+<multiplicative_op> ::= "times"
+                      | "divide"
+
 
 <relational_op> ::= "equalsTo"
                   | "notEqualsTo"
@@ -96,11 +112,10 @@
                   | "atLeast"
                   | "atMost"
 
-<identifier> ::= [a-zA-Z_][a-zA-Z0-9_]*
 
-<number_literal> ::= [0-9]+ 
-                   | [0-9]+ "." [0-9]+
+<identifier> ::= ID
+<number_literal> ::= NUMBER
+<string_literal> ::= STRING
 
-<string_literal> ::= '"' [^"]* '"'
 
 <empty> ::=
