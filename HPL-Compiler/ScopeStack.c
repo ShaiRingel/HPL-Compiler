@@ -37,3 +37,12 @@ ScopeStackItem pop(ScopeStack** stack) {
 ScopeStackItem peek(ScopeStack* stack) {
 	return stack->value;
 }
+
+void freeScopeStack(ScopeStack* stack) {
+	while (stack) {
+		ScopeStack* next = stack->next;
+		freeSymbolTable(stack->value);
+		free(stack);
+		stack = next;
+	}
+}

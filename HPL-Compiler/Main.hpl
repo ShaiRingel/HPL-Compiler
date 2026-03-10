@@ -1,9 +1,9 @@
-		Let number be integer.
+Let number be integer.
 Let Setter be integer.
-	Set Setter to 02.
+Set Setter to 2.
 Set number to Setter plus 2 times 3.
-Increase   number by 1024.	 NOTE: Does number + 1024!
-Decrease number by 0256.
+Increase   number by 1024.	 NOTE: number + 1024!
+Decrease number by 256.
 Multiply number by -4.
 Divide number by 8.
 

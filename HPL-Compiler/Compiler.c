@@ -41,7 +41,7 @@ void testParser(Compiler* compiler) {
 			reduce(&parser->stack, action->data.reduce_count);
 		}
 
-		printf("Parsed Token: %s Succesfuly!\n", token.lexeme);
+		printf("Parsed Token: %s Successfully!\n", token.lexeme);
 	}
 }
 
@@ -62,13 +62,12 @@ Compiler* initCompiler(char* filePath){
 
 void startCompiler(Compiler* compiler) {
 	testLexer(compiler);
-
-	
 }
 
 void freeCompiler(Compiler* compiler) {
 	freeLexer(compiler->lexer);
 	freeParser(compiler->parser);
+	freeSemanticAnalyzer(compiler->parser);
 
 	free(compiler);
 }

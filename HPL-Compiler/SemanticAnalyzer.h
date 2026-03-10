@@ -9,4 +9,6 @@ typedef struct {
 
 // Initializes and allocates a new SemanticAnalyzer
 SemanticAnalyzer* initSemanticAnalyzer();
-// 
+
+// Frees the entire SemanticAnalyzer and all associated memory
+void freeSemanticAnalyzer(SemanticAnalyzer* analyzer);

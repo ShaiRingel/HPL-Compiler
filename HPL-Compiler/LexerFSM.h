@@ -78,11 +78,14 @@ typedef struct {
 	TransitionTable* transitionTable;
 } LexerFSM;
 
-// Initializes the lexerFSM
+// Initializes and allocates a new LexerFSM
 LexerFSM* initLexerFSM();
-// Advances one character in the FSM
+
+// Advances a single character in the FSM
 TokenType advance(LexerFSM* lexerFSM, char input);
 
+// Calculates the ammount of bytes the FSM occupies
 int calculateTransitionTableMemory(const TransitionTable* table);
 
+// Frees the entire LexerFSM and all associated memory
 void freeLexerFSM(LexerFSM* lexerFSM);

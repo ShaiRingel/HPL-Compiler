@@ -10,9 +10,11 @@ typedef struct {
     FILE* fp;
 } Lexer;
 
-// Initialize lexers components
+// Initializes and allocates a new Lexer
 Lexer* initLexer(char* path);
-// Gets the next token
+
+// Retrieves the next token in the source file
 Token nextToken(Lexer* lexer);
 
+// Frees the entire Lexer and all associated memory
 void freeLexer(Lexer* lexer);

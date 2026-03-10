@@ -6,11 +6,13 @@
 #define EXPANDED_CHAR_CAPACITY 11
 
 typedef enum {
-    STATE_ACCEPT = (unsigned short) -5,
+    STATE_START = 0,
+    STATE_ACCEPT = (unsigned short)-6,
     STATE_ERROR,
     STATE_IDENT,
+    STATE_NUMBER,
     STATE_COMMENT,
-    STATE_TEXT
+    STATE_TEXT,
 } SpecialStates;
 
 typedef struct CharBucket {

@@ -14,3 +14,10 @@ SemanticAnalyzer* initSemanticAnalyzer() {
 
 	return analyzer;
 }
+
+
+void freeSemanticAnalyzer(SemanticAnalyzer* analyzer) {
+	freeSymbolTable(analyzer->global);
+	freeScopeStack(analyzer->scopes);
+	free(analyzer);
+}
