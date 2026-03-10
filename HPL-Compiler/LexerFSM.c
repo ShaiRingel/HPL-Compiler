@@ -63,7 +63,7 @@ void addKeyword(TransitionTable* table, const char* word, TokenType token) {
     unsigned short current, nextId;
     int i;
 
-    current = 0;
+    current = STATE_START;
     for (i = 0; word[i] != '\0'; i++) {
         nextId = getState(table, current, word[i]);
         if (nextId == STATE_ERROR) {
@@ -76,24 +76,25 @@ void addKeyword(TransitionTable* table, const char* word, TokenType token) {
 }
 
 void buildTransitionTable(TransitionTable* table) {
+    char c;
     int i;
 
     // WHITESPACES
-    insertTransition(table, 0, ' ', 0);
-    insertTransition(table, 0, '\n', 0);
-    insertTransition(table, 0, '\t', 0);
-    insertTransition(table, 0, '\r', 0);
-    insertTransition(table, 0, '\v', 0);
-    insertTransition(table, 0, '\f', 0);
-    setToken(table, 0, TOKEN_IDLE);
+    insertTransition(table, STATE_START, ' ', STATE_START);
+    insertTransition(table, STATE_START, '\n', STATE_START);
+    insertTransition(table, STATE_START, '\t', STATE_START);
+    insertTransition(table, STATE_START, '\r', STATE_START);
+    insertTransition(table, STATE_START, '\v', STATE_START);
+    insertTransition(table, STATE_START, '\f', STATE_START);
+    setToken(table, STATE_START, TOKEN_IDLE);
 
     // COMMENTS
-    insertTransition(table, 0, 'N', table->stateCounter + 1);
+    insertTransition(table, STATE_START, 'N', table->stateCounter + 1);
     insertTransition(table, ++table->stateCounter, 'O', table->stateCounter + 1);
     insertTransition(table, ++table->stateCounter, 'T', table->stateCounter + 1);
     insertTransition(table, ++table->stateCounter, 'E', table->stateCounter + 1);
     insertTransition(table, ++table->stateCounter, ':', STATE_COMMENT);
-    insertTransition(table, STATE_COMMENT, '\n', 0);
+    insertTransition(table, STATE_COMMENT, '\n', STATE_START);
 
     // KEYWORDS
     for (i = 0; i < sizeof(keywordTable) / sizeof(keywordTable[0]); i++)
@@ -101,28 +102,28 @@ void buildTransitionTable(TransitionTable* table) {
 
     // NUMBERS
     ++table->stateCounter;
-    for (i = '0'; i <= '9'; i++) {
-        insertTransition(table, 0, i, table->stateCounter);
-        insertTransition(table, table->stateCounter, i, table->stateCounter);
+    for (c = '0'; c <= '9'; c++) {
+        insertTransition(table, STATE_START, c, table->stateCounter);
+        insertTransition(table, table->stateCounter, c, table->stateCounter);
     }
-    insertTransition(table, 0, '-', table->stateCounter);
+    insertTransition(table, STATE_START, '-', table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_NUMBER);
 
     // SPECIAL CHARACTERS
-    insertTransition(table, 0, '(', ++table->stateCounter);
+    insertTransition(table, STATE_START, '(', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_LPAREN);
-    insertTransition(table, 0, ')', ++table->stateCounter);
+    insertTransition(table, STATE_START, ')', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_RPAREN);
-    insertTransition(table, 0, '"', STATE_TEXT);
+    insertTransition(table, STATE_START, '"', STATE_TEXT);
     insertTransition(table, STATE_TEXT, '"', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_STRING);
-    insertTransition(table, 0, ':', ++table->stateCounter);
+    insertTransition(table, STATE_START, ':', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_COLON);
-    insertTransition(table, 0, '+', ++table->stateCounter);
+    insertTransition(table, STATE_START, '+', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_PLUS);
-    insertTransition(table, 0, '.', ++table->stateCounter);
+    insertTransition(table, STATE_START, '.', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_EOS);
-    insertTransition(table, 0, EOF, ++table->stateCounter);
+    insertTransition(table, STATE_START, EOF, ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_EOF);
     setToken(table, STATE_IDENT, TOKEN_IDENT);
 }
@@ -133,7 +134,7 @@ LexerFSM* initLexerFSM() {
     fsm = (LexerFSM*)malloc(sizeof(LexerFSM));
     if (!fsm) exit(EXIT_FAILURE);
 
-    fsm->currentState = 0;
+    fsm->currentState = STATE_START;
     fsm->transitionTable = initTransitionTable();
     buildTransitionTable(fsm->transitionTable);
 
@@ -150,7 +151,7 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
         lexerFSM->currentState = nextState;
         return TOKEN_IDLE;
     }
-    
+
     if (lexerFSM->currentState == STATE_COMMENT || lexerFSM->currentState == STATE_TEXT)
         return TOKEN_IDLE;
 

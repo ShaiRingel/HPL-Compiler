@@ -106,7 +106,7 @@ TransitionTable* initTransitionTable() {
     table = (TransitionTable*)malloc(sizeof(TransitionTable));
     if (!table) exit(EXIT_FAILURE);
 
-    table->stateCounter = 0;
+    table->stateCounter = STATE_START;
     table->capacity = STATE_CAPACITY;
     table->buckets = (StateBucket**)calloc(STATE_CAPACITY, sizeof(StateBucket*));
     if (!table->buckets) exit(EXIT_FAILURE);

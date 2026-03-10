@@ -27,9 +27,11 @@ void testLexer(Compiler* compiler) {
 }
 
 void testParser(Compiler* compiler) {
-	Parser* parser = compiler->parser;
 	ParserAction* action;
+	Parser* parser;
 	Token token;
+
+	parser = compiler->parser;
 
 	while ((token = nextToken(compiler->lexer)).type != TOKEN_EOF) {
 		action = getAction(parser->table, token, lookahed(parser->stack).state);
@@ -61,9 +63,7 @@ Compiler* initCompiler(char* filePath){
 }
 
 void startCompiler(Compiler* compiler) {
-	testLexer(compiler);
-
-	
+	testParser(compiler);
 }
 
 void freeCompiler(Compiler* compiler) {

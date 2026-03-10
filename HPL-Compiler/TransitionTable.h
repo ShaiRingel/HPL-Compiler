@@ -6,6 +6,7 @@
 #define EXPANDED_CHAR_CAPACITY 11
 
 typedef enum {
+    STATE_START = 0,
     STATE_ACCEPT = (unsigned short) -5,
     STATE_ERROR,
     STATE_IDENT,
