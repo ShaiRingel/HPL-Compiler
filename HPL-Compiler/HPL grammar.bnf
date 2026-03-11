@@ -38,16 +38,16 @@
                            | <loop_statement>
 							   
 
-<if_statement> ::= "If" <condition> "then:" <block> <elif_list>
+<if_statement> ::= "If" <condition> "then" ":" <block> <elif_list>
 
-<elif_list> ::= "Otherwise" "if" <condition> "then:" <block> <elif_list>
+<elif_list> ::= "Otherwise" "if" <condition> "then" ":" <block> <elif_list>
               | <else_part>
 
-<else_part> ::= "Otherwise:" <block>
+<else_part> ::= "Otherwise" ":" <block>
               | <empty>
 				  
 
-<loop_statement> ::= "Repeat" <expression> "iterations:" <block>
+<loop_statement> ::= "Repeat" <expression> "iterations" ":" <block>
                    | "Foreach" <identifier> "in" <identifier> ":" <block>
                    | "While" <condition> ":" <block>
 

@@ -1,11 +1,11 @@
-Let number be integer.
-Let Setter be integer.
+Let num be number.
+Let Setter be number.
 Set Setter to 2.
-Set number to Setter plus 2 times 3.
-Increase   number by 1024.	 NOTE: number + 1024!
-Decrease number by 256.
-Multiply number by -4.
-Divide number by 8.
+Set num to Setter plus 2 times 3.
+Increase   num by 1024.	 NOTE: number + 1024!
+Decrease num by 256.
+Multiply num by -4.
+Divide num by 8.
 
-NOTE: Shows number in the console!
-Show number.
+NOTE: Shows num in the console!
+Show num.

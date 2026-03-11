@@ -141,12 +141,15 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="GotoTable.h" />
     <ClInclude Include="Lexer.h" />
+    <ClInclude Include="LexerDefinitions.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="ParsingDefinitions.h" />
     <ClInclude Include="ParsingTable.h" />
     <ClInclude Include="ParsingStack.h" />
     <ClInclude Include="SemanticAnalyzer.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="TransitionTable.h" />
+    <ClInclude Include="UnifiedTableTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActionTable.c" />
@@ -165,6 +168,7 @@
     <ClCompile Include="SemanticAnalyzer.c" />
     <ClCompile Include="SymbolTable.c" />
     <ClCompile Include="TransitionTable.c" />
+    <ClCompile Include="UnifiedTableTest.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
