@@ -41,7 +41,7 @@ ScopeStackItem peek(ScopeStack* stack) {
 void freeScopeStack(ScopeStack* stack) {
 	while (stack) {
 		ScopeStack* next = stack->next;
-		freeSymbolTable(stack->value);
+		freeSymbolTable(&stack->value);
 		free(stack);
 		stack = next;
 	}

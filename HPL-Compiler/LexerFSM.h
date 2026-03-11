@@ -15,7 +15,7 @@ static KeywordEntry keywordTable[] = {
     // Variable declarations
     {"Let", TOKEN_LET},
     {"be", TOKEN_BE},
-    {"integer", TOKEN_INTEGER},
+    {"number", TOKEN_INTEGER},
     {"text", TOKEN_TEXT},
 
     // Assignments

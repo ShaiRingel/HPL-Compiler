@@ -7,7 +7,7 @@ typedef enum {
     TOKEN_EOF = -1,         // End of file/input
     TOKEN_IDLE,             // PlaceHolder for inputs
     TOKEN_EOS,              // '.' → end of statement
-    TOKEN_NUMBER,           // Numeric literal (integer/decimal)
+    TOKEN_NUMBER,           // Numeric literal (integer)
     TOKEN_IDENT,            // Identifier (variable/function name)
     TOKEN_STRING = 4,         // String literal
 
@@ -19,7 +19,7 @@ typedef enum {
     TOKEN_BY,               // "by" → used in Increase/Decrease
     TOKEN_SHOW,             // "Show" → output/print
     TOKEN_INTEGER,          // "integer" → integer type
-    TOKEN_TEXT,           // "text" → integer type
+    TOKEN_TEXT,             // "text" → integer type
     TOKEN_INCREASE,         // "Increase" → += operator
     TOKEN_DECREASE,         // "Decrease" → -= operator
     TOKEN_MULTIPLY,         // "Multiply" → *= operator
@@ -38,7 +38,8 @@ typedef enum {
     TOKEN_STOREINTO,        // "storeInto" → input target
     TOKEN_TOFUNC,           // "To" → function definition
     TOKEN_WITH,             // "with" → function parameter
-    TOKEN_ATPOSITION = 127, // "atPosition" → array indexing
+    TOKEN_NAN,
+    TOKEN_ATPOSITION = 128, // "atPosition" → array indexing
 
     // Operators (start at 201)
     TOKEN_ADD = 201,        // "plus" → '+' → addition
@@ -61,7 +62,10 @@ typedef enum {
     TOKEN_LPAREN = 301,     // '(' → left parenthesis
     TOKEN_RPAREN,           // ')' → right parenthesis
     TOKEN_PLUS,             // '+' → string concatenation
-    TOKEN_COLON = 304,      // ':' → block start (loops, if)
+    TOKEN_COLON,      // ':' → block start (loops, if)
+    TOKEN_COMMA, 
+    TOKEN_INDENT,
+    TOKEN_DEDENT = 307
 } TokenType;
 
 typedef struct {

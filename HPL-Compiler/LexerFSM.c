@@ -69,6 +69,7 @@ void addKeyword(TransitionTable* table, const char* word, TokenType token) {
         if (nextId == STATE_ERROR) {
             nextId = ++table->stateCounter;
             insertTransition(table, current, word[i], nextId);
+            setToken(table, nextId, TOKEN_IDENT);
         }
         current = nextId;
     }
