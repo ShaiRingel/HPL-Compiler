@@ -17,7 +17,7 @@ typedef enum {
     TOKEN_EOS,              // '.' → end of statement
     TOKEN_NUMBER,           // Numeric literal (integer)
     TOKEN_IDENT,            // Identifier (variable/function name)
-    TOKEN_STRING = 4,         // String literal
+    TOKEN_STRING,           // String literal
 
     // Keywords (start at 101)
     TOKEN_LET = 101,        // "Let" → variable declaration
@@ -48,7 +48,7 @@ typedef enum {
     TOKEN_TOFUNC,           // "To" → function definition
     TOKEN_WITH,             // "with" → function parameter
     TOKEN_NAN,
-    TOKEN_ATPOSITION = 128, // "atPosition" → array indexing
+    TOKEN_ATPOSITION,       // "atPosition" → array indexing
 
     // Operators (start at 201)
     TOKEN_ADD = 201,        // "plus" → '+' → addition
@@ -65,17 +65,17 @@ typedef enum {
     TOKEN_DIVIDEDBY,        // "dividedBy" keyword
     TOKEN_AND,              // "and" → logical AND
     TOKEN_OR,               // "or" → logical OR
-    TOKEN_NOT = 215,        // "not" → logical NOT
+    TOKEN_NOT,              // "not" → logical NOT
 
     // Special Symbols (start at 301)
     TOKEN_LPAREN = 301,     // '(' → left parenthesis
     TOKEN_RPAREN,           // ')' → right parenthesis
     TOKEN_PLUS,             // '+' → string concatenation
-    TOKEN_COLON,      // ':' → block start (loops, if)
+    TOKEN_COLON,            // ':' → block start (loops, if)
     TOKEN_COMMA, 
     TOKEN_NEWLINE,
     TOKEN_INDENT,
-    TOKEN_DEDENT = 308
+    TOKEN_DEDENT
 } TokenType;
 
 typedef struct {

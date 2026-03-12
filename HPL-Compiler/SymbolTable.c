@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 unsigned hashSymbol(const char* key) {
-	unsigned int hash = 5381;
+	unsigned hash = 5381;
 	int c;
 	
 	while ((c = *key++))
@@ -52,7 +52,7 @@ void putSymbol(SymbolTable* table, char* key, SymbolData data) {
 void removeSymbol(SymbolTable* table, const char* key) {
 	if (!table || !key) return;
 
-	unsigned int idx = hashSymbol(key);
+	unsigned idx = hashSymbol(key);
 	SymbolEntry** curr = &table->buckets[idx];
 	SymbolEntry* temp;
 
@@ -75,7 +75,7 @@ SymbolData getSymbol(SymbolTable* table, char* key) {
 		return empty;
 	}
 
-	unsigned int idx = hashSymbol(key);
+	unsigned idx = hashSymbol(key);
 	SymbolEntry* node = table->buckets[idx];
 
 	while (node) {

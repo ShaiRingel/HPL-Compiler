@@ -1,7 +1,4 @@
 #pragma once
-#include "Global.h"
-#include "HashingFunctions.h"
-#include "ParsingDefinitions.h"
 
 #define CAPACITY_STATES 179
 #define CAPACITY_SYMBOLS 11

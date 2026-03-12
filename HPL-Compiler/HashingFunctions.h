@@ -1,5 +1,4 @@
 #pragma once
-#include "Global.h"
 
 static unsigned hashNumber(unsigned num, int capacity) {
     return (num * 2654435761u) % capacity;

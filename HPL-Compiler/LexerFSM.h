@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-#define isDelimiter(c) ( isspace(c) || (c) == EOF || (c) == '.' || (c) == ':' || \
+#define isDelimiter(c) ( isspace(c) || (c) == EOF || (c) == '.' || (c) == ':' || (c) == ',' || \
                          (c) == '(' || (c) == ')' || (c) == '+' || (c) == '-' || (c) == '"' )
 typedef struct {
     const char* keyword;
@@ -33,6 +33,7 @@ static KeywordEntry keywordTable[] = {
     // Conditionals
     {"If", TOKEN_IF},
     {"then", TOKEN_THEN},
+    {"if", TOKEN_OTHERWISE_IF},
     {"Otherwise", TOKEN_OTHERWISE},
 
     // Loops

@@ -33,21 +33,21 @@ void testLexer(Compiler* compiler) {
 void testParser(Compiler* compiler) {
     Parser* parser = compiler->parser;
     Token* currentToken = NULL;
-	int stage, cont;
+	int stage, next;
 
-	stage = cont = 1;
+	stage = next = 1;
 
     printf("--- Starting Parser Test: ---\n\n");
 	do {
-		if (cont)
+		if (next)
 			currentToken = nextToken(compiler->lexer);
 
-		while (currentToken->type == TOKEN_NEWLINE)
+		if (currentToken->type == TOKEN_NEWLINE)
 			currentToken = nextToken(compiler->lexer);
 
 		printf("%03d Stack: ", stage++);
 		printStack(parser->stack);
-	} while (!nextAction(parser, currentToken, &cont));
+	} while (!nextAction(parser, currentToken, &next));
 
 	printAST(parser->ast);
 }
@@ -68,7 +68,7 @@ Compiler* initCompiler(char* filePath) {
 }
 
 void startCompiler(Compiler* compiler) {
-	 //testLexer(compiler);
+	 // testLexer(compiler);
 	 testParser(compiler);
 }
 

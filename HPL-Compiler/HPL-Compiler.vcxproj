@@ -133,6 +133,7 @@
     </None>
     <None Include="LexerTest.hpl" />
     <None Include="Main.hpl" />
+    <None Include="ParserTest.hpl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CST.h" />
@@ -140,7 +141,6 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="HashingFunctions.h" />
     <ClInclude Include="Lexer.h" />
-    <ClInclude Include="LexerDefinitions.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParsingDefinitions.h" />
     <ClInclude Include="ParsingStack.h" />

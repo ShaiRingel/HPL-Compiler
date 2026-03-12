@@ -26,7 +26,7 @@ Set
 to
 by
 Show
-integer
+number
 text
 Increase
 Decrease
@@ -34,6 +34,7 @@ Multiply
 Divide
 Return
 Otherwise
+if
 If
 then
 Repeat
@@ -46,6 +47,7 @@ ask
 storeInto
 To
 with
+nan
 atPosition
 
 NOTE: Operators (symbolic)
@@ -70,3 +72,4 @@ NOTE: Special Symbols
 )
 +
 :
+	Let n be number.

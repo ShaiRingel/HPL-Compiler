@@ -112,10 +112,4 @@
                   | "atLeast"
                   | "atMost"
 
-
-<identifier> ::= ID
-<number_literal> ::= NUMBER
-<string_literal> ::= STRING
-
-
 <empty> ::=

@@ -1504,14 +1504,14 @@ void gotoAction(ParsingStack** stack, ParseAction action, int lhs, CSTNode* subt
     shift(stack, item);
 }
 
-int nextAction(Parser* parser, Token* token, int* cont) {
+int nextAction(Parser* parser, Token* token, int* next) {
     ParsingStackItem top;
     ParsingStack** stack;
     ParseAction action;
     CSTNode* subTree;
     int lhs;
 
-    *cont = 0;
+    *next = 0;
     stack = &parser->stack;
     top = lookahed(*stack);
     action = getEntry(parser->table, top.state, token->type);
@@ -1519,7 +1519,7 @@ int nextAction(Parser* parser, Token* token, int* cont) {
     switch (action.type) {
     case ACTION_SHIFT:
         shiftAction(stack, action, token);
-        *cont = 1;
+        *next = 1;
         break;
 
     case ACTION_REDUCE:
@@ -1534,7 +1534,7 @@ int nextAction(Parser* parser, Token* token, int* cont) {
             printf("Error: Invalid GOTO\n");
 
         break;
-
+        
     case ACTION_ACCEPT:
         printf(GREEN "--- SUCCESS: ACCEPT ---\n" RESET);
         free(parser->ast);

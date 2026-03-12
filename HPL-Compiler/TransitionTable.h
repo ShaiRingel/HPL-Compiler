@@ -1,6 +1,5 @@
 #pragma once
 #include "Global.h"
-#include "HashingFunctions.h"
 
 #define STATE_CAPACITY 251
 #define INITIAL_CHAR_CAPACITY 1
@@ -8,17 +7,17 @@
 
 typedef enum {
     STATE_START = 0,
-    STATE_ACCEPT = (unsigned short) -5,
+    STATE_ACCEPT = (unsigned short) -6,
     STATE_ERROR,
     STATE_IDENT,
     STATE_NUMBER,
     STATE_COMMENT,
-    STATE_TEXT,
+    STATE_TEXT
 } SpecialStates;
 
 typedef struct CharBucket {
     char key;
-    unsigned short value; // Next state
+    unsigned short value;
     struct CharBucket* next;
 } CharBucket;
 
@@ -28,9 +27,9 @@ typedef struct {
 } CharMap;
 
 typedef struct StateBucket {
-    int key;              // State ID
-    CharMap* value;       // Transitions
-    TokenType token;      // Associated token (if any)
+    int key;
+    CharMap* value;
+    TokenType token;
     struct StateBucket* next;
 } StateBucket;
 
@@ -43,7 +42,7 @@ typedef struct {
 // Initializes and allocates a new Transition
 TransitionTable* initTransitionTable();
 
-// Adds a transition from `state` on input `symbol` to `newState`
+// Adds a transition from 'state' on input 'symbol' to 'newState'
 void insertTransition(TransitionTable* table, unsigned short state, char symbol, unsigned short newState);
 
 // Retrieves the next state for a given (state, symbol) pair

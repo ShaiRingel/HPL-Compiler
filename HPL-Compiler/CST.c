@@ -28,7 +28,7 @@ void addChild(CSTNode* parent, CSTNode* child) {
     else {
         CSTNode* sibling = parent->firstChild;
 
-        while (sibling->nextSibling != NULL)
+        while (sibling->nextSibling)
             sibling = sibling->nextSibling;
 
         sibling->nextSibling = child;

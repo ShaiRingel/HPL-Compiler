@@ -1,10 +1,11 @@
+#include "HashingFunctions.h"
 #include "TransitionTable.h"
 #include "Global.h"
 #include <stdlib.h>
 
 StateBucket* findStateBucket(const TransitionTable* table, unsigned short state) {
     StateBucket* current;
-    unsigned int idx;
+    unsigned idx;
 
     idx = hashNumber(state, table->capacity);
     current = table->buckets[idx];
@@ -17,7 +18,7 @@ StateBucket* findStateBucket(const TransitionTable* table, unsigned short state)
 
 CharBucket* findCharBucket(const CharMap* map, char symbol) {
     CharBucket* current;
-    unsigned int idx;
+    unsigned idx;
 
     idx = hashChar(symbol, map->capacity);
     current = map->buckets[idx];
@@ -80,7 +81,7 @@ StateBucket* createStateBucket(int state) {
 
 StateBucket* getOrCreateStateBucket(TransitionTable* table, unsigned short state) {
     StateBucket* sBucket;
-    unsigned int idx;
+    unsigned idx;
 
     sBucket = findStateBucket(table, state);
     if (sBucket) return sBucket;
@@ -111,7 +112,7 @@ TransitionTable* initTransitionTable() {
 void insertTransition(TransitionTable* table, unsigned short state, char symbol, unsigned short newState) {
     StateBucket* sBucket;
     CharBucket* cBucket;
-    unsigned int cIdx;
+    unsigned cIdx;
     CharMap* map;
 
     sBucket = getOrCreateStateBucket(table, state);
@@ -138,7 +139,7 @@ unsigned short getState(const TransitionTable* table, unsigned short state, char
     if (!sBucket) return STATE_ERROR;
 
     cBucket = findCharBucket(sBucket->value, symbol);
-    return (cBucket) ? (int)cBucket->value : STATE_ERROR;
+    return (cBucket) ? cBucket->value : STATE_ERROR;
 }
 
 void setToken(TransitionTable* table, unsigned short state, TokenType token) {

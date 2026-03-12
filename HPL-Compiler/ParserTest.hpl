@@ -1,0 +1,54 @@
+Let counter be number.
+Let message be text.
+Let numbers be number.
+Let result be number.
+
+Set counter to 0.
+Set message to "Start of keyword test.".
+Show message.
+
+Get number ask "Enter a number:" storeInto numbers.
+
+If numbers greaterThan 0 then:
+    Show "Number is positive.".
+    Increase counter by 1.
+Otherwise if numbers lessThan 0 then:
+    Show "Number is negative.".
+    Increase counter by 1.
+Otherwise:
+    Show "Number is zero.".
+    Set counter to counter plus 1.
+    
+Repeat 3 iterations:
+    Show "Repeating test...".
+    Increase counter by 1.
+
+While counter lessThan 10:
+    Increase counter by 2.
+    Show counter.
+
+Let list be text.
+Set list to "A,B,C,D".
+
+Foreach item in list:
+    Show item.
+
+Set result to remainderOf numbers dividedBy 2.
+If result equalsTo 0 then:
+    Show "Your number is even.".
+Otherwise:
+    Show "Your number is odd.".
+
+To multiplyNumbers with a, b:
+    Return a times b.
+
+To greet with nan:
+    Show "Hello from a no-parameter function.".
+
+Set result to multiplyNumbers with (numbers, 5).
+Show result.
+
+greet with (nan).
+
+Set message atPosition(1) to "X".
+Show message.

@@ -12,6 +12,6 @@ typedef struct CSTNode {
 } CSTNode;
 
 CSTNode* createASTNode(SymbolType type, int symbol, Token* token);
-void addChild(CSTNode* parent, CSTNode* child);
+void addChildren(CSTNode* parent, CSTNode* child);
 void freeAST(CSTNode* node);
 void printAST(CSTNode* node);

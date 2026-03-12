@@ -36,17 +36,18 @@ int calculateTransitionTableMemory(const TransitionTable* table) {
     return total;
 }
 
-static int isValidCharacter(char c) {
+int isValidCharacter(char c) {
     switch (c) {
-    case '+':
-    case '-':
-    case '_':
-    case ':':
+    case ' ':
+    case '"':
     case '(':
     case ')':
-    case '"':
-    case ' ':
+    case '+':
+    case ',':
+    case '-':
     case '.':
+    case ':':
+    case '_':
         return 1;
     default:
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
@@ -104,6 +105,9 @@ void buildTransitionTable(TransitionTable* table) {
     setToken(table, table->stateCounter, TOKEN_NUMBER);
 
     // SPECIAL CHARACTERS
+    insertTransition(table, STATE_START, ',', ++table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_COMMA);
+
     insertTransition(table, STATE_START, '\n', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_NEWLINE);
 
