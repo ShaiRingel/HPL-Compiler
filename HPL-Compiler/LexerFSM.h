@@ -4,8 +4,8 @@
 #include <ctype.h>
 #include <stdio.h>
 
-#define isDelimiter(c) ( ((c) == EOF) || ((c) == ' ') || ((c) == '\n') || ((c) == '\t') || ((c) == '\f') || ((c) == '\v') || (c) == '.' )
-
+#define isDelimiter(c) ( isspace(c) || (c) == EOF || (c) == '.' || (c) == ':' || \
+                         (c) == '(' || (c) == ')' || (c) == '+' || (c) == '-' || (c) == '"' )
 typedef struct {
     const char* keyword;
     TokenType type;
@@ -51,6 +51,7 @@ static KeywordEntry keywordTable[] = {
     {"To", TOKEN_TOFUNC},
     {"with", TOKEN_WITH},
     {"Return", TOKEN_RETURN},
+    {"nan", TOKEN_NAN},
 
     // Operators (word forms)
     {"equalsTo", TOKEN_EQTO},

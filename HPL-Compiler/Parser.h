@@ -2,13 +2,13 @@
 #include "ParsingDefinitions.h"
 #include "ParsingStack.h"
 #include "ParsingTable.h"
+#include "CST.h"
 #include <string.h>
-#include "AST.h"
 
 typedef struct {
 	ParsingTable* table;
 	ParsingStack* stack;
-	ASTNode* ast;
+	CSTNode* ast;
 } Parser;
 
 // Initialize parsers components

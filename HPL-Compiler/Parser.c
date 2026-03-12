@@ -16,7 +16,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 0, TOKEN_REPEAT, ACTION_SHIFT, 24);
     insertTableEntry(table, 0, TOKEN_FOREACH, ACTION_SHIFT, 25);
     insertTableEntry(table, 0, TOKEN_WHILE, ACTION_SHIFT, 26);
-    insertTableEntry(table, 0, TOKEN_TO, ACTION_SHIFT, 20);
+    insertTableEntry(table, 0, TOKEN_TOFUNC, ACTION_SHIFT, 20);
     insertTableEntry(table, 0, TOKEN_RETURN, ACTION_SHIFT, 21);
     insertTableEntry(table, 0, NON_TERMINAL_STMT_LIST, ACTION_GOTO, 1);
     insertTableEntry(table, 0, NON_TERMINAL_STMT, ACTION_GOTO, 2);
@@ -43,7 +43,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 1, TOKEN_REPEAT, ACTION_SHIFT, 24);
     insertTableEntry(table, 1, TOKEN_FOREACH, ACTION_SHIFT, 25);
     insertTableEntry(table, 1, TOKEN_WHILE, ACTION_SHIFT, 26);
-    insertTableEntry(table, 1, TOKEN_TO, ACTION_SHIFT, 20);
+    insertTableEntry(table, 1, TOKEN_TOFUNC, ACTION_SHIFT, 20);
     insertTableEntry(table, 1, TOKEN_RETURN, ACTION_SHIFT, 21);
     insertTableEntry(table, 1, NON_TERMINAL_STMT, ACTION_GOTO, 28);
     insertTableEntry(table, 1, NON_TERMINAL_VAR_DECL, ACTION_GOTO, 3);
@@ -71,7 +71,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 2, TOKEN_REPEAT, ACTION_REDUCE, 2);
     insertTableEntry(table, 2, TOKEN_FOREACH, ACTION_REDUCE, 2);
     insertTableEntry(table, 2, TOKEN_WHILE, ACTION_REDUCE, 2);
-    insertTableEntry(table, 2, TOKEN_TO, ACTION_REDUCE, 2);
+    insertTableEntry(table, 2, TOKEN_TOFUNC, ACTION_REDUCE, 2);
     insertTableEntry(table, 2, TOKEN_RETURN, ACTION_REDUCE, 2);
     insertTableEntry(table, 2, TOKEN_EOF, ACTION_REDUCE, 2);
     insertTableEntry(table, 3, TOKEN_DEDENT, ACTION_REDUCE, 4);
@@ -88,7 +88,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 3, TOKEN_REPEAT, ACTION_REDUCE, 4);
     insertTableEntry(table, 3, TOKEN_FOREACH, ACTION_REDUCE, 4);
     insertTableEntry(table, 3, TOKEN_WHILE, ACTION_REDUCE, 4);
-    insertTableEntry(table, 3, TOKEN_TO, ACTION_REDUCE, 4);
+    insertTableEntry(table, 3, TOKEN_TOFUNC, ACTION_REDUCE, 4);
     insertTableEntry(table, 3, TOKEN_RETURN, ACTION_REDUCE, 4);
     insertTableEntry(table, 3, TOKEN_EOF, ACTION_REDUCE, 4);
     insertTableEntry(table, 4, TOKEN_DEDENT, ACTION_REDUCE, 5);
@@ -105,7 +105,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 4, TOKEN_REPEAT, ACTION_REDUCE, 5);
     insertTableEntry(table, 4, TOKEN_FOREACH, ACTION_REDUCE, 5);
     insertTableEntry(table, 4, TOKEN_WHILE, ACTION_REDUCE, 5);
-    insertTableEntry(table, 4, TOKEN_TO, ACTION_REDUCE, 5);
+    insertTableEntry(table, 4, TOKEN_TOFUNC, ACTION_REDUCE, 5);
     insertTableEntry(table, 4, TOKEN_RETURN, ACTION_REDUCE, 5);
     insertTableEntry(table, 4, TOKEN_EOF, ACTION_REDUCE, 5);
     insertTableEntry(table, 5, TOKEN_DEDENT, ACTION_REDUCE, 6);
@@ -122,7 +122,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 5, TOKEN_REPEAT, ACTION_REDUCE, 6);
     insertTableEntry(table, 5, TOKEN_FOREACH, ACTION_REDUCE, 6);
     insertTableEntry(table, 5, TOKEN_WHILE, ACTION_REDUCE, 6);
-    insertTableEntry(table, 5, TOKEN_TO, ACTION_REDUCE, 6);
+    insertTableEntry(table, 5, TOKEN_TOFUNC, ACTION_REDUCE, 6);
     insertTableEntry(table, 5, TOKEN_RETURN, ACTION_REDUCE, 6);
     insertTableEntry(table, 5, TOKEN_EOF, ACTION_REDUCE, 6);
     insertTableEntry(table, 6, TOKEN_DEDENT, ACTION_REDUCE, 7);
@@ -139,7 +139,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 6, TOKEN_REPEAT, ACTION_REDUCE, 7);
     insertTableEntry(table, 6, TOKEN_FOREACH, ACTION_REDUCE, 7);
     insertTableEntry(table, 6, TOKEN_WHILE, ACTION_REDUCE, 7);
-    insertTableEntry(table, 6, TOKEN_TO, ACTION_REDUCE, 7);
+    insertTableEntry(table, 6, TOKEN_TOFUNC, ACTION_REDUCE, 7);
     insertTableEntry(table, 6, TOKEN_RETURN, ACTION_REDUCE, 7);
     insertTableEntry(table, 6, TOKEN_EOF, ACTION_REDUCE, 7);
     insertTableEntry(table, 7, TOKEN_DEDENT, ACTION_REDUCE, 8);
@@ -156,7 +156,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 7, TOKEN_REPEAT, ACTION_REDUCE, 8);
     insertTableEntry(table, 7, TOKEN_FOREACH, ACTION_REDUCE, 8);
     insertTableEntry(table, 7, TOKEN_WHILE, ACTION_REDUCE, 8);
-    insertTableEntry(table, 7, TOKEN_TO, ACTION_REDUCE, 8);
+    insertTableEntry(table, 7, TOKEN_TOFUNC, ACTION_REDUCE, 8);
     insertTableEntry(table, 7, TOKEN_RETURN, ACTION_REDUCE, 8);
     insertTableEntry(table, 7, TOKEN_EOF, ACTION_REDUCE, 8);
     insertTableEntry(table, 8, TOKEN_DEDENT, ACTION_REDUCE, 9);
@@ -173,7 +173,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 8, TOKEN_REPEAT, ACTION_REDUCE, 9);
     insertTableEntry(table, 8, TOKEN_FOREACH, ACTION_REDUCE, 9);
     insertTableEntry(table, 8, TOKEN_WHILE, ACTION_REDUCE, 9);
-    insertTableEntry(table, 8, TOKEN_TO, ACTION_REDUCE, 9);
+    insertTableEntry(table, 8, TOKEN_TOFUNC, ACTION_REDUCE, 9);
     insertTableEntry(table, 8, TOKEN_RETURN, ACTION_REDUCE, 9);
     insertTableEntry(table, 8, TOKEN_EOF, ACTION_REDUCE, 9);
     insertTableEntry(table, 9, TOKEN_DEDENT, ACTION_REDUCE, 10);
@@ -190,7 +190,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 9, TOKEN_REPEAT, ACTION_REDUCE, 10);
     insertTableEntry(table, 9, TOKEN_FOREACH, ACTION_REDUCE, 10);
     insertTableEntry(table, 9, TOKEN_WHILE, ACTION_REDUCE, 10);
-    insertTableEntry(table, 9, TOKEN_TO, ACTION_REDUCE, 10);
+    insertTableEntry(table, 9, TOKEN_TOFUNC, ACTION_REDUCE, 10);
     insertTableEntry(table, 9, TOKEN_RETURN, ACTION_REDUCE, 10);
     insertTableEntry(table, 9, TOKEN_EOF, ACTION_REDUCE, 10);
     insertTableEntry(table, 10, TOKEN_IDENT, ACTION_SHIFT, 29);
@@ -206,7 +206,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 15, NON_TERMINAL_LVAL, ACTION_GOTO, 35);
     insertTableEntry(table, 16, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 16, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 16, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 16, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 16, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 16, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 16, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -231,7 +231,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 18, TOKEN_REPEAT, ACTION_REDUCE, 23);
     insertTableEntry(table, 18, TOKEN_FOREACH, ACTION_REDUCE, 23);
     insertTableEntry(table, 18, TOKEN_WHILE, ACTION_REDUCE, 23);
-    insertTableEntry(table, 18, TOKEN_TO, ACTION_REDUCE, 23);
+    insertTableEntry(table, 18, TOKEN_TOFUNC, ACTION_REDUCE, 23);
     insertTableEntry(table, 18, TOKEN_RETURN, ACTION_REDUCE, 23);
     insertTableEntry(table, 18, TOKEN_EOF, ACTION_REDUCE, 23);
     insertTableEntry(table, 19, TOKEN_DEDENT, ACTION_REDUCE, 24);
@@ -248,13 +248,13 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 19, TOKEN_REPEAT, ACTION_REDUCE, 24);
     insertTableEntry(table, 19, TOKEN_FOREACH, ACTION_REDUCE, 24);
     insertTableEntry(table, 19, TOKEN_WHILE, ACTION_REDUCE, 24);
-    insertTableEntry(table, 19, TOKEN_TO, ACTION_REDUCE, 24);
+    insertTableEntry(table, 19, TOKEN_TOFUNC, ACTION_REDUCE, 24);
     insertTableEntry(table, 19, TOKEN_RETURN, ACTION_REDUCE, 24);
     insertTableEntry(table, 19, TOKEN_EOF, ACTION_REDUCE, 24);
     insertTableEntry(table, 20, TOKEN_IDENT, ACTION_SHIFT, 49);
     insertTableEntry(table, 21, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 21, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 21, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 21, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 21, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 21, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 21, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -265,7 +265,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 22, TOKEN_EOS, ACTION_SHIFT, 51);
     insertTableEntry(table, 23, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 23, TOKEN_LPAREN, ACTION_SHIFT, 57);
-    insertTableEntry(table, 23, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 23, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 23, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 23, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 23, TOKEN_NOT, ACTION_SHIFT, 56);
@@ -279,7 +279,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 23, NON_TERMINAL_BOOL_F, ACTION_GOTO, 54);
     insertTableEntry(table, 24, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 24, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 24, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 24, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 24, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 24, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 24, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -290,7 +290,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 25, TOKEN_IDENT, ACTION_SHIFT, 59);
     insertTableEntry(table, 26, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 26, TOKEN_LPAREN, ACTION_SHIFT, 57);
-    insertTableEntry(table, 26, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 26, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 26, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 26, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 26, TOKEN_NOT, ACTION_SHIFT, 56);
@@ -317,7 +317,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 28, TOKEN_REPEAT, ACTION_REDUCE, 3);
     insertTableEntry(table, 28, TOKEN_FOREACH, ACTION_REDUCE, 3);
     insertTableEntry(table, 28, TOKEN_WHILE, ACTION_REDUCE, 3);
-    insertTableEntry(table, 28, TOKEN_TO, ACTION_REDUCE, 3);
+    insertTableEntry(table, 28, TOKEN_TOFUNC, ACTION_REDUCE, 3);
     insertTableEntry(table, 28, TOKEN_RETURN, ACTION_REDUCE, 3);
     insertTableEntry(table, 28, TOKEN_EOF, ACTION_REDUCE, 3);
     insertTableEntry(table, 29, TOKEN_BE, ACTION_SHIFT, 62);
@@ -355,7 +355,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 37, NON_TERMINAL_T_OP, ACTION_GOTO, 73);
     insertTableEntry(table, 38, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 38, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 38, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 38, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 38, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 38, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
     insertTableEntry(table, 38, NON_TERMINAL_FUNC_CALL, ACTION_GOTO, 41);
@@ -456,7 +456,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 43, TOKEN_ATMOST, ACTION_REDUCE, 51);
     insertTableEntry(table, 44, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 44, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 44, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 44, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 44, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 44, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 44, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -509,7 +509,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 51, TOKEN_REPEAT, ACTION_REDUCE, 38);
     insertTableEntry(table, 51, TOKEN_FOREACH, ACTION_REDUCE, 38);
     insertTableEntry(table, 51, TOKEN_WHILE, ACTION_REDUCE, 38);
-    insertTableEntry(table, 51, TOKEN_TO, ACTION_REDUCE, 38);
+    insertTableEntry(table, 51, TOKEN_TOFUNC, ACTION_REDUCE, 38);
     insertTableEntry(table, 51, TOKEN_RETURN, ACTION_REDUCE, 38);
     insertTableEntry(table, 51, TOKEN_EOF, ACTION_REDUCE, 38);
     insertTableEntry(table, 52, TOKEN_THEN, ACTION_SHIFT, 81);
@@ -536,7 +536,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 55, NON_TERMINAL_REL_OP, ACTION_GOTO, 84);
     insertTableEntry(table, 56, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 56, TOKEN_LPAREN, ACTION_SHIFT, 57);
-    insertTableEntry(table, 56, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 56, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 56, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 56, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 56, TOKEN_NOT, ACTION_SHIFT, 56);
@@ -548,7 +548,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 56, NON_TERMINAL_BOOL_F, ACTION_GOTO, 91);
     insertTableEntry(table, 57, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 57, TOKEN_LPAREN, ACTION_SHIFT, 57);
-    insertTableEntry(table, 57, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 57, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 57, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 57, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 57, TOKEN_NOT, ACTION_SHIFT, 56);
@@ -573,7 +573,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 62, NON_TERMINAL_TYPE, ACTION_GOTO, 98);
     insertTableEntry(table, 63, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 63, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 63, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 63, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 63, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 63, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 63, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -584,7 +584,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 64, TOKEN_LPAREN, ACTION_SHIFT, 100);
     insertTableEntry(table, 65, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 65, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 65, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 65, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 65, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 65, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 65, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -594,7 +594,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 65, NON_TERMINAL_F, ACTION_GOTO, 39);
     insertTableEntry(table, 66, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 66, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 66, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 66, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 66, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 66, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 66, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -604,7 +604,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 66, NON_TERMINAL_F, ACTION_GOTO, 39);
     insertTableEntry(table, 67, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 67, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 67, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 67, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 67, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 67, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 67, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -614,7 +614,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 67, NON_TERMINAL_F, ACTION_GOTO, 39);
     insertTableEntry(table, 68, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 68, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 68, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 68, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 68, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 68, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 68, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -636,12 +636,12 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 69, TOKEN_REPEAT, ACTION_REDUCE, 21);
     insertTableEntry(table, 69, TOKEN_FOREACH, ACTION_REDUCE, 21);
     insertTableEntry(table, 69, TOKEN_WHILE, ACTION_REDUCE, 21);
-    insertTableEntry(table, 69, TOKEN_TO, ACTION_REDUCE, 21);
+    insertTableEntry(table, 69, TOKEN_TOFUNC, ACTION_REDUCE, 21);
     insertTableEntry(table, 69, TOKEN_RETURN, ACTION_REDUCE, 21);
     insertTableEntry(table, 69, TOKEN_EOF, ACTION_REDUCE, 21);
     insertTableEntry(table, 70, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 70, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 70, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 70, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 70, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 70, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 70, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -650,35 +650,35 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 70, NON_TERMINAL_F, ACTION_GOTO, 39);
     insertTableEntry(table, 71, TOKEN_IDENT, ACTION_REDUCE, 60);
     insertTableEntry(table, 71, TOKEN_LPAREN, ACTION_REDUCE, 60);
-    insertTableEntry(table, 71, TOKEN_TEXT, ACTION_REDUCE, 60);
+    insertTableEntry(table, 71, TOKEN_STRING, ACTION_REDUCE, 60);
     insertTableEntry(table, 71, TOKEN_REMAINDEROF, ACTION_REDUCE, 60);
     insertTableEntry(table, 71, TOKEN_NUMBER, ACTION_REDUCE, 60);
     insertTableEntry(table, 72, TOKEN_IDENT, ACTION_REDUCE, 61);
     insertTableEntry(table, 72, TOKEN_LPAREN, ACTION_REDUCE, 61);
-    insertTableEntry(table, 72, TOKEN_TEXT, ACTION_REDUCE, 61);
+    insertTableEntry(table, 72, TOKEN_STRING, ACTION_REDUCE, 61);
     insertTableEntry(table, 72, TOKEN_REMAINDEROF, ACTION_REDUCE, 61);
     insertTableEntry(table, 72, TOKEN_NUMBER, ACTION_REDUCE, 61);
     insertTableEntry(table, 73, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 73, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 73, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 73, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 73, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 73, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
     insertTableEntry(table, 73, NON_TERMINAL_FUNC_CALL, ACTION_GOTO, 41);
     insertTableEntry(table, 73, NON_TERMINAL_F, ACTION_GOTO, 106);
     insertTableEntry(table, 74, TOKEN_IDENT, ACTION_REDUCE, 62);
     insertTableEntry(table, 74, TOKEN_LPAREN, ACTION_REDUCE, 62);
-    insertTableEntry(table, 74, TOKEN_TEXT, ACTION_REDUCE, 62);
+    insertTableEntry(table, 74, TOKEN_STRING, ACTION_REDUCE, 62);
     insertTableEntry(table, 74, TOKEN_NUMBER, ACTION_REDUCE, 62);
     insertTableEntry(table, 75, TOKEN_IDENT, ACTION_REDUCE, 63);
     insertTableEntry(table, 75, TOKEN_LPAREN, ACTION_REDUCE, 63);
-    insertTableEntry(table, 75, TOKEN_TEXT, ACTION_REDUCE, 63);
+    insertTableEntry(table, 75, TOKEN_STRING, ACTION_REDUCE, 63);
     insertTableEntry(table, 75, TOKEN_NUMBER, ACTION_REDUCE, 63);
     insertTableEntry(table, 76, TOKEN_DIVIDEDBY, ACTION_SHIFT, 107);
     insertTableEntry(table, 77, TOKEN_RPAREN, ACTION_SHIFT, 108);
     insertTableEntry(table, 77, TOKEN_ADD, ACTION_SHIFT, 71);
     insertTableEntry(table, 77, TOKEN_SUB, ACTION_SHIFT, 72);
     insertTableEntry(table, 77, NON_TERMINAL_E_OP, ACTION_GOTO, 70);
-    insertTableEntry(table, 78, TOKEN_TEXT, ACTION_SHIFT, 109);
+    insertTableEntry(table, 78, TOKEN_STRING, ACTION_SHIFT, 109);
     insertTableEntry(table, 79, TOKEN_IDENT, ACTION_SHIFT, 112);
     insertTableEntry(table, 79, TOKEN_NAN, ACTION_SHIFT, 111);
     insertTableEntry(table, 79, NON_TERMINAL_PARAM_LIST, ACTION_GOTO, 110);
@@ -696,13 +696,13 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 80, TOKEN_REPEAT, ACTION_REDUCE, 37);
     insertTableEntry(table, 80, TOKEN_FOREACH, ACTION_REDUCE, 37);
     insertTableEntry(table, 80, TOKEN_WHILE, ACTION_REDUCE, 37);
-    insertTableEntry(table, 80, TOKEN_TO, ACTION_REDUCE, 37);
+    insertTableEntry(table, 80, TOKEN_TOFUNC, ACTION_REDUCE, 37);
     insertTableEntry(table, 80, TOKEN_RETURN, ACTION_REDUCE, 37);
     insertTableEntry(table, 80, TOKEN_EOF, ACTION_REDUCE, 37);
     insertTableEntry(table, 81, TOKEN_COLON, ACTION_SHIFT, 113);
     insertTableEntry(table, 82, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 82, TOKEN_LPAREN, ACTION_SHIFT, 57);
-    insertTableEntry(table, 82, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 82, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 82, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 82, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 82, TOKEN_NOT, ACTION_SHIFT, 56);
@@ -715,7 +715,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 82, NON_TERMINAL_BOOL_F, ACTION_GOTO, 54);
     insertTableEntry(table, 83, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 83, TOKEN_LPAREN, ACTION_SHIFT, 57);
-    insertTableEntry(table, 83, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 83, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 83, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 83, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 83, TOKEN_NOT, ACTION_SHIFT, 56);
@@ -727,7 +727,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 83, NON_TERMINAL_BOOL_F, ACTION_GOTO, 115);
     insertTableEntry(table, 84, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 84, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 84, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 84, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 84, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 84, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 84, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -737,32 +737,32 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 84, NON_TERMINAL_F, ACTION_GOTO, 39);
     insertTableEntry(table, 85, TOKEN_IDENT, ACTION_REDUCE, 64);
     insertTableEntry(table, 85, TOKEN_LPAREN, ACTION_REDUCE, 64);
-    insertTableEntry(table, 85, TOKEN_TEXT, ACTION_REDUCE, 64);
+    insertTableEntry(table, 85, TOKEN_STRING, ACTION_REDUCE, 64);
     insertTableEntry(table, 85, TOKEN_REMAINDEROF, ACTION_REDUCE, 64);
     insertTableEntry(table, 85, TOKEN_NUMBER, ACTION_REDUCE, 64);
     insertTableEntry(table, 86, TOKEN_IDENT, ACTION_REDUCE, 65);
     insertTableEntry(table, 86, TOKEN_LPAREN, ACTION_REDUCE, 65);
-    insertTableEntry(table, 86, TOKEN_TEXT, ACTION_REDUCE, 65);
+    insertTableEntry(table, 86, TOKEN_STRING, ACTION_REDUCE, 65);
     insertTableEntry(table, 86, TOKEN_REMAINDEROF, ACTION_REDUCE, 65);
     insertTableEntry(table, 86, TOKEN_NUMBER, ACTION_REDUCE, 65);
     insertTableEntry(table, 87, TOKEN_IDENT, ACTION_REDUCE, 66);
     insertTableEntry(table, 87, TOKEN_LPAREN, ACTION_REDUCE, 66);
-    insertTableEntry(table, 87, TOKEN_TEXT, ACTION_REDUCE, 66);
+    insertTableEntry(table, 87, TOKEN_STRING, ACTION_REDUCE, 66);
     insertTableEntry(table, 87, TOKEN_REMAINDEROF, ACTION_REDUCE, 66);
     insertTableEntry(table, 87, TOKEN_NUMBER, ACTION_REDUCE, 66);
     insertTableEntry(table, 88, TOKEN_IDENT, ACTION_REDUCE, 67);
     insertTableEntry(table, 88, TOKEN_LPAREN, ACTION_REDUCE, 67);
-    insertTableEntry(table, 88, TOKEN_TEXT, ACTION_REDUCE, 67);
+    insertTableEntry(table, 88, TOKEN_STRING, ACTION_REDUCE, 67);
     insertTableEntry(table, 88, TOKEN_REMAINDEROF, ACTION_REDUCE, 67);
     insertTableEntry(table, 88, TOKEN_NUMBER, ACTION_REDUCE, 67);
     insertTableEntry(table, 89, TOKEN_IDENT, ACTION_REDUCE, 68);
     insertTableEntry(table, 89, TOKEN_LPAREN, ACTION_REDUCE, 68);
-    insertTableEntry(table, 89, TOKEN_TEXT, ACTION_REDUCE, 68);
+    insertTableEntry(table, 89, TOKEN_STRING, ACTION_REDUCE, 68);
     insertTableEntry(table, 89, TOKEN_REMAINDEROF, ACTION_REDUCE, 68);
     insertTableEntry(table, 89, TOKEN_NUMBER, ACTION_REDUCE, 68);
     insertTableEntry(table, 90, TOKEN_IDENT, ACTION_REDUCE, 69);
     insertTableEntry(table, 90, TOKEN_LPAREN, ACTION_REDUCE, 69);
-    insertTableEntry(table, 90, TOKEN_TEXT, ACTION_REDUCE, 69);
+    insertTableEntry(table, 90, TOKEN_STRING, ACTION_REDUCE, 69);
     insertTableEntry(table, 90, TOKEN_REMAINDEROF, ACTION_REDUCE, 69);
     insertTableEntry(table, 90, TOKEN_NUMBER, ACTION_REDUCE, 69);
     insertTableEntry(table, 91, TOKEN_RPAREN, ACTION_REDUCE, 58);
@@ -789,7 +789,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 96, NON_TERMINAL_BLOCK, ACTION_GOTO, 120);
     insertTableEntry(table, 97, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 97, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 97, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 97, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 97, TOKEN_NAN, ACTION_SHIFT, 123);
     insertTableEntry(table, 97, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 97, TOKEN_NUMBER, ACTION_SHIFT, 42);
@@ -806,7 +806,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 99, NON_TERMINAL_E_OP, ACTION_GOTO, 70);
     insertTableEntry(table, 100, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 100, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 100, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 100, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 100, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 100, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 100, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -869,7 +869,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 106, TOKEN_ATMOST, ACTION_REDUCE, 45);
     insertTableEntry(table, 107, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 107, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 107, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 107, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 107, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 107, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
     insertTableEntry(table, 107, NON_TERMINAL_FUNC_CALL, ACTION_GOTO, 41);
@@ -941,7 +941,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 120, TOKEN_REPEAT, ACTION_REDUCE, 32);
     insertTableEntry(table, 120, TOKEN_FOREACH, ACTION_REDUCE, 32);
     insertTableEntry(table, 120, TOKEN_WHILE, ACTION_REDUCE, 32);
-    insertTableEntry(table, 120, TOKEN_TO, ACTION_REDUCE, 32);
+    insertTableEntry(table, 120, TOKEN_TOFUNC, ACTION_REDUCE, 32);
     insertTableEntry(table, 120, TOKEN_RETURN, ACTION_REDUCE, 32);
     insertTableEntry(table, 120, TOKEN_EOF, ACTION_REDUCE, 32);
     insertTableEntry(table, 121, TOKEN_LET, ACTION_SHIFT, 10);
@@ -957,7 +957,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 121, TOKEN_REPEAT, ACTION_SHIFT, 24);
     insertTableEntry(table, 121, TOKEN_FOREACH, ACTION_SHIFT, 25);
     insertTableEntry(table, 121, TOKEN_WHILE, ACTION_SHIFT, 26);
-    insertTableEntry(table, 121, TOKEN_TO, ACTION_SHIFT, 20);
+    insertTableEntry(table, 121, TOKEN_TOFUNC, ACTION_SHIFT, 20);
     insertTableEntry(table, 121, TOKEN_RETURN, ACTION_SHIFT, 21);
     insertTableEntry(table, 121, NON_TERMINAL_STMT_LIST, ACTION_GOTO, 140);
     insertTableEntry(table, 121, NON_TERMINAL_STMT, ACTION_GOTO, 2);
@@ -993,7 +993,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 125, TOKEN_REPEAT, ACTION_REDUCE, 11);
     insertTableEntry(table, 125, TOKEN_FOREACH, ACTION_REDUCE, 11);
     insertTableEntry(table, 125, TOKEN_WHILE, ACTION_REDUCE, 11);
-    insertTableEntry(table, 125, TOKEN_TO, ACTION_REDUCE, 11);
+    insertTableEntry(table, 125, TOKEN_TOFUNC, ACTION_REDUCE, 11);
     insertTableEntry(table, 125, TOKEN_RETURN, ACTION_REDUCE, 11);
     insertTableEntry(table, 125, TOKEN_EOF, ACTION_REDUCE, 11);
     insertTableEntry(table, 126, TOKEN_DEDENT, ACTION_REDUCE, 14);
@@ -1010,7 +1010,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 126, TOKEN_REPEAT, ACTION_REDUCE, 14);
     insertTableEntry(table, 126, TOKEN_FOREACH, ACTION_REDUCE, 14);
     insertTableEntry(table, 126, TOKEN_WHILE, ACTION_REDUCE, 14);
-    insertTableEntry(table, 126, TOKEN_TO, ACTION_REDUCE, 14);
+    insertTableEntry(table, 126, TOKEN_TOFUNC, ACTION_REDUCE, 14);
     insertTableEntry(table, 126, TOKEN_RETURN, ACTION_REDUCE, 14);
     insertTableEntry(table, 126, TOKEN_EOF, ACTION_REDUCE, 14);
     insertTableEntry(table, 127, TOKEN_RPAREN, ACTION_SHIFT, 144);
@@ -1031,7 +1031,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 128, TOKEN_REPEAT, ACTION_REDUCE, 15);
     insertTableEntry(table, 128, TOKEN_FOREACH, ACTION_REDUCE, 15);
     insertTableEntry(table, 128, TOKEN_WHILE, ACTION_REDUCE, 15);
-    insertTableEntry(table, 128, TOKEN_TO, ACTION_REDUCE, 15);
+    insertTableEntry(table, 128, TOKEN_TOFUNC, ACTION_REDUCE, 15);
     insertTableEntry(table, 128, TOKEN_RETURN, ACTION_REDUCE, 15);
     insertTableEntry(table, 128, TOKEN_EOF, ACTION_REDUCE, 15);
     insertTableEntry(table, 129, TOKEN_DEDENT, ACTION_REDUCE, 16);
@@ -1048,7 +1048,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 129, TOKEN_REPEAT, ACTION_REDUCE, 16);
     insertTableEntry(table, 129, TOKEN_FOREACH, ACTION_REDUCE, 16);
     insertTableEntry(table, 129, TOKEN_WHILE, ACTION_REDUCE, 16);
-    insertTableEntry(table, 129, TOKEN_TO, ACTION_REDUCE, 16);
+    insertTableEntry(table, 129, TOKEN_TOFUNC, ACTION_REDUCE, 16);
     insertTableEntry(table, 129, TOKEN_RETURN, ACTION_REDUCE, 16);
     insertTableEntry(table, 129, TOKEN_EOF, ACTION_REDUCE, 16);
     insertTableEntry(table, 130, TOKEN_DEDENT, ACTION_REDUCE, 17);
@@ -1065,7 +1065,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 130, TOKEN_REPEAT, ACTION_REDUCE, 17);
     insertTableEntry(table, 130, TOKEN_FOREACH, ACTION_REDUCE, 17);
     insertTableEntry(table, 130, TOKEN_WHILE, ACTION_REDUCE, 17);
-    insertTableEntry(table, 130, TOKEN_TO, ACTION_REDUCE, 17);
+    insertTableEntry(table, 130, TOKEN_TOFUNC, ACTION_REDUCE, 17);
     insertTableEntry(table, 130, TOKEN_RETURN, ACTION_REDUCE, 17);
     insertTableEntry(table, 130, TOKEN_EOF, ACTION_REDUCE, 17);
     insertTableEntry(table, 131, TOKEN_DEDENT, ACTION_REDUCE, 18);
@@ -1082,7 +1082,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 131, TOKEN_REPEAT, ACTION_REDUCE, 18);
     insertTableEntry(table, 131, TOKEN_FOREACH, ACTION_REDUCE, 18);
     insertTableEntry(table, 131, TOKEN_WHILE, ACTION_REDUCE, 18);
-    insertTableEntry(table, 131, TOKEN_TO, ACTION_REDUCE, 18);
+    insertTableEntry(table, 131, TOKEN_TOFUNC, ACTION_REDUCE, 18);
     insertTableEntry(table, 131, TOKEN_RETURN, ACTION_REDUCE, 18);
     insertTableEntry(table, 131, TOKEN_EOF, ACTION_REDUCE, 18);
     insertTableEntry(table, 132, TOKEN_EOS, ACTION_REDUCE, 46);
@@ -1125,7 +1125,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 137, TOKEN_REPEAT, ACTION_REDUCE, 29);
     insertTableEntry(table, 137, TOKEN_FOREACH, ACTION_REDUCE, 29);
     insertTableEntry(table, 137, TOKEN_WHILE, ACTION_REDUCE, 29);
-    insertTableEntry(table, 137, TOKEN_TO, ACTION_REDUCE, 29);
+    insertTableEntry(table, 137, TOKEN_TOFUNC, ACTION_REDUCE, 29);
     insertTableEntry(table, 137, TOKEN_RETURN, ACTION_REDUCE, 29);
     insertTableEntry(table, 137, TOKEN_EOF, ACTION_REDUCE, 29);
     insertTableEntry(table, 137, NON_TERMINAL_ELIF_LIST, ACTION_GOTO, 149);
@@ -1144,7 +1144,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 138, TOKEN_REPEAT, ACTION_REDUCE, 30);
     insertTableEntry(table, 138, TOKEN_FOREACH, ACTION_REDUCE, 30);
     insertTableEntry(table, 138, TOKEN_WHILE, ACTION_REDUCE, 30);
-    insertTableEntry(table, 138, TOKEN_TO, ACTION_REDUCE, 30);
+    insertTableEntry(table, 138, TOKEN_TOFUNC, ACTION_REDUCE, 30);
     insertTableEntry(table, 138, TOKEN_RETURN, ACTION_REDUCE, 30);
     insertTableEntry(table, 138, TOKEN_EOF, ACTION_REDUCE, 30);
     insertTableEntry(table, 139, TOKEN_INDENT, ACTION_SHIFT, 121);
@@ -1163,7 +1163,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 140, TOKEN_REPEAT, ACTION_SHIFT, 24);
     insertTableEntry(table, 140, TOKEN_FOREACH, ACTION_SHIFT, 25);
     insertTableEntry(table, 140, TOKEN_WHILE, ACTION_SHIFT, 26);
-    insertTableEntry(table, 140, TOKEN_TO, ACTION_SHIFT, 20);
+    insertTableEntry(table, 140, TOKEN_TOFUNC, ACTION_SHIFT, 20);
     insertTableEntry(table, 140, TOKEN_RETURN, ACTION_SHIFT, 21);
     insertTableEntry(table, 140, NON_TERMINAL_STMT, ACTION_GOTO, 28);
     insertTableEntry(table, 140, NON_TERMINAL_VAR_DECL, ACTION_GOTO, 3);
@@ -1197,7 +1197,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 141, TOKEN_ATMOST, ACTION_REDUCE, 39);
     insertTableEntry(table, 142, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 142, TOKEN_LPAREN, ACTION_SHIFT, 44);
-    insertTableEntry(table, 142, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 142, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 142, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 142, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 142, NON_TERMINAL_LVAL, ACTION_GOTO, 40);
@@ -1260,7 +1260,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 146, TOKEN_REPEAT, ACTION_REDUCE, 33);
     insertTableEntry(table, 146, TOKEN_FOREACH, ACTION_REDUCE, 33);
     insertTableEntry(table, 146, TOKEN_WHILE, ACTION_REDUCE, 33);
-    insertTableEntry(table, 146, TOKEN_TO, ACTION_REDUCE, 33);
+    insertTableEntry(table, 146, TOKEN_TOFUNC, ACTION_REDUCE, 33);
     insertTableEntry(table, 146, TOKEN_RETURN, ACTION_REDUCE, 33);
     insertTableEntry(table, 146, TOKEN_EOF, ACTION_REDUCE, 33);
     insertTableEntry(table, 147, TOKEN_COLON, ACTION_REDUCE, 36);
@@ -1279,7 +1279,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 148, TOKEN_REPEAT, ACTION_REDUCE, 34);
     insertTableEntry(table, 148, TOKEN_FOREACH, ACTION_REDUCE, 34);
     insertTableEntry(table, 148, TOKEN_WHILE, ACTION_REDUCE, 34);
-    insertTableEntry(table, 148, TOKEN_TO, ACTION_REDUCE, 34);
+    insertTableEntry(table, 148, TOKEN_TOFUNC, ACTION_REDUCE, 34);
     insertTableEntry(table, 148, TOKEN_RETURN, ACTION_REDUCE, 34);
     insertTableEntry(table, 148, TOKEN_EOF, ACTION_REDUCE, 34);
     insertTableEntry(table, 149, TOKEN_DEDENT, ACTION_REDUCE, 25);
@@ -1296,11 +1296,11 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 149, TOKEN_REPEAT, ACTION_REDUCE, 25);
     insertTableEntry(table, 149, TOKEN_FOREACH, ACTION_REDUCE, 25);
     insertTableEntry(table, 149, TOKEN_WHILE, ACTION_REDUCE, 25);
-    insertTableEntry(table, 149, TOKEN_TO, ACTION_REDUCE, 25);
+    insertTableEntry(table, 149, TOKEN_TOFUNC, ACTION_REDUCE, 25);
     insertTableEntry(table, 149, TOKEN_RETURN, ACTION_REDUCE, 25);
     insertTableEntry(table, 149, TOKEN_EOF, ACTION_REDUCE, 25);
     insertTableEntry(table, 150, TOKEN_COLON, ACTION_SHIFT, 157);
-    insertTableEntry(table, 150, TOKEN_IF, ACTION_SHIFT, 156);
+    insertTableEntry(table, 150, TOKEN_OTHERWISE_IF, ACTION_SHIFT, 156);
     insertTableEntry(table, 151, TOKEN_DEDENT, ACTION_REDUCE, 27);
     insertTableEntry(table, 151, TOKEN_LET, ACTION_REDUCE, 27);
     insertTableEntry(table, 151, TOKEN_IDENT, ACTION_REDUCE, 27);
@@ -1315,7 +1315,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 151, TOKEN_REPEAT, ACTION_REDUCE, 27);
     insertTableEntry(table, 151, TOKEN_FOREACH, ACTION_REDUCE, 27);
     insertTableEntry(table, 151, TOKEN_WHILE, ACTION_REDUCE, 27);
-    insertTableEntry(table, 151, TOKEN_TO, ACTION_REDUCE, 27);
+    insertTableEntry(table, 151, TOKEN_TOFUNC, ACTION_REDUCE, 27);
     insertTableEntry(table, 151, TOKEN_RETURN, ACTION_REDUCE, 27);
     insertTableEntry(table, 151, TOKEN_EOF, ACTION_REDUCE, 27);
     insertTableEntry(table, 152, TOKEN_DEDENT, ACTION_REDUCE, 31);
@@ -1332,7 +1332,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 152, TOKEN_REPEAT, ACTION_REDUCE, 31);
     insertTableEntry(table, 152, TOKEN_FOREACH, ACTION_REDUCE, 31);
     insertTableEntry(table, 152, TOKEN_WHILE, ACTION_REDUCE, 31);
-    insertTableEntry(table, 152, TOKEN_TO, ACTION_REDUCE, 31);
+    insertTableEntry(table, 152, TOKEN_TOFUNC, ACTION_REDUCE, 31);
     insertTableEntry(table, 152, TOKEN_RETURN, ACTION_REDUCE, 31);
     insertTableEntry(table, 152, TOKEN_EOF, ACTION_REDUCE, 31);
     insertTableEntry(table, 153, TOKEN_DEDENT, ACTION_REDUCE, 1);
@@ -1350,7 +1350,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 153, TOKEN_REPEAT, ACTION_REDUCE, 1);
     insertTableEntry(table, 153, TOKEN_FOREACH, ACTION_REDUCE, 1);
     insertTableEntry(table, 153, TOKEN_WHILE, ACTION_REDUCE, 1);
-    insertTableEntry(table, 153, TOKEN_TO, ACTION_REDUCE, 1);
+    insertTableEntry(table, 153, TOKEN_TOFUNC, ACTION_REDUCE, 1);
     insertTableEntry(table, 153, TOKEN_RETURN, ACTION_REDUCE, 1);
     insertTableEntry(table, 153, TOKEN_EOF, ACTION_REDUCE, 1);
     insertTableEntry(table, 154, TOKEN_RPAREN, ACTION_REDUCE, 42);
@@ -1372,12 +1372,12 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 155, TOKEN_REPEAT, ACTION_REDUCE, 22);
     insertTableEntry(table, 155, TOKEN_FOREACH, ACTION_REDUCE, 22);
     insertTableEntry(table, 155, TOKEN_WHILE, ACTION_REDUCE, 22);
-    insertTableEntry(table, 155, TOKEN_TO, ACTION_REDUCE, 22);
+    insertTableEntry(table, 155, TOKEN_TOFUNC, ACTION_REDUCE, 22);
     insertTableEntry(table, 155, TOKEN_RETURN, ACTION_REDUCE, 22);
     insertTableEntry(table, 155, TOKEN_EOF, ACTION_REDUCE, 22);
     insertTableEntry(table, 156, TOKEN_IDENT, ACTION_SHIFT, 45);
     insertTableEntry(table, 156, TOKEN_LPAREN, ACTION_SHIFT, 57);
-    insertTableEntry(table, 156, TOKEN_TEXT, ACTION_SHIFT, 43);
+    insertTableEntry(table, 156, TOKEN_STRING, ACTION_SHIFT, 43);
     insertTableEntry(table, 156, TOKEN_REMAINDEROF, ACTION_SHIFT, 38);
     insertTableEntry(table, 156, TOKEN_NUMBER, ACTION_SHIFT, 42);
     insertTableEntry(table, 156, TOKEN_NOT, ACTION_SHIFT, 56);
@@ -1407,7 +1407,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 159, TOKEN_REPEAT, ACTION_REDUCE, 28);
     insertTableEntry(table, 159, TOKEN_FOREACH, ACTION_REDUCE, 28);
     insertTableEntry(table, 159, TOKEN_WHILE, ACTION_REDUCE, 28);
-    insertTableEntry(table, 159, TOKEN_TO, ACTION_REDUCE, 28);
+    insertTableEntry(table, 159, TOKEN_TOFUNC, ACTION_REDUCE, 28);
     insertTableEntry(table, 159, TOKEN_RETURN, ACTION_REDUCE, 28);
     insertTableEntry(table, 159, TOKEN_EOF, ACTION_REDUCE, 28);
     insertTableEntry(table, 160, TOKEN_COLON, ACTION_SHIFT, 161);
@@ -1428,7 +1428,7 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 162, TOKEN_REPEAT, ACTION_REDUCE, 29);
     insertTableEntry(table, 162, TOKEN_FOREACH, ACTION_REDUCE, 29);
     insertTableEntry(table, 162, TOKEN_WHILE, ACTION_REDUCE, 29);
-    insertTableEntry(table, 162, TOKEN_TO, ACTION_REDUCE, 29);
+    insertTableEntry(table, 162, TOKEN_TOFUNC, ACTION_REDUCE, 29);
     insertTableEntry(table, 162, TOKEN_RETURN, ACTION_REDUCE, 29);
     insertTableEntry(table, 162, TOKEN_EOF, ACTION_REDUCE, 29);
     insertTableEntry(table, 162, NON_TERMINAL_ELIF_LIST, ACTION_GOTO, 163);
@@ -1447,12 +1447,10 @@ void populateTable(ParsingTable* table) {
     insertTableEntry(table, 163, TOKEN_REPEAT, ACTION_REDUCE, 26);
     insertTableEntry(table, 163, TOKEN_FOREACH, ACTION_REDUCE, 26);
     insertTableEntry(table, 163, TOKEN_WHILE, ACTION_REDUCE, 26);
-    insertTableEntry(table, 163, TOKEN_TO, ACTION_REDUCE, 26);
+    insertTableEntry(table, 163, TOKEN_TOFUNC, ACTION_REDUCE, 26);
     insertTableEntry(table, 163, TOKEN_RETURN, ACTION_REDUCE, 26);
     insertTableEntry(table, 163, TOKEN_EOF, ACTION_REDUCE, 26);
 }
-
-
 
 Parser* initParser() {
 	Parser* parser = (Parser*)malloc(sizeof(Parser));
@@ -1465,6 +1463,7 @@ Parser* initParser() {
 
 	parser->table = initParsingTable();
 	parser->stack = initParsingStack();
+	parser->ast = createASTNode(0, 0, NULL);
 
     item.state = 0;
     item.token.type = TOKEN_EOF;
@@ -1486,16 +1485,16 @@ void shiftAction(ParsingStack** stack, ParseAction action, Token* token) {
     shift(stack, item);
 }
 
-ASTNode* reduceAction(ParsingStack** stack, ParseAction action, int* lhs) {
+CSTNode* reduceAction(ParsingStack** stack, ParseAction action, int* lhs) {
     int ruleLen = getRuleLength(action.value);
     *lhs = getLHS(action.value);
 
-    ASTNode* subtree = reduce(stack, ruleLen, *lhs);
+    CSTNode* subtree = reduce(stack, ruleLen, *lhs);
 
     return subtree;
 }
 
-void gotoAction(ParsingStack** stack, ParseAction action, int lhs, ASTNode* subtree) {
+void gotoAction(ParsingStack** stack, ParseAction action, int lhs, CSTNode* subtree) {
     ParsingStackItem item;
 
     item.token.type = (TokenType)lhs;
@@ -1509,7 +1508,7 @@ int nextAction(Parser* parser, Token* token, int* cont) {
     ParsingStackItem top;
     ParsingStack** stack;
     ParseAction action;
-    ASTNode* subTree;
+    CSTNode* subTree;
     int lhs;
 
     *cont = 0;
@@ -1538,6 +1537,7 @@ int nextAction(Parser* parser, Token* token, int* cont) {
 
     case ACTION_ACCEPT:
         printf(GREEN "--- SUCCESS: ACCEPT ---\n" RESET);
+        free(parser->ast);
         parser->ast = (*stack)->value.astNode;
         return 1;
 

@@ -135,7 +135,7 @@
     <None Include="Main.hpl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AST.h" />
+    <ClInclude Include="CST.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="HashingFunctions.h" />
@@ -150,7 +150,7 @@
     <ClInclude Include="TransitionTable.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AST.c" />
+    <ClCompile Include="CST.c" />
     <ClCompile Include="Compiler.c" />
     <ClCompile Include="Lexer.c" />
     <ClCompile Include="LexerFSM.c" />

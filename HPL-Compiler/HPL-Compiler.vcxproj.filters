@@ -25,12 +25,6 @@
     <Filter Include="Source Files\Parser">
       <UniqueIdentifier>{5bc43fa0-4f89-44f4-939c-4fc318448f94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Parser\ParsingTable">
-      <UniqueIdentifier>{44fe9f1c-166e-47ad-be15-5f5cb844ca88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Parser\ParsingTable">
-      <UniqueIdentifier>{cdfbaf1e-f4f8-4565-85b5-41af810904c3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Semantic">
       <UniqueIdentifier>{293d3fce-22f9-4c1c-84e6-934bfd1b2c77}</UniqueIdentifier>
     </Filter>
@@ -68,17 +62,8 @@
     <ClInclude Include="TransitionTable.h">
       <Filter>Header Files\Lexer</Filter>
     </ClInclude>
-    <ClInclude Include="AST.h">
+    <ClInclude Include="CST.h">
       <Filter>Header Files\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="ParsingTable.h">
-      <Filter>Header Files\Parser\ParsingTable</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionTable.h">
-      <Filter>Header Files\Parser\ParsingTable</Filter>
-    </ClInclude>
-    <ClInclude Include="GotoTable.h">
-      <Filter>Header Files\Parser\ParsingTable</Filter>
     </ClInclude>
     <ClInclude Include="SymbolTable.h">
       <Filter>Header Files\Semantic</Filter>
@@ -92,8 +77,11 @@
     <ClInclude Include="LexerDefinitions.h">
       <Filter>Header Files\Lexer</Filter>
     </ClInclude>
-    <ClInclude Include="UnifiedTableTest.h">
-      <Filter>Header Files\Parser\ParsingTable</Filter>
+    <ClInclude Include="HashingFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParsingTable.h">
+      <Filter>Header Files\Parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -121,17 +109,8 @@
     <ClCompile Include="ParsingStack.c">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
-    <ClCompile Include="AST.c">
+    <ClCompile Include="CST.c">
       <Filter>Source Files\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="ParsingTable.c">
-      <Filter>Source Files\Parser\ParsingTable</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionTable.c">
-      <Filter>Source Files\Parser\ParsingTable</Filter>
-    </ClCompile>
-    <ClCompile Include="GotoTable.c">
-      <Filter>Source Files\Parser\ParsingTable</Filter>
     </ClCompile>
     <ClCompile Include="SymbolTable.c">
       <Filter>Source Files\Semantic</Filter>
@@ -145,8 +124,8 @@
     <ClCompile Include="ScopeStack.c">
       <Filter>Source Files\Semantic</Filter>
     </ClCompile>
-    <ClCompile Include="UnifiedTableTest.c">
-      <Filter>Source Files\Parser\ParsingTable</Filter>
+    <ClCompile Include="ParsingTable.c">
+      <Filter>Source Files\Parser</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -36,13 +36,7 @@ int calculateTransitionTableMemory(const TransitionTable* table) {
     return total;
 }
 
-static inline int isValidCharacter(char c) {
-    // Letters and digits
-    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')) {
-        return 1;
-    }
-
-    // Special characters and whitespace
+static int isValidCharacter(char c) {
     switch (c) {
     case '+':
     case '-':
@@ -55,7 +49,7 @@ static inline int isValidCharacter(char c) {
     case '.':
         return 1;
     default:
-        return 0;
+        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
     }
 }
 
@@ -82,8 +76,8 @@ void buildTransitionTable(TransitionTable* table) {
 
     // WHITESPACES
     insertTransition(table, STATE_START, ' ', STATE_START);
-    insertTransition(table, STATE_START, '\n', STATE_START);
     insertTransition(table, STATE_START, '\r', STATE_START);
+    insertTransition(table, STATE_START, '\t', STATE_START);
     insertTransition(table, STATE_START, '\v', STATE_START);
     insertTransition(table, STATE_START, '\f', STATE_START);
     setToken(table, STATE_START, TOKEN_IDLE);
@@ -110,21 +104,28 @@ void buildTransitionTable(TransitionTable* table) {
     setToken(table, table->stateCounter, TOKEN_NUMBER);
 
     // SPECIAL CHARACTERS
-    insertTransition(table, STATE_START, '\t', ++table->stateCounter);
-    setToken(table, table->stateCounter, TOKEN_INDENT);
+    insertTransition(table, STATE_START, '\n', ++table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_NEWLINE);
+
     insertTransition(table, STATE_START, '(', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_LPAREN);
+
     insertTransition(table, STATE_START, ')', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_RPAREN);
+
     insertTransition(table, STATE_START, '"', STATE_TEXT);
     insertTransition(table, STATE_TEXT, '"', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_STRING);
+
     insertTransition(table, STATE_START, ':', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_COLON);
+
     insertTransition(table, STATE_START, '+', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_PLUS);
+
     insertTransition(table, STATE_START, '.', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_EOS);
+
     insertTransition(table, STATE_START, EOF, ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_EOF);
     
@@ -166,19 +167,24 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
     if (lexerFSM->currentState == STATE_COMMENT || lexerFSM->currentState == STATE_TEXT)
         return TOKEN_IDLE;
 
+    type = getTokenType(lexerFSM->transitionTable, lexerFSM->currentState);
+
     if (!isDelimiter(input)) {
         if (!isValidCharacter(input)) {
-            printf("Error: INVALID CHARACTER");
+            printf("Error: INVALID CHARACTER '%c'\n", input);
             exit(EXIT_FAILURE);
+        }
+
+        if (type == TOKEN_NUMBER || type > 300 || type == TOKEN_EOS) {
+            lexerFSM->currentState = STATE_ACCEPT;
+            return type;
         }
 
         lexerFSM->currentState = STATE_IDENT;
         return TOKEN_IDLE;
     }
 
-    type = getTokenType(lexerFSM->transitionTable, lexerFSM->currentState);
     lexerFSM->currentState = STATE_ACCEPT;
-
     return type;
 }
 

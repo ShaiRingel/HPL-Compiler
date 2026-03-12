@@ -34,6 +34,7 @@ typedef enum {
     TOKEN_DIVIDE,           // "Divide" → /= operator
     TOKEN_RETURN,           // "Return" → return from function
     TOKEN_OTHERWISE,        // "Otherwise" → else/else if
+    TOKEN_OTHERWISE_IF,     // "if" → in Otherwise if
     TOKEN_IF,               // "If" → conditional
     TOKEN_THEN,             // "then" → conditional body
     TOKEN_REPEAT,           // "Repeat" → for loop
@@ -72,8 +73,9 @@ typedef enum {
     TOKEN_PLUS,             // '+' → string concatenation
     TOKEN_COLON,      // ':' → block start (loops, if)
     TOKEN_COMMA, 
+    TOKEN_NEWLINE,
     TOKEN_INDENT,
-    TOKEN_DEDENT = 307
+    TOKEN_DEDENT = 308
 } TokenType;
 
 typedef struct {

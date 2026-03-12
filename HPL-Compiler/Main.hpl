@@ -1,13 +1,16 @@
+To set with nan:
+	If Setter greaterThan 20 then:
+		Let n be number.
+		Set n to 5.
+
 Let num be number.
 Let Setter be number.
-Set Setter to 2.
+Set Setter to 0.
 Set num to Setter plus 2 times 3 minus 4 divide 2.
 Increase   num by 1024.  NOTE: number + 1024!
-Decrease num by 256.
-Multiply num by -4.
+Decrease num by 0256.
+Multiply num by -004.
 Divide num by 8.
-
-NOTE: If Setter greaterThan 20:
 
 NOTE: Shows num in the console!
 Show num.

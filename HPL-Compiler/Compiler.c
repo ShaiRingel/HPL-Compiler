@@ -5,15 +5,19 @@
 void testLexer(Compiler* compiler) {
 	int currentBytes, numStates, numChars, matrixBytes;
 	Token* token;
+
 	while ((token = nextToken(compiler->lexer))->type != TOKEN_EOF) {
-		printf("Token: %s -- %d\n", token->lexeme, token->type);
-		free(token->lexeme);
+		if (token->type != TOKEN_NEWLINE) {
+			printf("Token: %s -- %d\n", token->lexeme, token->type);
+			free(token->lexeme);
+			free(token);
+		}
 	}
 
 	currentBytes = calculateTransitionTableMemory(compiler->lexer->lexerFSM->transitionTable);
 
 	numStates = compiler->lexer->lexerFSM->transitionTable->stateCounter + 1;
-	numChars = 71; // Letters + Digits + Symbols = 53 + 10 + 8 = 71
+	numChars = 72; // Letters + Digits + Symbols = 53 + 10 + 8 = 71
 	matrixBytes = numStates * numChars * sizeof(unsigned short);
 
 	printf("\n--- Transition table implementation memory Comparison ---\n");
@@ -33,9 +37,12 @@ void testParser(Compiler* compiler) {
 
 	stage = cont = 1;
 
-    printf("Starting Parser Test:\n\n");
+    printf("--- Starting Parser Test: ---\n\n");
 	do {
 		if (cont)
+			currentToken = nextToken(compiler->lexer);
+
+		while (currentToken->type == TOKEN_NEWLINE)
 			currentToken = nextToken(compiler->lexer);
 
 		printf("%03d Stack: ", stage++);
@@ -45,7 +52,7 @@ void testParser(Compiler* compiler) {
 	printAST(parser->ast);
 }
 
-Compiler* initCompiler(char* filePath){
+Compiler* initCompiler(char* filePath) {
 	Compiler* compiler = (Compiler*) malloc(sizeof(Compiler));
 
 	if (!compiler) {
@@ -61,7 +68,8 @@ Compiler* initCompiler(char* filePath){
 }
 
 void startCompiler(Compiler* compiler) {
-	testParser(compiler);
+	 //testLexer(compiler);
+	 testParser(compiler);
 }
 
 void freeCompiler(Compiler* compiler) {

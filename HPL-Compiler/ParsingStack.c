@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static ASTNode* pop(ParsingStack** stack) {
+static CSTNode* pop(ParsingStack** stack) {
     if (!stack || !*stack) {
         printf(RED "Error: Can't pop from empty stack\n" RESET);
         exit(EXIT_FAILURE);
     }
 
     ParsingStack* node = *stack;
-    ASTNode* astNode = node->value.astNode;
+    CSTNode* astNode = node->value.astNode;
 
     *stack = node->next;
     free(node);
@@ -39,14 +39,14 @@ void shift(ParsingStack** stack, ParsingStackItem item) {
 }
 
 
-ASTNode* reduce(ParsingStack** stack, int amount, int lhs) {
+CSTNode* reduce(ParsingStack** stack, int amount, int lhs) {
     if (amount == 0)
         return createASTNode(NON_TERMINAL, lhs, NULL);
 
     int i;
-    ASTNode* parent;
+    CSTNode* parent;
 
-    ASTNode** children = malloc(sizeof(ASTNode*) * amount);
+    CSTNode** children = malloc(sizeof(CSTNode*) * amount);
     if (!children)
         exit(EXIT_FAILURE);
 
