@@ -34,12 +34,12 @@ Lexer* initLexer(char* path) {
 	return lexer;
 }
 
-Token nextToken(Lexer* lexer) {
+Token* nextToken(Lexer* lexer) {
 	LexerFSM* lexerFSM = lexer->lexerFSM;
 	int counter, capacity;
 	unsigned short* curr;
 	char c, *temp;
-	Token token;
+	Token* token = (Token*) malloc(sizeof(Token));
 
 	capacity = LONGEST_WORD_LENGTH + 1;
 	curr = &lexerFSM->currentState;
@@ -47,30 +47,30 @@ Token nextToken(Lexer* lexer) {
 	c = fgetc(lexer->fp);
 	counter = 0;
 
-	token.type = TOKEN_IDLE;
-	token.lexeme = (char*)malloc(capacity * sizeof(char));
+	token->type = TOKEN_IDLE;
+	token->lexeme = (char*)malloc(capacity * sizeof(char));
 
 	while (*curr != STATE_ACCEPT) {
-		token.lexeme[counter++] = c;
-		token.type = advance(lexerFSM, c);
+		token->lexeme[counter++] = c;
+		token->type = advance(lexerFSM, c);
 
-		counter -= token.type != TOKEN_IDLE || 
+		counter -= token->type != TOKEN_IDLE ||
 			*curr == STATE_COMMENT;
 		
-		if (token.type == TOKEN_IDLE && !*curr)
+		if (token->type == TOKEN_IDLE && !*curr)
 			counter = 0;
 
 		if (counter >= capacity)
-			lexemeSizeExpander(&token, &capacity);
+			lexemeSizeExpander(token, &capacity);
 		
-		if (token.type == TOKEN_IDLE)
+		if (token->type == TOKEN_IDLE)
 			c = fgetc(lexer->fp);
 	}
 
 	ungetc(c, lexer->fp);
 
-	token.lexeme[counter] = 0;
-	token.lexeme = (char*) realloc(token.lexeme, (counter + 1) * sizeof(char));
+	token->lexeme[counter] = 0;
+	token->lexeme = (char*) realloc(token->lexeme, (counter + 1) * sizeof(char));
 
 	return token;
 }

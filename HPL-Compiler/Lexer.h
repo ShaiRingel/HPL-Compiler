@@ -14,7 +14,7 @@ typedef struct {
 Lexer* initLexer(char* path);
 
 // Retrieves the next token in the source file
-Token nextToken(Lexer* lexer);
+Token* nextToken(Lexer* lexer);
 
 // Frees the entire Lexer and all associated memory
 void freeLexer(Lexer* lexer);

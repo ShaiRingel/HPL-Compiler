@@ -135,40 +135,35 @@
     <None Include="Main.hpl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActionTable.h" />
     <ClInclude Include="AST.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="Global.h" />
-    <ClInclude Include="GotoTable.h" />
+    <ClInclude Include="HashingFunctions.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LexerDefinitions.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParsingDefinitions.h" />
-    <ClInclude Include="ParsingTable.h" />
     <ClInclude Include="ParsingStack.h" />
+    <ClInclude Include="ParsingTable.h" />
     <ClInclude Include="SemanticAnalyzer.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="TransitionTable.h" />
-    <ClInclude Include="UnifiedTableTest.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ActionTable.c" />
     <ClCompile Include="AST.c" />
     <ClCompile Include="Compiler.c" />
-    <ClCompile Include="GotoTable.c" />
     <ClCompile Include="Lexer.c" />
     <ClCompile Include="LexerFSM.c" />
     <ClCompile Include="LexerFSM.h" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Parser.c" />
-    <ClCompile Include="ParsingTable.c" />
     <ClCompile Include="ParsingStack.c" />
+    <ClCompile Include="ParsingTable.c" />
     <ClCompile Include="ScopeStack.c" />
     <ClCompile Include="ScopeStack.h" />
     <ClCompile Include="SemanticAnalyzer.c" />
     <ClCompile Include="SymbolTable.c" />
     <ClCompile Include="TransitionTable.c" />
-    <ClCompile Include="UnifiedTableTest.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,16 +2,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static void pop(ParsingStack** stack) {
+static ASTNode* pop(ParsingStack** stack) {
     if (!stack || !*stack) {
         printf(RED "Error: Can't pop from empty stack\n" RESET);
         exit(EXIT_FAILURE);
     }
 
     ParsingStack* node = *stack;
+    ASTNode* astNode = node->value.astNode;
 
     *stack = node->next;
     free(node);
+
+    return astNode;
 }
 
 ParsingStack* initParsingStack() {
@@ -36,16 +39,34 @@ void shift(ParsingStack** stack, ParsingStackItem item) {
 }
 
 
-void reduce(ParsingStack** stack, int amount) {
-    int i;
+ASTNode* reduce(ParsingStack** stack, int amount, int lhs) {
+    if (amount == 0)
+        return createASTNode(NON_TERMINAL, lhs, NULL);
 
-    for (i = 0; i < amount; i++) {
+    int i;
+    ASTNode* parent;
+
+    ASTNode** children = malloc(sizeof(ASTNode*) * amount);
+    if (!children)
+        exit(EXIT_FAILURE);
+
+
+    for (i = amount - 1; i >= 0; i--) {
         if (!stack || !*stack) {
             printf(RED "Error: reduce beyond stack size\n" RESET);
             exit(EXIT_FAILURE);
         }
-        pop(stack);
+        
+        children[i] = pop(stack);
     }
+
+    parent = createASTNode(NON_TERMINAL, lhs, NULL);
+
+    for (i = 0; i < amount; i++)
+        addChild(parent, children[i]);
+
+    free(children);
+    return parent;
 }
 
 ParsingStackItem lookahed(ParsingStack* stack) {
@@ -62,4 +83,19 @@ void freeParsingStack(ParsingStack* stack) {
         free(stack);
         stack = next;
     }
+}
+
+static void printStackRecursive(ParsingStack* node) {
+    if (node == NULL) return;
+
+    printStackRecursive(node->next);
+
+    if (node->value.state == 0 && node->next == NULL)
+        printf("%d ", node->value.state);
+    else
+        printf("%s %d ", node->value.token.lexeme, node->value.state);
+}
+
+void printStack(ParsingStack* stack) {
+    printStackRecursive(stack); printf("\n\n");
 }

@@ -1,9 +1,9 @@
 #pragma once
 
-typedef enum Symbol_Type {
+typedef enum {
     TERMINAL,
-    NON_TERMINAL,
-} Symbol_Type;
+    NON_TERMINAL
+} SymbolType;
 
 typedef enum {
     NON_TERMINAL_PROG = 400,
@@ -36,3 +36,35 @@ typedef enum {
     NON_TERMINAL_T_OP,
     NON_TERMINAL_REL_OP
 } NonTerminal;
+
+static const char* nonTerminalNames[] = {
+    "PROG",
+    "BLOCK",
+    "STMT_LIST",
+    "STMT",
+    "VAR_DECL",
+    "TYPE",
+    "ASSIGN_STMT",
+    "LVAL",
+    "IO_STMT",
+    "CTRL_FLOW",
+    "IF_STMT",
+    "ELIF_LIST",
+    "ELSE_PART",
+    "LOOP_STMT",
+    "FUNC_DECL",
+    "PARAM_LIST",
+    "FUNC_RET",
+    "FUNC_CALL_STMT",
+    "FUNC_CALL",
+    "ARG_LIST",
+    "E",
+    "T",
+    "F",
+    "COND",
+    "BOOL_T",
+    "BOOL_F",
+    "E_OP",
+    "T_OP",
+    "REL_OP"
+};

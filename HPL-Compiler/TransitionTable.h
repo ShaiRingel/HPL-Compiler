@@ -1,5 +1,6 @@
 #pragma once
 #include "Global.h"
+#include "HashingFunctions.h"
 
 #define STATE_CAPACITY 251
 #define INITIAL_CHAR_CAPACITY 1

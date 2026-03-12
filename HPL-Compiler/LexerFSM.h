@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-#define isDelimiter(c) ( ((c) == EOF) || isspace((unsigned char)(c)) || (c) == '.' )
+#define isDelimiter(c) ( ((c) == EOF) || ((c) == ' ') || ((c) == '\n') || ((c) == '\t') || ((c) == '\f') || ((c) == '\v') || (c) == '.' )
 
 typedef struct {
     const char* keyword;

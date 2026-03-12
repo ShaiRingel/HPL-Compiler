@@ -4,10 +4,10 @@
 // TEST FUNCTIONS
 void testLexer(Compiler* compiler) {
 	int currentBytes, numStates, numChars, matrixBytes;
-	Token token;
-	while ((token = nextToken(compiler->lexer)).type != TOKEN_EOF) {
-		printf("Token: %s -- %d\n", token.lexeme, token.type);
-		free(token.lexeme);
+	Token* token;
+	while ((token = nextToken(compiler->lexer))->type != TOKEN_EOF) {
+		printf("Token: %s -- %d\n", token->lexeme, token->type);
+		free(token->lexeme);
 	}
 
 	currentBytes = calculateTransitionTableMemory(compiler->lexer->lexerFSM->transitionTable);
@@ -27,24 +27,22 @@ void testLexer(Compiler* compiler) {
 }
 
 void testParser(Compiler* compiler) {
-	ParserAction* action;
-	Parser* parser;
-	Token token;
+    Parser* parser = compiler->parser;
+    Token* currentToken = NULL;
+	int stage, cont;
 
-	parser = compiler->parser;
+	stage = cont = 1;
 
-	while ((token = nextToken(compiler->lexer)).type != TOKEN_EOF) {
-		action = getAction(parser->table, token, lookahed(parser->stack).state);
+    printf("Starting Parser Test:\n\n");
+	do {
+		if (cont)
+			currentToken = nextToken(compiler->lexer);
 
-		if (action->type == SHIFT) {
-			action->data.shift_item.token = token;
-			shift(&parser->stack, action->data.shift_item);
-		} else {
-			reduce(&parser->stack, action->data.reduce_count);
-		}
+		printf("%03d Stack: ", stage++);
+		printStack(parser->stack);
+	} while (!nextAction(parser, currentToken, &cont));
 
-		printf("Parsed Token: %s Successfully!\n", token.lexeme);
-	}
+	printAST(parser->ast);
 }
 
 Compiler* initCompiler(char* filePath){
@@ -63,13 +61,13 @@ Compiler* initCompiler(char* filePath){
 }
 
 void startCompiler(Compiler* compiler) {
-	testLexer(compiler);
+	testParser(compiler);
 }
 
 void freeCompiler(Compiler* compiler) {
 	freeLexer(compiler->lexer);
 	freeParser(compiler->parser);
-	freeSemanticAnalyzer(compiler->parser);
+	freeSemanticAnalyzer(compiler->analyzer);
 
 	free(compiler);
 }

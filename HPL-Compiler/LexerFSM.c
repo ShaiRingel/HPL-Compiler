@@ -83,7 +83,6 @@ void buildTransitionTable(TransitionTable* table) {
     // WHITESPACES
     insertTransition(table, STATE_START, ' ', STATE_START);
     insertTransition(table, STATE_START, '\n', STATE_START);
-    insertTransition(table, STATE_START, '\t', STATE_START);
     insertTransition(table, STATE_START, '\r', STATE_START);
     insertTransition(table, STATE_START, '\v', STATE_START);
     insertTransition(table, STATE_START, '\f', STATE_START);
@@ -111,6 +110,8 @@ void buildTransitionTable(TransitionTable* table) {
     setToken(table, table->stateCounter, TOKEN_NUMBER);
 
     // SPECIAL CHARACTERS
+    insertTransition(table, STATE_START, '\t', ++table->stateCounter);
+    setToken(table, table->stateCounter, TOKEN_INDENT);
     insertTransition(table, STATE_START, '(', ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_LPAREN);
     insertTransition(table, STATE_START, ')', ++table->stateCounter);

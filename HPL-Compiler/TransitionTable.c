@@ -2,19 +2,11 @@
 #include "Global.h"
 #include <stdlib.h>
 
-static unsigned hashState(unsigned short state) {
-    return (state * 2654435761u) % STATE_CAPACITY;
-}
-
-static unsigned hashChar(char c, int capacity) {
-    return ((unsigned char)c * 31u) % capacity;
-}
-
 StateBucket* findStateBucket(const TransitionTable* table, unsigned short state) {
     StateBucket* current;
     unsigned int idx;
 
-    idx = hashState(state);
+    idx = hashNumber(state, table->capacity);
     current = table->buckets[idx];
 
     while (current && current->key != state) {
@@ -93,7 +85,7 @@ StateBucket* getOrCreateStateBucket(TransitionTable* table, unsigned short state
     sBucket = findStateBucket(table, state);
     if (sBucket) return sBucket;
 
-    idx = hashState(state);
+    idx = hashNumber(state, table->capacity);
     sBucket = createStateBucket(state);
     sBucket->next = table->buckets[idx];
     table->buckets[idx] = sBucket;

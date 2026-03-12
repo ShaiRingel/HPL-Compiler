@@ -1,9 +1,11 @@
 #pragma once
 #include "Global.h"
+#include "AST.h"
 
 typedef struct {
-	Token token;
-	unsigned short state;
+    Token token;
+    ASTNode* astNode;
+    unsigned short state;
 } ParsingStackItem;
 
 typedef struct ParsingStack{
@@ -18,10 +20,12 @@ ParsingStack* initParsingStack();
 void shift(ParsingStack** stack, ParsingStackItem item);
 
 // Removes the top items in the stack according to the ammount
-void reduce(ParsingStack** stack, int ammount);
+ASTNode* reduce(ParsingStack** stack, int ammount, int lhs);
 
 // Returns the item currently on the top of the stack
 ParsingStackItem lookahed(ParsingStack* stack);
 
 // Frees the entire ParsingStack and all associated memory
 void freeParsingStack(ParsingStack* stack);
+
+void printStack(ParsingStack* stack);
