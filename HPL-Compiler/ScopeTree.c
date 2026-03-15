@@ -1,16 +1,15 @@
 #include "ScopeTree.h"
-#include "Global.h"
 #include "ErrorHandler.h"
 #include <stdlib.h>
-#include <stdio.h>
+#include <assert.h>
 
 ScopeNode* createScope(ScopeNode* parent) {
     ScopeNode* node = (ScopeNode*)malloc(sizeof(ScopeNode));
-    if (!node) {
+    if (!node)
         reportError(ERROR_INTERNAL, "Failed to allocate ScopeNode");
-    }
 
     // Initialize the symbol table for this scope
+    assert(node);
     node->symbols = initSymbolTable();
     node->parent = parent;
 
@@ -18,9 +17,8 @@ ScopeNode* createScope(ScopeNode* parent) {
     node->numChildren = 0;
     node->children = (ScopeNode**)malloc(node->capacity * sizeof(ScopeNode*));
 
-    if (!node->children) {
+    if (!node->children)
         reportError(ERROR_INTERNAL, "Failed to allocate children for ScopeNode");
-    }
 
     return node;
 }
@@ -33,11 +31,12 @@ void addChildScope(ScopeNode* parent, ScopeNode* child) {
         parent->capacity *= 2;
         parent->children = (ScopeNode**)realloc(parent->children, parent->capacity * sizeof(ScopeNode*));
 
-        if (!parent->children) {
+        if (!parent->children)
             reportError(ERROR_INTERNAL, "Failed to reallocate children array for scope");
-        }
+        
     }
 
+    assert(parent->children);
     parent->children[parent->numChildren++] = child;
 }
 

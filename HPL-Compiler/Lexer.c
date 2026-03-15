@@ -39,7 +39,9 @@ Lexer* initLexer(char* path) {
 
 Token* createToken(const char* lexeme, TokenType type) {
     Token* token = (Token*)malloc(sizeof(Token));
-    if (!token) exit(EXIT_FAILURE);
+    if (!token) reportError(ERROR_INTERNAL, "Failed to allocate new token");
+    
+    assert(token);
     token->type = type;
     token->lexeme = _strdup(lexeme);
     return token;

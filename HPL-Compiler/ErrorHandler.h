@@ -1,4 +1,5 @@
 #pragma once
+#include "Compiler.h"
 
 typedef enum {
     ERROR_LEXICAL,
@@ -7,4 +8,8 @@ typedef enum {
     ERROR_INTERNAL
 } ErrorType;
 
+// 
 void reportError(ErrorType type, const char* format, ...);
+
+// 
+int attemptSingleTokenInsertion(Compiler* compiler, Token* currentToken, int* next);

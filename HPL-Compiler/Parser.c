@@ -79,9 +79,8 @@ int nextAction(Parser* parser, Token* token, int* next) {
 
         if (action.type == ACTION_GOTO)
             gotoAction(stack, action, lhs, subTree);
-        else {
+        else
             reportError(ERROR_SYNTAX, "Invalid GOTO action in parser");
-        }
 
         break;
         
@@ -93,7 +92,7 @@ int nextAction(Parser* parser, Token* token, int* next) {
 
     case ACTION_ERROR:
     default:
-        reportError(ERROR_SYNTAX, "Syntax error encountered during parsing");
+        return -1;
     }
 
     return 0;
