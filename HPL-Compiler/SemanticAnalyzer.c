@@ -1,4 +1,5 @@
 #include "SemanticAnalyzer.h"
+#include "ErrorHandler.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -8,8 +9,7 @@ SymbolData lookupSymbolOrError(SemanticAnalyzer* analyzer, char* lexeme) {
     SymbolData data = lookupSymbol(analyzer->currentScope, lexeme);
 
     if (data.type == TYPE_NONE) {
-        printf(RED "Semantic Error: Undeclared identifier '%s'.\n" RESET, lexeme);
-        exit(EXIT_FAILURE);
+        reportError(ERROR_SEMANTIC, "Undeclared identifier '%s'", lexeme);
     }
     return data;
 }
@@ -17,8 +17,7 @@ SymbolData lookupSymbolOrError(SemanticAnalyzer* analyzer, char* lexeme) {
 SemanticAnalyzer* initSemanticAnalyzer() {
     SemanticAnalyzer* analyzer = (SemanticAnalyzer*)malloc(sizeof(SemanticAnalyzer));
     if (!analyzer) {
-        printf(RED "Error: Failed to allocate Semantic Analyzer\n" RESET);
-        exit(EXIT_FAILURE);
+        reportError(ERROR_INTERNAL, "Failed to allocate Semantic Analyzer");
     }
 
     // Create the global scope (it has no parent)
@@ -51,8 +50,7 @@ void addIdentifier(SemanticAnalyzer* analyzer, char* lexeme, VarType type) {
 
     // If it exists in the *current* local scope, it's a redeclaration error
     if (data.type || (data.type == TYPE_VAR && data.value != 0)) {
-        printf(RED "Semantic Error: Variable '%s' is already declared in this scope.\n" RESET, lexeme);
-        exit(EXIT_FAILURE);
+        reportError(ERROR_SEMANTIC, "Variable '%s' is already declared in this scope", lexeme);
     }
 
     data.type = type;
@@ -183,10 +181,13 @@ void handleLoops(SemanticAnalyzer* analyzer, CSTNode* node) {
     }
 }
 
-void handleBlock(SemanticAnalyzer* analyzer, CSTNode** node) {
-    CSTNode* block = (*node)->firstChild;
-    while (block && block->symbol != NON_TERMINAL_BLOCK) block = block->nextSibling;
-    analyzeNode(analyzer, block);
+void handleBlock(SemanticAnalyzer* analyzer, CSTNode* node) {
+    CSTNode* bChild;
+    enterScope(analyzer);
+    bChild = node->firstChild;
+    while (bChild) { analyzeNode(analyzer, bChild); bChild = bChild->nextSibling; }
+    exitScope(analyzer);
+    return;
 }
 
 void handleCtrlFlow(SemanticAnalyzer* analyzer, CSTNode* node) {
@@ -197,7 +198,9 @@ void handleCtrlFlow(SemanticAnalyzer* analyzer, CSTNode* node) {
         // IF_STMT -> If COND then : BLOCK ELIF_LIST
         handleConditional(analyzer, child->firstChild->nextSibling); // COND
 
-        handleBlock(analyzer, &child);
+        CSTNode* block = child->firstChild;
+        while (block && block->symbol != NON_TERMINAL_BLOCK) block = block->nextSibling;
+        analyzeNode(analyzer, block);
 
         // Handle ELIF/ELSE (recursive via analyzeNode)
         if (child) analyzeNode(analyzer, child->nextSibling);
@@ -206,7 +209,9 @@ void handleCtrlFlow(SemanticAnalyzer* analyzer, CSTNode* node) {
         // LOOP_STMT -> Repeat E iterations : BLOCK | While COND : BLOCK | Foreach id in id : BLOCK
         handleLoops(analyzer, child->firstChild);
 
-        handleBlock(analyzer, &child);
+        CSTNode* block = child->firstChild;
+        while (block && block->symbol != NON_TERMINAL_BLOCK) block = block->nextSibling;
+        analyzeNode(analyzer, block);
     }
 }
 
@@ -220,21 +225,14 @@ void analyzeNode(SemanticAnalyzer* analyzer, CSTNode* node) {
     if (!node) return;
 
     switch (node->symbol) {
-    case NON_TERMINAL_BLOCK: {
-        CSTNode* bChild;
-        enterScope(analyzer);
-        bChild = node->firstChild;
-        while (bChild) { analyzeNode(analyzer, bChild); bChild = bChild->nextSibling; }
-        exitScope(analyzer);
-        return;
-    }
-    case NON_TERMINAL_VAR_DECL:    handleVarDecl(analyzer, node); break;
-    case NON_TERMINAL_FUNC_DECL:   handleFuncDecl(analyzer, node); return;
-    case NON_TERMINAL_ASSIGN_STMT: handleAssignment(analyzer, node); break;
-    case NON_TERMINAL_IO_STMT:     handleIO(analyzer, node); break;
-    case NON_TERMINAL_CTRL_FLOW:   handleCtrlFlow(analyzer, node); break;
-    case NON_TERMINAL_FUNC_CALL_STMT: handleFuncCallStmt(analyzer, node); break;
-    case NON_TERMINAL_FUNC_RET:    handleFuncRet(analyzer, node); break;
+    case NON_TERMINAL_BLOCK:            handleBlock(analyzer, node); break;
+    case NON_TERMINAL_VAR_DECL:         handleVarDecl(analyzer, node); break;
+    case NON_TERMINAL_FUNC_DECL:        handleFuncDecl(analyzer, node); return;
+    case NON_TERMINAL_ASSIGN_STMT:      handleAssignment(analyzer, node); break;
+    case NON_TERMINAL_IO_STMT:          handleIO(analyzer, node); break;
+    case NON_TERMINAL_CTRL_FLOW:        handleCtrlFlow(analyzer, node); break;
+    case NON_TERMINAL_FUNC_CALL_STMT:   handleFuncCallStmt(analyzer, node); break;
+    case NON_TERMINAL_FUNC_RET:         handleFuncRet(analyzer, node); break;
     default: {
         CSTNode* child = node->firstChild;
         while (child) {

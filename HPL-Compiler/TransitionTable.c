@@ -45,7 +45,7 @@ CharMap* createCharMap() {
 void expandCharMap(CharMap* map) {
     unsigned i, newIdx;
     CharBucket** oldBuckets = map->buckets;
-    CharBucket* current, *next;
+    CharBucket* current, * next;
 
     map->capacity = EXPANDED_CHAR_CAPACITY;
     map->buckets = (CharBucket**)calloc(EXPANDED_CHAR_CAPACITY, sizeof(CharBucket*));

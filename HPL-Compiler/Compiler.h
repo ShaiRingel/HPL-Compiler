@@ -8,7 +8,6 @@ typedef struct {
 	Parser* parser;
 	SemanticAnalyzer* analyzer;
 	// CodeGenerator* generator;
-	// ErrorHandler* handler;
 } Compiler;
 
 // Initialize Components

@@ -1,16 +1,17 @@
 #include "Parser.h"
+#include "ErrorHandler.h"
 #include <stdlib.h>
+#include <assert.h>
 #include <stdio.h>
 
 Parser* initParser() {
 	Parser* parser = (Parser*)malloc(sizeof(Parser));
     ParsingStackItem item;
 
-	if (!parser) {
-		printf(RED "Error: Failed to allocate memory for Parser\n" RESET);
-		exit(EXIT_FAILURE);
-	}
+	if (!parser)
+		reportError(ERROR_INTERNAL, "Failed to allocate memory for Parser");
 
+    assert(parser);
 	parser->table = initParsingTable();
 	parser->stack = initParsingStack();
 	parser->cst = createASTNode(0, 0, NULL);
@@ -19,8 +20,6 @@ Parser* initParser() {
     item.token.type = TOKEN_EOF;
     item.token.lexeme = "START";
     shift(&(parser->stack), item);
-
-	populateTable(parser->table);
 
 	return parser;
 }
@@ -81,8 +80,7 @@ int nextAction(Parser* parser, Token* token, int* next) {
         if (action.type == ACTION_GOTO)
             gotoAction(stack, action, lhs, subTree);
         else {
-            printf(RED "Error: Invalid GOTO\n" RESET);
-            exit(EXIT_FAILURE);
+            reportError(ERROR_SYNTAX, "Invalid GOTO action in parser");
         }
 
         break;
@@ -95,8 +93,7 @@ int nextAction(Parser* parser, Token* token, int* next) {
 
     case ACTION_ERROR:
     default:
-        printf(RED "--- SYNTAX ERROR ---\n" RESET);
-        exit(EXIT_FAILURE);
+        reportError(ERROR_SYNTAX, "Syntax error encountered during parsing");
     }
 
     return 0;

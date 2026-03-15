@@ -1,8 +1,8 @@
 #include "SymbolTable.h"
-#include "Global.h"
+#include "ErrorHandler.h"
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
+#include <assert.h>
 
 unsigned hashSymbol(const char* key) {
 	unsigned hash = 5381;
@@ -16,17 +16,15 @@ unsigned hashSymbol(const char* key) {
 
 SymbolTable* initSymbolTable() {
 	SymbolTable* table = (SymbolTable*)malloc(sizeof(SymbolTable));
-	if (!table) {
-		printf(RED "Error: Failed to allocate Symbol Table\n" RESET);
-		exit(EXIT_FAILURE);
-	}
+	if (!table)
+		reportError(ERROR_INTERNAL, "Failed to allocate Symbol Table");
 
+	assert(table);
 	table->capacity = CAPACITY;
 	table->buckets = (SymbolEntry**)calloc(CAPACITY, sizeof(SymbolEntry*));
 	if (!table->buckets) {
-		printf(RED "Error: Failed to allocate Buckets for symbol table\n" RESET);
 		free(table);
-		exit(EXIT_FAILURE);
+		reportError(ERROR_INTERNAL, "Failed to allocate Buckets for symbol table");
 	}
 
 	return table;
@@ -38,11 +36,10 @@ void putSymbol(SymbolTable* table, char* key, SymbolData data) {
 
 	int idx = hashSymbol(key);
 	SymbolEntry* newNode = (SymbolEntry*)malloc(sizeof(SymbolEntry));
-	if (!newNode) {
-		printf(RED "Error: Failed to allocate memory for Symbol bucket\n" RESET);
-		exit(EXIT_FAILURE);
-	}
+	if (!newNode)
+		reportError(ERROR_INTERNAL, "Failed to allocate memory for Symbol bucket");
 
+	assert(newNode);
 	newNode->key = _strdup(key);
 	newNode->data = data;
 

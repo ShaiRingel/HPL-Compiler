@@ -1,5 +1,7 @@
 #include "LexerFSM.h"
+#include "ErrorHandler.h"
 #include <stdlib.h>
+#include <assert.h>
 #include <stdio.h>
 
 int calculateTransitionTableMemory(const TransitionTable* table) {
@@ -149,8 +151,10 @@ LexerFSM* initLexerFSM() {
     LexerFSM* fsm;
 
     fsm = (LexerFSM*)malloc(sizeof(LexerFSM));
-    if (!fsm) exit(EXIT_FAILURE);
+    if (!fsm)
+        reportError(ERROR_INTERNAL, "Failed to allocate memory for LexerFSM.");
 
+    assert(fsm);
     fsm->currentState = STATE_START;
     fsm->transitionTable = initTransitionTable();
     buildTransitionTable(fsm->transitionTable);
@@ -175,10 +179,8 @@ TokenType advance(LexerFSM* lexerFSM, char input) {
     type = getTokenType(lexerFSM->transitionTable, lexerFSM->currentState);
 
     if (!isDelimiter(input)) {
-        if (!isValidCharacter(input)) {
-            printf("Error: INVALID CHARACTER '%c'\n", input);
-            exit(EXIT_FAILURE);
-        }
+        if (!isValidCharacter(input))
+            reportError(ERROR_LEXICAL, "Invalid character encountered: '%c' (ASCII: %d).", input, (int)input);
 
         if (type == TOKEN_NUMBER || type > 300 || type == TOKEN_EOS) {
             lexerFSM->currentState = STATE_ACCEPT;

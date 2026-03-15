@@ -1,14 +1,15 @@
 #include "CST.h"
+#include "ErrorHandler.h"
 #include <stdlib.h>
+#include <assert.h>
 #include <stdio.h>
 
 CSTNode* createASTNode(SymbolType type, int symbol, Token* token) {
     CSTNode* node = (CSTNode*)malloc(sizeof(CSTNode));
-    if (!node) {
-        printf(RED "ERROR: Failed to allocate memory for CST Node\n" RESET);
-        exit(EXIT_FAILURE);
-    }
+    if (!node)
+        reportError(ERROR_INTERNAL, "Failed to allocate memory for CST Node");
 
+    assert(node);
     node->type = type;
     node->symbol = symbol;
     node->token = token;

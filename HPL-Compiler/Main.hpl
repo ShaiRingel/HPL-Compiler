@@ -6,7 +6,7 @@ Get number ask "Enter a number:" storeInto n.
 To factorial with x:
     Let i be number.
     Let r be number.
-    Set i to 1.
+    Set i to 1 times 5 plus 2.
     Set r to 1.
     While i atMost x:
         Multiply r by i.

@@ -1,6 +1,8 @@
 #include "ParsingStack.h"
+#include "ErrorHandler.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 CSTNode* pop(ParsingStack** stack) {
     if (!stack || !*stack) return NULL;
@@ -17,16 +19,14 @@ ParsingStack* initParsingStack() {
 
 void shift(ParsingStack** stack, ParsingStackItem item) {
     if (!stack) {
-        printf(RED "Error: Invalid stack pointer\n" RESET);
-        exit(EXIT_FAILURE);
+        reportError(ERROR_INTERNAL, "Invalid stack pointer");
     }
     ParsingStack* node = malloc(sizeof(ParsingStack));
 
-    if (!node) {
-        printf(RED "Error: Failed to allocate memory for Parsing Stack\n" RESET);
-        exit(EXIT_FAILURE);
-    }
+    if (!node)
+        reportError(ERROR_INTERNAL, "Failed to allocate memory for Parsing Stack");
 
+    assert(node);
     node->value = item;
     node->next = *stack;
     *stack = node;
@@ -42,13 +42,13 @@ CSTNode* reduce(ParsingStack** stack, int amount, int lhs) {
 
     CSTNode** children = malloc(sizeof(CSTNode*) * amount);
     if (!children)
-        exit(EXIT_FAILURE);
+        reportError(ERROR_INTERNAL, "Failed to allocate memory for children array in reduce");
 
+    assert(children);
 
     for (i = amount - 1; i >= 0; i--) {
         if (!stack || !*stack) {
-            printf(RED "Error: reduce beyond stack size\n" RESET);
-            exit(EXIT_FAILURE);
+            reportError(ERROR_SYNTAX, "Reduce operation attempted beyond stack size");
         }
         
         children[i] = pop(stack);
@@ -64,10 +64,9 @@ CSTNode* reduce(ParsingStack** stack, int amount, int lhs) {
 }
 
 ParsingStackItem lookahed(ParsingStack* stack) {
-    if (!stack) {
-        printf(RED "Error: Can't peek from empty stack\n" RESET);
-        exit(EXIT_FAILURE);
-    }
+    if (!stack)
+        reportError(ERROR_INTERNAL, "Cannot peek from empty stack");
+
     return stack->value;
 }
 

@@ -1,15 +1,15 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Lexer.h"
 #include "LexerFSM.h"
+#include "ErrorHandler.h"
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 void lexemeSizeExpander(Token *token, int *capacity) {
 	char* temp;
-    if ((*capacity & 0x40000000) != 0) {
-        printf(RED "Error: Maximum identifier name size reached!\n" RESET);
-        exit(EXIT_FAILURE);
-    }
+    if ((*capacity & 0x40000000) != 0)
+        reportError(ERROR_INTERNAL, "Maximum identifier name size reached.");
 
 	(*capacity) <<= 1;
 	temp = (char*)realloc(token->lexeme, *capacity * sizeof(char));
@@ -22,11 +22,10 @@ void lexemeSizeExpander(Token *token, int *capacity) {
 
 Lexer* initLexer(char* path) {
 	Lexer* lexer = (Lexer*) malloc(sizeof(Lexer));
-	if (!lexer) {
-		printf(RED "Error: Failed to allocate memory for lexer\n" RESET);
-		exit(EXIT_FAILURE);
-	}
+	if (!lexer)
+        reportError(ERROR_INTERNAL, "Failed to allocate memory for Lexer.");
 
+    assert(lexer);
 	lexer->lexerFSM = initLexerFSM();
 	lexer->fp = fopen(path, "r");
 
@@ -59,10 +58,9 @@ Token* handleIndentation(Lexer* lexer, char* c) {
     prevIndent = lexer->indentStack[lexer->indentTop];
 
     if (currentIndent > prevIndent) {
-        if (lexer->indentTop + 1 >= MAX_INDENT_DEPTH) {
-            printf(RED "Error: Max indentation depth reached!\n" RESET);
-            exit(EXIT_FAILURE);
-        }
+        if (lexer->indentTop + 1 >= MAX_INDENT_DEPTH)
+            reportError(ERROR_LEXICAL, "Max indentation depth reached!");
+
         lexer->indentStack[++lexer->indentTop] = currentIndent;
         lexer->isStartOfLine = 0;
         ungetc(*c, lexer->fp);
@@ -76,10 +74,9 @@ Token* handleIndentation(Lexer* lexer, char* c) {
             dedents++;
         }
 
-        if (lexer->indentStack[lexer->indentTop] != currentIndent) {
-            printf(RED "Error: Inconsistent indentation!\n" RESET);
-            exit(EXIT_FAILURE);
-        }
+        if (lexer->indentStack[lexer->indentTop] != currentIndent)
+            reportError(ERROR_LEXICAL, "Inconsistent indentation! Expected %d spaces but found %d.",
+                lexer->indentStack[lexer->indentTop], currentIndent);
 
         lexer->isStartOfLine = 0;
         ungetc(*c, lexer->fp);
