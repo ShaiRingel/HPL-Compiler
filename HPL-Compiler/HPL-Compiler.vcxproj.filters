@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Semantic">
       <UniqueIdentifier>{5054076f-cf9f-4207-ae5a-5cf269f7fc2b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ErrorHandler">
+      <UniqueIdentifier>{8d9541c8-c03e-42f5-8b33-2e82ccbcc1e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ErrorHandler">
+      <UniqueIdentifier>{ee4fd5cc-fbf1-46fc-af8f-bebcb8bd6306}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="HPL grammar.bnf">
@@ -42,6 +48,7 @@
     <None Include="LexerTest.hpl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="ParserTest.hpl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Compiler.h">
@@ -74,14 +81,14 @@
     <ClInclude Include="ParsingDefinitions.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="LexerDefinitions.h">
-      <Filter>Header Files\Lexer</Filter>
-    </ClInclude>
     <ClInclude Include="HashingFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ParsingTable.h">
       <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorHandler.h">
+      <Filter>Header Files\ErrorHandler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -118,14 +125,17 @@
     <ClCompile Include="SemanticAnalyzer.c">
       <Filter>Source Files\Semantic</Filter>
     </ClCompile>
-    <ClCompile Include="ScopeStack.h">
+    <ClCompile Include="ScopeTree.h">
       <Filter>Header Files\Semantic</Filter>
     </ClCompile>
-    <ClCompile Include="ScopeStack.c">
+    <ClCompile Include="ScopeTree.c">
       <Filter>Source Files\Semantic</Filter>
     </ClCompile>
     <ClCompile Include="ParsingTable.c">
       <Filter>Source Files\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorHandler.c">
+      <Filter>Source Files\ErrorHandler</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,10 +6,10 @@
 
 void lexemeSizeExpander(Token *token, int *capacity) {
 	char* temp;
-	if (*capacity & 8000 != 0) {
-		printf(RED "Error: Maximum identifier name size reached!\n" RESET);
-		exit(EXIT_FAILURE);
-	}
+    if ((*capacity & 0x40000000) != 0) {
+        printf(RED "Error: Maximum identifier name size reached!\n" RESET);
+        exit(EXIT_FAILURE);
+    }
 
 	(*capacity) <<= 1;
 	temp = (char*)realloc(token->lexeme, *capacity * sizeof(char));
@@ -170,5 +170,6 @@ Token* nextToken(Lexer* lexer) {
 
 void freeLexer(Lexer* lexer) {
 	freeLexerFSM(lexer->lexerFSM);
+    fclose(lexer->fp);
 	free(lexer);
 }

@@ -13,12 +13,10 @@
               | <function_return>
               | <function_call_statement>
 
-
 <variable_declaration> ::= "Let" <identifier> "be" <type> "."
 
 <type> ::= "number"
          | "text"
-
 
 <assignment_statement> ::= "Set" <lvalue> "to" <expression> "."
                          | "Increase" <lvalue> "by" <expression> "."
@@ -26,17 +24,14 @@
                          | "Multiply" <lvalue> "by" <expression> "."
                          | "Divide" <lvalue> "by" <expression> "."
 
-
 <lvalue> ::= <identifier>
            | <identifier> "atPosition" "(" <expression> ")"
-
 
 <io_statement> ::= "Show" <expression> "."
                  | "Get" <type> "ask" <string_literal> "storeInto" <lvalue> "."
 
 <control_flow_statement> ::= <if_statement>
-                           | <loop_statement>
-							   
+                           | <loop_statement>		   
 
 <if_statement> ::= "If" <condition> "then" ":" <block> <elif_list>
 
@@ -45,12 +40,10 @@
 
 <else_part> ::= "Otherwise" ":" <block>
               | <empty>
-				  
 
 <loop_statement> ::= "Repeat" <expression> "iterations" ":" <block>
                    | "Foreach" <identifier> "in" <identifier> ":" <block>
                    | "While" <condition> ":" <block>
-
 
 <function_declaration> ::= "To" <identifier> "with" <parameter_list> ":" <block>
                          | "To" <identifier> "with" "nan" ":" <block>
@@ -58,20 +51,15 @@
 <parameter_list> ::= <identifier>
                    | <parameter_list> "," <identifier>
 
-
 <function_return> ::= "Return" <expression> "."
 
-
 <function_call_statement> ::= <function_call> "."
-
 
 <function_call> ::= <identifier> "with" "(" <argument_list> ")"
                   | <identifier> "with" "(" "nan" ")"
 
-
 <argument_list> ::= <expression>
                   | <argument_list> "," <expression>
-
 
 <expression> ::= <expression> <additive_op> <term>
                | <term>
@@ -86,7 +74,6 @@
            | <string_literal>
            | "(" <expression> ")"
 
-
 <condition> ::= <condition> "or" <bool_term>
               | <bool_term>
 
@@ -97,13 +84,11 @@
                 | "not" <bool_factor>
                 | "(" <condition> ")"
 
-
 <additive_op> ::= "plus"
                 | "minus"
 
 <multiplicative_op> ::= "times"
                       | "divide"
-
 
 <relational_op> ::= "equalsTo"
                   | "notEqualsTo"

@@ -90,6 +90,7 @@ void buildTransitionTable(TransitionTable* table) {
     insertTransition(table, ++table->stateCounter, 'E', table->stateCounter + 1);
     insertTransition(table, ++table->stateCounter, ':', STATE_COMMENT);
     insertTransition(table, STATE_COMMENT, '\n', STATE_START);
+    insertTransition(table, STATE_COMMENT, EOF, STATE_START);
 
     // KEYWORDS
     for (i = 0; i < sizeof(keywordTable) / sizeof(keywordTable[0]); i++)
@@ -133,7 +134,7 @@ void buildTransitionTable(TransitionTable* table) {
     insertTransition(table, STATE_START, EOF, ++table->stateCounter);
     setToken(table, table->stateCounter, TOKEN_EOF);
     
-    for (i = 'A'; i < 'Z'; i++) {
+    for (i = 'A'; i <= 'Z'; i++) {
         if (getState(table, STATE_START, i) == STATE_ERROR)
             insertTransition(table, STATE_START, i, STATE_IDENT);
         if (getState(table, STATE_START, i | 0x20) == STATE_ERROR)

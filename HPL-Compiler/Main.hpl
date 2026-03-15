@@ -1,0 +1,19 @@
+Let n be number.
+Let result be number.
+
+Get number ask "Enter a number:" storeInto n.
+
+To factorial with x:
+    Let i be number.
+    Let r be number.
+    Set i to 1.
+    Set r to 1.
+    While i atMost x:
+        Multiply r by i.
+        Increase i by 1.
+    Return r.
+
+Set result to factorial with (n).
+
+Show "The factorial is:".
+Show result.

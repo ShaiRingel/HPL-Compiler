@@ -1,14 +1,12 @@
 #pragma once
-#include "ParsingDefinitions.h"
 #include "ParsingStack.h"
 #include "ParsingTable.h"
 #include "CST.h"
-#include <string.h>
 
 typedef struct {
 	ParsingTable* table;
 	ParsingStack* stack;
-	CSTNode* ast;
+	CSTNode* cst;
 } Parser;
 
 // Initialize parsers components

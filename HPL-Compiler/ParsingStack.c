@@ -2,18 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static CSTNode* pop(ParsingStack** stack) {
-    if (!stack || !*stack) {
-        printf(RED "Error: Can't pop from empty stack\n" RESET);
-        exit(EXIT_FAILURE);
-    }
-
+CSTNode* pop(ParsingStack** stack) {
+    if (!stack || !*stack) return NULL;
     ParsingStack* node = *stack;
     CSTNode* astNode = node->value.astNode;
-
     *stack = node->next;
     free(node);
-
     return astNode;
 }
 

@@ -26,8 +26,8 @@ typedef enum {
     TOKEN_TO,               // "to" → assignment target
     TOKEN_BY,               // "by" → used in Increase/Decrease
     TOKEN_SHOW,             // "Show" → output/print
-    TOKEN_INTEGER,          // "integer" → integer type
-    TOKEN_TEXT,             // "text" → integer type
+    TOKEN_INTEGER,          // "number" → integer type
+    TOKEN_TEXT,             // "text" → string type
     TOKEN_INCREASE,         // "Increase" → += operator
     TOKEN_DECREASE,         // "Decrease" → -= operator
     TOKEN_MULTIPLY,         // "Multiply" → *= operator

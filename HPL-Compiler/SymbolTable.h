@@ -1,11 +1,17 @@
 #pragma once
-#include "Global.h"
 
 #define CAPACITY 100
 
+typedef enum {
+	TYPE_NONE = 0,
+	TYPE_VAR,
+	TYPE_FUNC,
+	TYPE_PARAM
+} VarType;
+
 typedef struct {
+	VarType type;
 	int value;
-	TokenType type;
 } SymbolData;
 
 typedef struct SymbolEntry {
