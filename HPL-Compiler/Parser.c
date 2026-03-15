@@ -92,7 +92,7 @@ int nextAction(Parser* parser, Token* token, int* next) {
 
     case ACTION_ERROR:
     default:
-        return -1;
+        reportError(ERROR_SYNTAX, "Unexpected token '%s' at state %d.", token->lexeme, top.state);
     }
 
     return 0;

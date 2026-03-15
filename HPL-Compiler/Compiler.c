@@ -52,7 +52,8 @@ void testParser(Compiler* compiler) {
 
 		printf("%03d Stack: ", stage++);
 		printStack(parser->stack);
-	} while (!nextAction(parser, currentToken, &next));
+
+	} while (!nextAction(parser, currentToken, &next) && currentToken != TOKEN_EOF);
 
 	printAST(parser->cst);
 }

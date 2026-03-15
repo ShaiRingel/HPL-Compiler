@@ -1,4 +1,4 @@
-Let n be number.
+Let n number.
 Let result be number.
 
 Get number ask "Enter a number:" storeInto n.
